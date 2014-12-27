@@ -1,4 +1,4 @@
-vectag
+Vectag
 ======
 
 Vectag is a set of experiments on multi-agents models.
