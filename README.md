@@ -1,7 +1,7 @@
-VectAg
+Vectag
 ======
 
-VectAg is a set of experiments on multi-agents models.
+Vectag is a set of experiments on multi-agents models.
 
 For more information and demos, see [here]!
 
