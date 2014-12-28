@@ -5,8 +5,19 @@ $(function() {
 });
 
 (function(VA) {
+    var w = 600;
+    var h = 400;
+
     VA.init = function(){
         var ctx = document.getElementById("vaCanvas").getContext("2d");
+
+        var uni = new Universe();
+        var nb = 100, i=0;
+        while(i < nb){
+            var x = w*Math.random();
+            var y = h*Math.random();
+            uni.add(x,y);
+        }
 
         ctx.fillStyle = "#FF0000";
         ctx.fillRect(0,0,150,75);
@@ -23,7 +34,7 @@ function Universe(){
         var ag = this.populationI(id);
         if(ag) return null;
         //create new agent
-        var ag = new Ag(x,y);
+        ag = new Ag(x,y);
         this.population.push(ag);
         this.populationI[id] = ag;
         return ag;
