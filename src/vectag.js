@@ -1,17 +1,18 @@
+//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js
+//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js --compilation_level ADVANCED_OPTIMIZATIONS
+
 VA = {};
 
 $(function() {
-    (function(VA) {
-        //TODO use annotations
-        //TODO test closure compiler
-        //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js
-        //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js --compilation_level ADVANCED_OPTIMIZATIONS
+    (function(VA,$) {
+        //TODO canvas dimension
         //TODO use canvas transform
 
+        var cdiv = $("#cdiv");
         //@type {number}
-        var w = 600;
+        var w = cdiv.width();
         //@type {number}
-        var h = 400;
+        var h = cdiv.height();
 
         //@type {Universe}
         var uni = new Universe();
@@ -25,8 +26,16 @@ $(function() {
             if(ag) i++;
         }
 
-        var ctx = document.getElementById("canvas").getContext("2d");
+        $("#canvas").click(function(e) {
+            console.log(VA.canvasClickPosition(cvs, e));
+        });
+
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext("2d");
+        ctx.canvas.width  = w;
+        ctx.canvas.height = h;
         VA.redraw = function(){
+            //ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = "#0000FF";
             for(i=0; i<uni.population.length; i++){
                 var ag = uni.population[i];
@@ -35,7 +44,6 @@ $(function() {
                 ctx.fill();
             }
         };
-
         //draw universe
         VA.redraw();
 
@@ -76,5 +84,23 @@ $(function() {
             this.y = y;
         }
 
-    })(VA);
+
+        /**
+         * @constructor
+         * @param {object} elt
+         * @param {object} e
+         * @return {Object.<string, number>}
+         */
+        VA.canvasClickPosition = function(elt, e){
+            if (e.offsetX && e.offsetY)
+                return {x:e.offsetX, y:e.offsetY};
+            var tX=0, tY=0;
+            do {
+                tX += elt.offsetLeft - elt.scrollLeft;
+                tY += elt.offsetTop - elt.scrollTop;
+            } while(elt = elt.offsetParent);
+            return {x:e.pageX-tX, y:e.pageY-tY}
+        }
+
+    })(VA,$);
 });
