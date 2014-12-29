@@ -5,6 +5,7 @@ VA = {};
 
 $(function() {
     (function(VA,$) {
+        //TODO do gol
         //TODO canvas dimension
         //TODO use canvas transform
 
@@ -19,7 +20,7 @@ $(function() {
         var uni = new Universe();
 
         //fill universe
-        var nb = 100, i=0;
+        var nb = 10000, i=0;
         while(i < nb){
             var x = Math.round(w*Math.random());
             var y = Math.round(h*Math.random());
