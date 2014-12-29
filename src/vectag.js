@@ -123,8 +123,6 @@ $(function() {
         while(occ++ < 1){
             console.log(occ);
 
-
-
             //surrounding cells
             var surI = {};
             //go through list of cells
