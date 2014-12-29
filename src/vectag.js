@@ -8,6 +8,7 @@ $(function() {
         //TODO canvas dimension
         //TODO use canvas transform
 
+
         var cdiv = $("#cdiv");
         //@type {number}
         var w = cdiv.width();
