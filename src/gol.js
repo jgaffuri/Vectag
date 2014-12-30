@@ -5,7 +5,7 @@ GOL = {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO test annotations
+        //TODO google compilation
         //TODO use canvas transform
 
         /**
@@ -71,9 +71,11 @@ $(function() {
             ];
         };
 
-        /*@return {string}*/
+        /**
+         * @return {string}
+         */
         GOL.Cell.prototype.getKey = function() {
-            return this.x+"_"+this.y;
+            return this.x + "_" + this.y;
         };
 
         /**
@@ -200,11 +202,10 @@ $(function() {
             var sur = GOL.objToArray(surI);
             for(i=0; i<sur.length; i++){
                 cell = sur[i];
-                if(cell.nb == 3){
-                    cell.nb = 0;
-                    uni.population.push(cell);
-                    uni.populationI[cell.getKey()] = cell;
-                }
+                if(cell.nb != 3) continue;
+                cell.nb = 0;
+                uni.population.push(cell);
+                uni.populationI[cell.getKey()] = cell;
             }
 
             //redraw
