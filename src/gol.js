@@ -1,20 +1,17 @@
-//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js
-//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/vectag.js --js_output_file dist/vectag.min.js --compilation_level ADVANCED_OPTIMIZATIONS
+//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js
+//java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js --compilation_level ADVANCED_OPTIMIZATIONS
 
-VA = {};
-
-
-
+GOL = {};
 
 $(function() {
-    (function(VA,$) {
+    (function(GOL,$) {
         //TODO do gol
         //TODO use canvas transform
 
         /**
          * @constructor
          */
-        VA.Universe = function(){
+        GOL.Universe = function(){
             //@type {Array.<Cell>}
             this.population = [];
             this.populationI = {};
@@ -22,7 +19,7 @@ $(function() {
             /**
              * @param {number} x
              * @param {number} y
-             * @return {VA.Cell}
+             * @return {GOL.Cell}
              */
             this.add = function(x,y){
                 //find agent at location
@@ -30,7 +27,7 @@ $(function() {
                 var cell = this.populationI[id];
                 if(cell) return null;
                 //create new agent
-                cell = new VA.Cell(x,y);
+                cell = new GOL.Cell(x,y);
                 this.population.push(cell);
                 this.populationI[id] = cell;
                 return cell;
@@ -42,36 +39,36 @@ $(function() {
          * @param {number} x
          * @param {number} y
          */
-        VA.Cell = function(x,y){
+        GOL.Cell = function(x,y){
             this.x = x;
             this.y = y;
             this.nb = 0;
         };
 
         /**
-         * @return {Array.<VA.Cell>}
+         * @return {Array.<GOL.Cell>}
          */
-        VA.Cell.prototype.getSurrounding = function() {
+        GOL.Cell.prototype.getSurrounding = function() {
             var x1 = this.x===0?w-1:this.x-1;
             var x2 = this.x===w-1?0:this.x+1;
             var y1 = this.y===0?h-1:this.y-1;
             var y2 = this.y===h-1?0:this.y+1;
             return [
-                new VA.Cell(x1,y1),
-                new VA.Cell(x1,this.y),
-                new VA.Cell(x1,y2),
-                new VA.Cell(this.x,y1),
-                new VA.Cell(this.x,y2),
-                new VA.Cell(x2,y1),
-                new VA.Cell(x2,this.y),
-                new VA.Cell(x2,y2)
+                new GOL.Cell(x1,y1),
+                new GOL.Cell(x1,this.y),
+                new GOL.Cell(x1,y2),
+                new GOL.Cell(this.x,y1),
+                new GOL.Cell(this.x,y2),
+                new GOL.Cell(x2,y1),
+                new GOL.Cell(x2,this.y),
+                new GOL.Cell(x2,y2)
             ];
         };
 
         /**
          * @return {string}
          */
-        VA.Cell.prototype.getKey = function() {
+        GOL.Cell.prototype.getKey = function() {
             return this.x+"_"+this.y;
         };
 
@@ -80,7 +77,7 @@ $(function() {
          * @param {object} e
          * @return {Object.<string, number>}
          */
-        VA.canvasClickPosition = function(elt, e){
+        GOL.canvasClickPosition = function(elt, e){
             if (e.offsetX && e.offsetY)
                 return {x:e.offsetX, y:e.offsetY};
             var tX=0, tY=0;
@@ -95,7 +92,7 @@ $(function() {
          * @param {object} obj
          * @return {Array}
          */
-        VA.objToArray = function(obj){
+        GOL.objToArray = function(obj){
             var out = [];
             for (var key in obj)
                 if (obj.hasOwnProperty(key))
@@ -113,7 +110,7 @@ $(function() {
         var h = cdiv.height();
 
         //@type {Universe}
-        var uni = new VA.Universe();
+        var uni = new GOL.Universe();
 
         //fill universe
         var i=0;
@@ -125,14 +122,14 @@ $(function() {
         }
 
         $("#canvas").click(function(e) {
-            console.log(VA.canvasClickPosition(cvs, e));
+            console.log(GOL.canvasClickPosition(cvs, e));
         });
 
         var cvs = document.getElementById("canvas");
         var ctx = cvs.getContext("2d");
         ctx.canvas.width  = w;
         ctx.canvas.height = h;
-        VA.redraw = function(){
+        GOL.redraw = function(){
             //ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = "#0000FF";
             for(i=0; i<uni.population.length; i++){
@@ -143,7 +140,7 @@ $(function() {
             }
         };
         //draw universe
-        VA.redraw();
+        GOL.redraw();
 
         //while(true){
         var occ=0;
@@ -174,12 +171,12 @@ $(function() {
             //TODO go through cells
             //if (nb<2 or nb>3) -> kill
             //TODO go through marked cells
-            surI = VA.objToArray(surI);
+            surI = GOL.objToArray(surI);
             //if nb=3 -> create
 
             //redraw
-            VA.redraw();
+            GOL.redraw();
         }
 
-    })(VA,$);
+    })(GOL,$);
 });
