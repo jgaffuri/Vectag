@@ -178,7 +178,9 @@ $(function() {
             var cellsToKeepI = {};
             for(i=0; i<uni.population.length; i++){
                 cell = uni.population[i];
+                //TODO annotate
                 var key = cell.getKey();
+                //TODO annotate
                 var sur_ = surI[key];
                 if(!sur_) continue;
                 //if (nb<2 or nb>3) -> kill
@@ -194,7 +196,9 @@ $(function() {
             //TODO annotate
             var sur = GOL.objToArray(surI);
             for(i=0; i<sur.length; i++){
+                //TODO annotate
                 cell = sur[i];
+                //TODO annotate
                 nb = cell.nb;
                 if(nb == 3){
                     cell.nb = 0;
