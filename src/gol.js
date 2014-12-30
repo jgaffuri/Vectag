@@ -5,9 +5,8 @@ GOL = {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO do gol
+        //TODO test annotations
         //TODO use canvas transform
-
 
         /**
          * @constructor
@@ -25,7 +24,9 @@ $(function() {
              */
             this.add = function(x,y){
                 //find agent at location
+                /* @type {string} */
                 var id = x+"_"+y;
+                /* @type {GOL.Cell} */
                 var cell = this.populationI[id];
                 if(cell) return null;
                 //create new agent
@@ -42,8 +43,11 @@ $(function() {
          * @param {number} y
          */
         GOL.Cell = function(x,y){
+            /* @type {number} */
             this.x = x;
+            /* @type {number} */
             this.y = y;
+            /* @type {number} */
             this.nb = 0;
         };
 
@@ -67,9 +71,7 @@ $(function() {
             ];
         };
 
-        /**
-         * @return {string}
-         */
+        /*@return {string}*/
         GOL.Cell.prototype.getKey = function() {
             return this.x+"_"+this.y;
         };
@@ -90,6 +92,7 @@ $(function() {
             return {x:e.pageX-tX, y:e.pageY-tY}
         };
 
+        //TODO test generics here
         /**
          * @param {object} obj
          * @return {Array}
@@ -106,12 +109,12 @@ $(function() {
 
 
         var cdiv = $("#cdiv");
-        //@type {number}
+        /*@type {number}*/
         var w = cdiv.width();
-        //@type {number}
+        /*@type {number}*/
         var h = cdiv.height();
 
-        //@type {Universe}
+        /* @type {GOL.Universe} */
         var uni = new GOL.Universe();
 
         //fill universe
@@ -119,6 +122,7 @@ $(function() {
         while(i < 5000){
             var x = Math.round(w*Math.random());
             var y = Math.round(h*Math.random());
+            /* @type {GOL.Cell} */
             var cell = uni.add(x,y);
             if(cell) i++;
         }
@@ -150,23 +154,24 @@ $(function() {
             console.log(occ);
 
             //surrounding count cells
-            //TODO annotate
+            /* @type {Object.<string, GOL.Cell>} */
             var surI = {};
             //go through list of cells
             for(i=0; i<uni.population.length; i++){
-                cell = uni.population[i];
-                //get surrounding cells
-                var srs = cell.getSurrounding();
+                // +1 surrounding cells
+                /* @type {Array.<GOL.Cell>} */
+                var srs = uni.population[i].getSurrounding();
                 for(var j=0; j<srs.length; j++){
-                    var sr = srs[j];
-                    key = sr.getKey();
-                    //+1 surrounding cells
+                    cell = srs[j];
+                    /* @type {string} */
+                    var key = cell.getKey();
+                    /* @type {GOL.Cell} */
                     var cell_ = surI[key];
                     if(cell_){
                         cell_.nb++;
                     } else {
-                        sr.nb = 1;
-                        surI[key] = sr;
+                        cell.nb = 1;
+                        surI[key] = cell;
                     }
                 }
             }
@@ -178,13 +183,11 @@ $(function() {
             var cellsToKeepI = {};
             for(i=0; i<uni.population.length; i++){
                 cell = uni.population[i];
-                //TODO annotate
-                var key = cell.getKey();
-                //TODO annotate
-                var sur_ = surI[key];
-                if(!sur_) continue;
+                key = cell.getKey();
+                cell_ = surI[key];
+                if(!cell_) continue;
                 //if (nb<2 or nb>3) -> kill
-                if(sur_.nb == 2 || sur_.nb == 3){
+                if(cell_.nb == 2 || cell_.nb == 3){
                     cellsToKeep.push(cell);
                     cellsToKeepI[key] = cell;
                 }
@@ -193,14 +196,11 @@ $(function() {
             uni.populationI = cellsToKeepI;
 
             //create new cells
-            //TODO annotate
+            /* @type {Array.<GOL.Cell>} */
             var sur = GOL.objToArray(surI);
             for(i=0; i<sur.length; i++){
-                //TODO annotate
                 cell = sur[i];
-                //TODO annotate
-                nb = cell.nb;
-                if(nb == 3){
+                if(cell.nb == 3){
                     cell.nb = 0;
                     uni.population.push(cell);
                     uni.populationI[cell.getKey()] = cell;
