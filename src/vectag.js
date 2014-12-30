@@ -72,9 +72,36 @@ $(function() {
          * @return {string}
          */
         VA.Cell.prototype.getKey = function() {
-            return cell.x+"_"+cell.y;
+            return this.x+"_"+this.y;
         };
 
+        /**
+         * @param {object} elt
+         * @param {object} e
+         * @return {Object.<string, number>}
+         */
+        VA.canvasClickPosition = function(elt, e){
+            if (e.offsetX && e.offsetY)
+                return {x:e.offsetX, y:e.offsetY};
+            var tX=0, tY=0;
+            do {
+                tX += elt.offsetLeft - elt.scrollLeft;
+                tY += elt.offsetTop - elt.scrollTop;
+            } while(elt = elt.offsetParent);
+            return {x:e.pageX-tX, y:e.pageY-tY}
+        };
+
+        /**
+         * @param {object} obj
+         * @return {Array}
+         */
+        VA.objToArray = function(obj){
+            var out = [];
+            for (var key in obj)
+                if (obj.hasOwnProperty(key))
+                    out.push(obj[key]);
+            return out;
+        };
 
 
 
@@ -90,7 +117,7 @@ $(function() {
 
         //fill universe
         var i=0;
-        while(i < 100){
+        while(i < 5000){
             var x = Math.round(w*Math.random());
             var y = Math.round(h*Math.random());
             var cell = uni.add(x,y);
@@ -120,7 +147,7 @@ $(function() {
 
         //while(true){
         var occ=0;
-        while(occ++ < 1){
+        while(occ++ < 5){
             console.log(occ);
 
             //surrounding cells
@@ -144,30 +171,14 @@ $(function() {
                 }
             }
 
-            console.log(surI);
-
-            //go through marked cells
-            //if v and (nb<2 or nb>3) -> kill
-            //if !v and nb=3 -> create
+            //TODO go through cells
+            //if (nb<2 or nb>3) -> kill
+            //TODO go through marked cells
+            surI = VA.objToArray(surI);
+            //if nb=3 -> create
 
             //redraw
             VA.redraw();
-        }
-
-        /**
-         * @param {object} elt
-         * @param {object} e
-         * @return {Object.<string, number>}
-         */
-        VA.canvasClickPosition = function(elt, e){
-            if (e.offsetX && e.offsetY)
-                return {x:e.offsetX, y:e.offsetY};
-            var tX=0, tY=0;
-            do {
-                tX += elt.offsetLeft - elt.scrollLeft;
-                tY += elt.offsetTop - elt.scrollTop;
-            } while(elt = elt.offsetParent);
-            return {x:e.pageX-tX, y:e.pageY-tY}
         }
 
     })(VA,$);
