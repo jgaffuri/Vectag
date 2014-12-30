@@ -5,9 +5,12 @@ GOL = {};
 
 $(function() {
     (function(GOL,$) {
+        //TODO more annotations
         //TODO google compilation
         //TODO check result... error?
         //TODO use canvas transform
+        //TODO buttons
+        //TODO module pattern
 
         /**
          * @constructor
@@ -212,7 +215,7 @@ $(function() {
         //launch
         var occNbMax = 500, occNb=0;
         var engine = function(){
-            console.log(occNb);
+            //console.log(occNb);
             step();
             if(occNb++>occNbMax) return;
             setTimeout(engine,1);
