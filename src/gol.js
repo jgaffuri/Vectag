@@ -6,6 +6,7 @@ GOL = {};
 $(function() {
     (function(GOL,$) {
         //TODO google compilation
+        //TODO check result... error?
         //TODO use canvas transform
 
         /**
@@ -121,7 +122,7 @@ $(function() {
 
         //fill universe
         var i=0;
-        while(i < 5000){
+        while(i < 50000){
             var x = Math.round(w*Math.random());
             var y = Math.round(h*Math.random());
             /* @type {GOL.Cell} */
@@ -138,7 +139,7 @@ $(function() {
         ctx.canvas.width  = w;
         ctx.canvas.height = h;
         GOL.redraw = function(){
-            //ctx.clearRect(0, 0, w, h);
+            ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = "#0000FF";
             for(i=0; i<uni.population.length; i++){
                 var cell = uni.population[i];
@@ -150,11 +151,7 @@ $(function() {
         //draw universe
         GOL.redraw();
 
-        //while(true){
-        var occ=0;
-        while(occ++ < 5){
-            console.log(occ);
-
+        var step = function() {
             //surrounding count cells
             /* @type {Object.<string, GOL.Cell>} */
             var surI = {};
@@ -210,7 +207,17 @@ $(function() {
 
             //redraw
             GOL.redraw();
+        };
+
+        //launch
+        var occNbMax = 500, occNb=0;
+        var engine = function(){
+            console.log(occNb);
+            step();
+            if(occNb++>occNbMax) return;
+            setTimeout(engine,1);
         }
+        engine();
 
     })(GOL,$);
 });
