@@ -149,7 +149,8 @@ $(function() {
         while(occ++ < 5){
             console.log(occ);
 
-            //surrounding cells
+            //surrounding count cells
+            //TODO annotate
             var surI = {};
             //go through list of cells
             for(i=0; i<uni.population.length; i++){
@@ -178,9 +179,10 @@ $(function() {
             for(i=0; i<uni.population.length; i++){
                 cell = uni.population[i];
                 var key = cell.getKey();
-                var nb = surI[key];
+                var sur_ = surI[key];
+                if(!sur_) continue;
                 //if (nb<2 or nb>3) -> kill
-                if(nb == 2 || nb == 3){
+                if(sur_.nb == 2 || sur_.nb == 3){
                     cellsToKeep.push(cell);
                     cellsToKeepI[key] = cell;
                 }
@@ -189,9 +191,17 @@ $(function() {
             uni.populationI = cellsToKeepI;
 
             //create new cells
-            //TODO go through marked cells
-            surI = GOL.objToArray(surI);
-            //if nb=3 -> create
+            //TODO annotate
+            var sur = GOL.objToArray(surI);
+            for(i=0; i<sur.length; i++){
+                cell = sur[i];
+                nb = cell.nb;
+                if(nb == 3){
+                    cell.nb = 0;
+                    uni.population.push(cell);
+                    uni.populationI[cell.getKey()] = cell;
+                }
+            }
 
             //redraw
             GOL.redraw();
