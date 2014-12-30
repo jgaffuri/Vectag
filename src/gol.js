@@ -13,8 +13,9 @@ $(function() {
          * @constructor
          */
         GOL.Universe = function(){
-            //@type {Array.<Cell>}
+            /* @type {Array.<GOL.Cell>} */
             this.population = [];
+            /* @type {Object.<string, GOL.Cell>} */
             this.populationI = {};
 
             /**
@@ -157,7 +158,7 @@ $(function() {
                 var srs = cell.getSurrounding();
                 for(var j=0; j<srs.length; j++){
                     var sr = srs[j];
-                    var key = sr.getKey();
+                    key = sr.getKey();
                     //+1 surrounding cells
                     var cell_ = surI[key];
                     if(cell_){
@@ -169,8 +170,25 @@ $(function() {
                 }
             }
 
-            //TODO go through cells
-            //if (nb<2 or nb>3) -> kill
+            //kill cells
+            /* @type {Array.<GOL.Cell>} */
+            var cellsToKeep = [];
+            /* @type {Object.<string, GOL.Cell>} */
+            var cellsToKeepI = {};
+            for(i=0; i<uni.population.length; i++){
+                cell = uni.population[i];
+                var key = cell.getKey();
+                var nb = surI[key];
+                //if (nb<2 or nb>3) -> kill
+                if(nb == 2 || nb == 3){
+                    cellsToKeep.push(cell);
+                    cellsToKeepI[key] = cell;
+                }
+            }
+            uni.population = cellsToKeep;
+            uni.populationI = cellsToKeepI;
+
+            //create new cells
             //TODO go through marked cells
             surI = GOL.objToArray(surI);
             //if nb=3 -> create
