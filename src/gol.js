@@ -5,7 +5,7 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO more annotations
+        //TODO more annotations + generics
         //TODO zoom/pan, with canvas transform
         //TODO check result... error?
         //TODO extract viewer
