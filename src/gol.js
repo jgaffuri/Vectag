@@ -5,7 +5,7 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO blue stuff in annotations
+        //TODO fix blue stuff in annotations
         //TODO zoom/pan, with canvas transform
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO extract viewer
