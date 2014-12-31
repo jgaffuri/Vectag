@@ -1,21 +1,28 @@
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js --compilation_level ADVANCED_OPTIMIZATIONS
 
-GOL = {};
+var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
+        //TODO check result... error?
+        //TODO introduce different universe limits and canvas dimensions
         //TODO more annotations
         //TODO google compilation
-        //TODO check result... error?
         //TODO use canvas transform
-        //TODO buttons
+        //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
 
         /**
+         * @param {number} w
+         * @param {number} h
          * @constructor
          */
-        GOL.Universe = function(){
+        GOL.Universe = function(w,h){
+            /* @type {number} */
+            this.w=w;
+            /* @type {number} */
+            this.h=h;
             /* @type {Array.<GOL.Cell>} */
             this.population = [];
             /* @type {Object.<string, GOL.Cell>} */
@@ -28,7 +35,7 @@ $(function() {
              */
             this.add = function(x,y){
                 //find agent at location
-                /* @type {string} */
+                /*@type {string}*/
                 var id = x+"_"+y;
                 /* @type {GOL.Cell} */
                 var cell = this.populationI[id];
@@ -38,8 +45,128 @@ $(function() {
                 this.population.push(cell);
                 this.populationI[id] = cell;
                 return cell;
-            }
+            };
+
+            /**
+             * @param {number} density
+             * @return {GOL.Universe}
+             */
+            this.fillRandomly = function(density){
+                var i=0;
+                var nb = this.w*this.h*density;
+                while(i < nb){
+                    var x = Math.round(this.w*Math.random());
+                    var y = Math.round(this.h*Math.random());
+                    /* @type {GOL.Cell} */
+                    var cell = this.add(x,y);
+                    if(cell) i++;
+                }
+                return this;
+            };
+
+            /**
+             * @param {object} ctx
+             * @return {GOL.Universe}
+             */
+            this.redraw = function(ctx){
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.fillStyle = "#0000FF";
+                for(var i=0; i<this.population.length; i++){
+                    /* @type {GOL.Cell} */
+                    var cell = this.population[i];
+                    ctx.beginPath();
+                    ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
+                    //ctx.rect(cell.x,cell.y,1,1);
+                    ctx.fill();
+                }
+                return this;
+            };
+
+            /**
+             * @return {GOL.Universe}
+             */
+            this.step = function() {
+                /* @type {number} */
+                var i;
+                /* @type {GOL.Cell} */
+                var cell, cell_;
+                /* @type {string} */
+                var key;
+
+                //surrounding count cells
+                /* @type {Object.<string, GOL.Cell>} */
+                var surI = {};
+                //go through list of cells
+                for(i=0; i<this.population.length; i++){
+                    // +1 surrounding cells
+                    /* @type {Array.<GOL.Cell>} */
+                    var srs = this.population[i].getSurrounding(this);
+                    for(var j=0; j<srs.length; j++){
+                        cell = srs[j];
+                        key = cell.getKey();
+                        cell_ = surI[key];
+                        if(cell_){
+                            cell_.nb++;
+                        } else {
+                            cell.nb = 1;
+                            surI[key] = cell;
+                        }
+                    }
+                }
+
+                //kill cells
+                /* @type {Array.<GOL.Cell>} */
+                var cellsToKeep = [];
+                /* @type {Object.<string, GOL.Cell>} */
+                var cellsToKeepI = {};
+                for(i=0; i<this.population.length; i++){
+                    cell = this.population[i];
+                    key = cell.getKey();
+                    cell_ = surI[key];
+                    if(!cell_) continue;
+                    //if (nb<2 or nb>3) -> kill
+                    if(cell_.nb<2 || cell_.nb>3) continue;
+                    cellsToKeep.push(cell);
+                    cellsToKeepI[key] = cell;
+                }
+                this.population = cellsToKeep;
+                this.populationI = cellsToKeepI;
+
+                //create new cells
+                /* @type {Array.<GOL.Cell>} */
+                var sur = GOL.objToArray(surI);
+                for(i=0; i<sur.length; i++){
+                    cell = sur[i];
+                    if(cell.nb !== 3) continue;
+                    cell.nb = 0;
+                    this.population.push(cell);
+                    this.populationI[cell.getKey()] = cell;
+                }
+                return this;
+            };
+
+            /**
+             * @param {number} nb
+             * @param {number} timeoutMS
+             * @param {object} ctx
+             * @return {GOL.Universe}
+             */
+            this.start = function(nb, timeoutMS, ctx){
+                var i=0;
+                var uni = this;
+                var engine = function(){
+                    console.log(i);
+                    uni.step();
+                    uni.redraw(ctx);
+                    if(i++ > nb) return;
+                    setTimeout(engine, timeoutMS);
+                };
+                engine();
+                return this;
+            };
         };
+
+
 
         /**
          * @constructor
@@ -56,13 +183,14 @@ $(function() {
         };
 
         /**
+         * @param {GOL.Universe} uni
          * @return {Array.<GOL.Cell>}
          */
-        GOL.Cell.prototype.getSurrounding = function() {
-            var x1 = this.x===0?w-1:this.x-1;
-            var x2 = this.x===w-1?0:this.x+1;
-            var y1 = this.y===0?h-1:this.y-1;
-            var y2 = this.y===h-1?0:this.y+1;
+        GOL.Cell.prototype.getSurrounding = function(uni) {
+            var x1 = this.x===0?uni.w-1:this.x-1;
+            var x2 = this.x===uni.w-1?0:this.x+1;
+            var y1 = this.y===0?uni.h-1:this.y-1;
+            var y2 = this.y===uni.h-1?0:this.y+1;
             return [
                 new GOL.Cell(x1,y1),
                 new GOL.Cell(x1,this.y),
@@ -111,116 +239,23 @@ $(function() {
             return out;
         };
 
-
-
-
         var cdiv = $("#cdiv");
         /*@type {number}*/
         var w = cdiv.width();
         /*@type {number}*/
         var h = cdiv.height();
 
-        /* @type {GOL.Universe} */
-        var uni = new GOL.Universe();
-
-        //fill universe
-        var i=0;
-        while(i < 50000){
-            var x = Math.round(w*Math.random());
-            var y = Math.round(h*Math.random());
-            /* @type {GOL.Cell} */
-            var cell = uni.add(x,y);
-            if(cell) i++;
-        }
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext("2d");
+        ctx.canvas.width  = w;
+        ctx.canvas.height = h;
 
         $("#canvas").click(function(e) {
             console.log(GOL.canvasClickPosition(cvs, e));
         });
 
-        var cvs = document.getElementById("canvas");
-        var ctx = cvs.getContext("2d");
-        ctx.canvas.width  = w;
-        ctx.canvas.height = h;
-        GOL.redraw = function(){
-            ctx.clearRect(0, 0, w, h);
-            ctx.fillStyle = "#0000FF";
-            for(i=0; i<uni.population.length; i++){
-                var cell = uni.population[i];
-                ctx.beginPath();
-                ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
-                ctx.fill();
-            }
-        };
-        //draw universe
-        GOL.redraw();
-
-        var step = function() {
-            //surrounding count cells
-            /* @type {Object.<string, GOL.Cell>} */
-            var surI = {};
-            //go through list of cells
-            for(i=0; i<uni.population.length; i++){
-                // +1 surrounding cells
-                /* @type {Array.<GOL.Cell>} */
-                var srs = uni.population[i].getSurrounding();
-                for(var j=0; j<srs.length; j++){
-                    cell = srs[j];
-                    /* @type {string} */
-                    var key = cell.getKey();
-                    /* @type {GOL.Cell} */
-                    var cell_ = surI[key];
-                    if(cell_){
-                        cell_.nb++;
-                    } else {
-                        cell.nb = 1;
-                        surI[key] = cell;
-                    }
-                }
-            }
-
-            //kill cells
-            /* @type {Array.<GOL.Cell>} */
-            var cellsToKeep = [];
-            /* @type {Object.<string, GOL.Cell>} */
-            var cellsToKeepI = {};
-            for(i=0; i<uni.population.length; i++){
-                cell = uni.population[i];
-                key = cell.getKey();
-                cell_ = surI[key];
-                if(!cell_) continue;
-                //if (nb<2 or nb>3) -> kill
-                if(cell_.nb == 2 || cell_.nb == 3){
-                    cellsToKeep.push(cell);
-                    cellsToKeepI[key] = cell;
-                }
-            }
-            uni.population = cellsToKeep;
-            uni.populationI = cellsToKeepI;
-
-            //create new cells
-            /* @type {Array.<GOL.Cell>} */
-            var sur = GOL.objToArray(surI);
-            for(i=0; i<sur.length; i++){
-                cell = sur[i];
-                if(cell.nb != 3) continue;
-                cell.nb = 0;
-                uni.population.push(cell);
-                uni.populationI[cell.getKey()] = cell;
-            }
-
-            //redraw
-            GOL.redraw();
-        };
-
-        //launch
-        var occNbMax = 500, occNb=0;
-        var engine = function(){
-            //console.log(occNb);
-            step();
-            if(occNb++>occNbMax) return;
-            setTimeout(engine,1);
-        }
-        engine();
+        //build and start
+        new GOL.Universe(w,h).fillRandomly(0.2).redraw(ctx).start(500,1,ctx);
 
     })(GOL,$);
 });
