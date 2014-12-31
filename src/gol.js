@@ -5,11 +5,11 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
+        //TODO check
         //TODO zoom/pan, with canvas transform
         //TODO check result... error?
         //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
-        //TODO google compilation
         //TODO module pattern
 
         /**
