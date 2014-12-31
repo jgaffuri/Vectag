@@ -5,12 +5,12 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO check result... error?
-        //TODO introduce different universe limits and canvas dimensions
         //TODO more annotations
-        //TODO google compilation
-        //TODO use canvas transform
+        //TODO zoom/pan, with canvas transform
+        //TODO check result... error?
+        //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
+        //TODO google compilation
         //TODO module pattern
 
         /**
