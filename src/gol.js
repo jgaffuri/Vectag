@@ -19,13 +19,14 @@ $(function() {
          * @constructor
          */
         GOL.Universe = function(w,h){
-            /* @type {number} */
+            /** @type {number} */
             this.w=w;
-            /* @type {number} */
+            /** @type {number} */
             this.h=h;
-            /* @type {Array.<GOL.Cell>} */
+            /** @type {Array.<GOL.Cell>} */
             this.population = [];
-            /* @type {Object.<string, GOL.Cell>} */
+            /** @type {Object.<string, GOL.Cell>}
+             * @dict */
             this.populationI = {};
 
             /**
@@ -35,9 +36,9 @@ $(function() {
              */
             this.add = function(x,y){
                 //find agent at location
-                /*@type {string}*/
+                /**@type {string}*/
                 var id = x+"_"+y;
-                /* @type {GOL.Cell} */
+                /**@type {GOL.Cell} */
                 var cell = this.populationI[id];
                 if(cell) return null;
                 //create new agent
@@ -53,11 +54,12 @@ $(function() {
              */
             this.fillRandomly = function(density){
                 var i=0;
+                /** @type {number} */
                 var nb = this.w*this.h*density;
                 while(i < nb){
                     var x = Math.round(this.w*Math.random());
                     var y = Math.round(this.h*Math.random());
-                    /* @type {GOL.Cell} */
+                    /** @type {GOL.Cell} */
                     var cell = this.add(x,y);
                     if(cell) i++;
                 }
@@ -72,7 +74,7 @@ $(function() {
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 ctx.fillStyle = "#0000FF";
                 for(var i=0; i<this.population.length; i++){
-                    /* @type {GOL.Cell} */
+                    /** @type {GOL.Cell} */
                     var cell = this.population[i];
                     //ctx.beginPath();
                     //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
@@ -86,20 +88,21 @@ $(function() {
              * @return {GOL.Universe}
              */
             this.step = function() {
-                /* @type {number} */
+                /** @type {number} */
                 var i;
-                /* @type {GOL.Cell} */
+                /** @type {GOL.Cell} */
                 var cell, cell_;
-                /* @type {string} */
+                /** @type {string} */
                 var key;
 
                 //surrounding count cells
-                /* @type {Object.<string, GOL.Cell>} */
+                /** @type {Object.<string, GOL.Cell>}
+                 * @dict */
                 var surI = {};
                 //go through list of cells
                 for(i=0; i<this.population.length; i++){
                     // +1 surrounding cells
-                    /* @type {Array.<GOL.Cell>} */
+                    /** @type {Array.<GOL.Cell>} */
                     var srs = this.population[i].getSurrounding(this);
                     for(var j=0; j<srs.length; j++){
                         cell = srs[j];
@@ -115,9 +118,10 @@ $(function() {
                 }
 
                 //kill cells
-                /* @type {Array.<GOL.Cell>} */
+                /** @type {Array.<GOL.Cell>} */
                 var cellsToKeep = [];
-                /* @type {Object.<string, GOL.Cell>} */
+                /** @type {Object.<string, GOL.Cell>}
+                 * @dict */
                 var cellsToKeepI = {};
                 for(i=0; i<this.population.length; i++){
                     cell = this.population[i];
@@ -133,7 +137,7 @@ $(function() {
                 this.populationI = cellsToKeepI;
 
                 //create new cells
-                /* @type {Array.<GOL.Cell>} */
+                /** @type {Array.<GOL.Cell>} */
                 var sur = GOL.objToArray(surI);
                 for(i=0; i<sur.length; i++){
                     cell = sur[i];
@@ -174,11 +178,11 @@ $(function() {
          * @param {number} y
          */
         GOL.Cell = function(x,y){
-            /* @type {number} */
+            /** @type {number} */
             this.x = x;
-            /* @type {number} */
+            /** @type {number} */
             this.y = y;
-            /* @type {number} */
+            /** @type {number} */
             this.nb = 0;
         };
 
@@ -240,7 +244,7 @@ $(function() {
         };
 
         var cdiv = $("#cdiv");
-        /*@type {number}*/
+        /**@type {number}*/
         var w = cdiv.width();
         /*@type {number}*/
         var h = cdiv.height();
