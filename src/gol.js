@@ -5,12 +5,14 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
+
         //TODO fix blue stuff in annotations
         //TODO zoom/pan, with canvas transform
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
+
 
         /**
          * @constructor
@@ -25,7 +27,7 @@ $(function() {
             this.h=h;
             /** @type {Array.<GOL.Cell>} */
             this.population = [];
-            /** @type {Object.<string, GOL.Cell>}
+            /** @type {Object.<string,GOL.Cell>}
              * @dict */
             this.populationI = {};
 
