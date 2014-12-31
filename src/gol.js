@@ -5,7 +5,6 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO test google compilation
         //TODO zoom/pan, with canvas transform
         //TODO check result... error?
         //TODO extract viewer
