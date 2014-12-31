@@ -270,7 +270,7 @@ $(function() {
         });
 
         //build and start
-        new GOL.Universe(w,h).fillRandomly(0.05).redraw(ctx).start(2000,1,ctx);
+        new GOL.Universe(w,h).fillRandomly(0.05).redraw(ctx).start(5000,0,ctx);
 
     })(GOL,$);
 });
