@@ -29,8 +29,8 @@
       <file leaf-file-name="gol.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gol.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.85409254" vertical-offset="2565" max-vertical-offset="4245">
-              <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.73309606" vertical-offset="3668" max-vertical-offset="4230">
+              <caret line="272" column="46" selection-start-line="272" selection-start-column="46" selection-end-line="272" selection-end-column="46" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -380,8 +380,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gol.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85409254" vertical-offset="2565" max-vertical-offset="4245">
-          <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.73309606" vertical-offset="3668" max-vertical-offset="4230">
+          <caret line="272" column="46" selection-start-line="272" selection-start-column="46" selection-end-line="272" selection-end-column="46" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

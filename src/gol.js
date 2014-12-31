@@ -7,8 +7,7 @@ $(function() {
     (function(GOL,$) {
         //TODO blue stuff in annotations
         //TODO zoom/pan, with canvas transform
-        //TODO check result... error?
-        //TODO automate deployment (ant?)
+        //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
@@ -271,7 +270,7 @@ $(function() {
         });
 
         //build and start
-        new GOL.Universe(w,h).fillRandomly(0.2).redraw(ctx).start(500,1,ctx);
+        new GOL.Universe(w,h).fillRandomly(0.05).redraw(ctx).start(2000,1,ctx);
 
     })(GOL,$);
 });
