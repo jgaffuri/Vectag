@@ -5,7 +5,7 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO more annotations + generics
+        //TODO test google compilation
         //TODO zoom/pan, with canvas transform
         //TODO check result... error?
         //TODO extract viewer
@@ -14,9 +14,10 @@ $(function() {
         //TODO module pattern
 
         /**
+         * @constructor
+         * @struct
          * @param {number} w
          * @param {number} h
-         * @constructor
          */
         GOL.Universe = function(w,h){
             /** @type {number} */
@@ -174,6 +175,7 @@ $(function() {
 
         /**
          * @constructor
+         * @struct
          * @param {number} x
          * @param {number} y
          */
@@ -230,10 +232,10 @@ $(function() {
             return {x:e.pageX-tX, y:e.pageY-tY}
         };
 
-        //TODO test generics here
         /**
-         * @param {object} obj
-         * @return {Array}
+         * @template T
+         * @param {Object.<?, T>} obj
+         * @return {Array.<T>}
          */
         GOL.objToArray = function(obj){
             var out = [];
