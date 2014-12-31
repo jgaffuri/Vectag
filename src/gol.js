@@ -5,9 +5,10 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO check
+        //TODO blue stuff in annotations
         //TODO zoom/pan, with canvas transform
         //TODO check result... error?
+        //TODO automate deployment (ant?)
         //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
@@ -89,13 +90,13 @@ $(function() {
              */
             this.step = function() {
                 /** @type {number} */
-                var i;
+                var i, j;
                 /** @type {GOL.Cell} */
                 var cell, cell_;
                 /** @type {string} */
                 var key;
 
-                //surrounding count cells
+                //populate cell surroundings
                 /** @type {Object.<string, GOL.Cell>}
                  * @dict */
                 var surI = {};
@@ -104,7 +105,7 @@ $(function() {
                     // +1 surrounding cells
                     /** @type {Array.<GOL.Cell>} */
                     var srs = this.population[i].getSurrounding(this);
-                    for(var j=0; j<srs.length; j++){
+                    for(j=0; j<srs.length; j++){
                         cell = srs[j];
                         key = cell.getKey();
                         cell_ = surI[key];
@@ -116,6 +117,8 @@ $(function() {
                         }
                     }
                 }
+
+                //B3/S23
 
                 //kill cells
                 /** @type {Array.<GOL.Cell>} */
@@ -139,9 +142,17 @@ $(function() {
                 //create new cells
                 /** @type {Array.<GOL.Cell>} */
                 var sur = GOL.objToArray(surI);
+                surI = null;
                 for(i=0; i<sur.length; i++){
                     cell = sur[i];
+
                     if(cell.nb !== 3) continue;
+
+                    //check if already alive
+                    key = cell.getKey();
+                    cell_ = this.populationI[key];
+                    if(cell_) continue;
+
                     cell.nb = 0;
                     this.population.push(cell);
                     this.populationI[cell.getKey()] = cell;
