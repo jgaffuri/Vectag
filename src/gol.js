@@ -74,10 +74,10 @@ $(function() {
                 for(var i=0; i<this.population.length; i++){
                     /* @type {GOL.Cell} */
                     var cell = this.population[i];
-                    ctx.beginPath();
-                    ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
-                    //ctx.rect(cell.x,cell.y,1,1);
-                    ctx.fill();
+                    //ctx.beginPath();
+                    //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
+                    //ctx.fill();
+                    ctx.fillRect(cell.x,cell.y,1,1);
                 }
                 return this;
             };
