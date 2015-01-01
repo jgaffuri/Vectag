@@ -6,6 +6,8 @@ var GOL =  GOL || {};
 $(function() {
     (function(GOL,$) {
 
+        //TODO jshint
+        //TODO remove cell new + nb
         //TODO fix blue stuff in annotations
         //TODO zoom/pan, with canvas transform
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
@@ -94,27 +96,29 @@ $(function() {
                 var i, j;
                 /** @type {GOL.Cell} */
                 var cell, cell_;
+                /** @type {GOL.Sur} */
+                var sur, sur_;
                 /** @type {string} */
                 var key;
 
                 //populate cell surroundings
-                /** @type {Object.<string, GOL.Cell>}
+                /** @type {Object.<string, GOL.Sur>}
                  * @dict */
                 var surI = {};
                 //go through list of cells
                 for(i=0; i<this.population.length; i++){
                     // +1 surrounding cells
-                    /** @type {Array.<GOL.Cell>} */
+                    /** @type {Array.<GOL.Sur>} */
                     var srs = this.population[i].getSurrounding(this);
                     for(j=0; j<srs.length; j++){
-                        cell = srs[j];
-                        key = cell.getKey();
-                        cell_ = surI[key];
-                        if(cell_){
-                            cell_.nb++;
+                        sur = srs[j];
+                        key = sur.x + "_" + sur.y;
+                        sur_ = surI[key];
+                        if(sur_){
+                            sur_.nb++;
                         } else {
-                            cell.nb = 1;
-                            surI[key] = cell;
+                            sur.nb = 1;
+                            surI[key] = sur;
                         }
                     }
                 }
@@ -129,7 +133,7 @@ $(function() {
                 var cellsToKeepI = {};
                 for(i=0; i<this.population.length; i++){
                     cell = this.population[i];
-                    key = cell.getKey();
+                    key = cell.x + "_" + cell.y;
                     cell_ = surI[key];
                     if(!cell_) continue;
                     //if (nb<2 or nb>3) -> kill
@@ -141,22 +145,23 @@ $(function() {
                 this.populationI = cellsToKeepI;
 
                 //create new cells
-                /** @type {Array.<GOL.Cell>} */
-                var sur = GOL.objToArray(surI);
+                /** @type {Array.<GOL.Sur>} */
+                var surs = GOL.objToArray(surI);
                 surI = null;
-                for(i=0; i<sur.length; i++){
-                    cell = sur[i];
+                for(i=0; i<surs.length; i++){
+                    sur = surs[i];
 
-                    if(cell.nb !== 3) continue;
+                    if(sur.nb !== 3) continue;
 
                     //check if already alive
-                    key = cell.getKey();
-                    cell_ = this.populationI[key];
-                    if(cell_) continue;
+                    key = sur.x + "_" + sur.y;
+                    cell = this.populationI[key];
+                    if(cell) continue;
 
-                    cell.nb = 0;
+                    //create new cell
+                    cell = new GOL.Cell(sur.x,sur.y);
                     this.population.push(cell);
-                    this.populationI[cell.getKey()] = cell;
+                    this.populationI[key] = cell;
                 }
                 return this;
             };
@@ -195,13 +200,11 @@ $(function() {
             this.x = x;
             /** @type {number} */
             this.y = y;
-            /** @type {number} */
-            this.nb = 0;
         };
 
         /**
          * @param {GOL.Universe} uni
-         * @return {Array.<GOL.Cell>}
+         * @return {Array.<GOL.Sur>}
          */
         GOL.Cell.prototype.getSurrounding = function(uni) {
             var x1 = this.x===0?uni.w-1:this.x-1;
@@ -209,23 +212,19 @@ $(function() {
             var y1 = this.y===0?uni.h-1:this.y-1;
             var y2 = this.y===uni.h-1?0:this.y+1;
             return [
-                new GOL.Cell(x1,y1),
-                new GOL.Cell(x1,this.y),
-                new GOL.Cell(x1,y2),
-                new GOL.Cell(this.x,y1),
-                new GOL.Cell(this.x,y2),
-                new GOL.Cell(x2,y1),
-                new GOL.Cell(x2,this.y),
-                new GOL.Cell(x2,y2)
+                { x:x1, y:y1 },
+                { x:x1, y:this.y },
+                { x:x1, y:y2 },
+                { x:this.x, y:y1 },
+                { x:this.x, y:y2 },
+                { x:x2, y:y1 },
+                { x:x2, y:this.y },
+                { x:x2, y:y2 }
             ];
         };
 
-        /**
-         * @return {string}
-         */
-        GOL.Cell.prototype.getKey = function() {
-            return this.x + "_" + this.y;
-        };
+        /** @typedef {{x:number,y:number,nb:?number}} */
+        GOL.Sur;
 
         /**
          * @param {object} elt
