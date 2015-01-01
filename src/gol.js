@@ -11,6 +11,7 @@ $(function() {
         //TODO module pattern
         //TODO jshint
         //TODO fix blue stuff in annotations
+        //TODO check canvas animation
 
         /**
          * @constructor
