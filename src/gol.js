@@ -6,14 +6,13 @@ var GOL =  GOL || {};
 $(function() {
     (function(GOL,$) {
 
-        //TODO jshint
-        //TODO remove cell new + nb
-        //TODO fix blue stuff in annotations
         //TODO zoom/pan, with canvas transform
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
+        //TODO jshint
+        //TODO fix blue stuff in annotations
 
 
         /**
@@ -45,8 +44,8 @@ $(function() {
                 /**@type {GOL.Cell} */
                 var cell = this.populationI[id];
                 if(cell) return null;
-                //create new agent
-                cell = new GOL.Cell(x,y);
+                //create new cell
+                cell = {x:x,y:y,nb:0};
                 this.population.push(cell);
                 this.populationI[id] = cell;
                 return cell;
@@ -96,20 +95,20 @@ $(function() {
                 var i, j;
                 /** @type {GOL.Cell} */
                 var cell, cell_;
-                /** @type {GOL.Sur} */
+                /** @type {GOL.Cell} */
                 var sur, sur_;
                 /** @type {string} */
                 var key;
 
                 //populate cell surroundings
-                /** @type {Object.<string, GOL.Sur>}
+                /** @type {Object.<string, GOL.Cell>}
                  * @dict */
                 var surI = {};
                 //go through list of cells
                 for(i=0; i<this.population.length; i++){
                     // +1 surrounding cells
-                    /** @type {Array.<GOL.Sur>} */
-                    var srs = this.population[i].getSurrounding(this);
+                    /** @type {Array.<GOL.Cell>} */
+                    var srs = getCellSurrounding(this.population[i], this);
                     for(j=0; j<srs.length; j++){
                         sur = srs[j];
                         key = sur.x + "_" + sur.y;
@@ -145,7 +144,7 @@ $(function() {
                 this.populationI = cellsToKeepI;
 
                 //create new cells
-                /** @type {Array.<GOL.Sur>} */
+                /** @type {Array.<GOL.Cell>} */
                 var surs = GOL.objToArray(surI);
                 surI = null;
                 for(i=0; i<surs.length; i++){
@@ -159,9 +158,8 @@ $(function() {
                     if(cell) continue;
 
                     //create new cell
-                    cell = new GOL.Cell(sur.x,sur.y);
-                    this.population.push(cell);
-                    this.populationI[key] = cell;
+                    this.population.push(sur);
+                    this.populationI[key] = sur;
                 }
                 return this;
             };
@@ -187,44 +185,30 @@ $(function() {
             };
         };
 
-
-
-        /**
-         * @constructor
-         * @struct
-         * @param {number} x
-         * @param {number} y
-         */
-        GOL.Cell = function(x,y){
-            /** @type {number} */
-            this.x = x;
-            /** @type {number} */
-            this.y = y;
-        };
+        /** @typedef {{x:number,y:number,nb:?number}} */
+        GOL.Cell;
 
         /**
+         * @param {GOL.Cell} cell
          * @param {GOL.Universe} uni
-         * @return {Array.<GOL.Sur>}
+         * @return {Array.<GOL.Cell>}
          */
-        GOL.Cell.prototype.getSurrounding = function(uni) {
-            var x1 = this.x===0?uni.w-1:this.x-1;
-            var x2 = this.x===uni.w-1?0:this.x+1;
-            var y1 = this.y===0?uni.h-1:this.y-1;
-            var y2 = this.y===uni.h-1?0:this.y+1;
+        var getCellSurrounding = function(cell, uni) {
+            var x1 = cell.x===0?uni.w-1:cell.x-1;
+            var x2 = cell.x===uni.w-1?0:cell.x+1;
+            var y1 = cell.y===0?uni.h-1:cell.y-1;
+            var y2 = cell.y===uni.h-1?0:cell.y+1;
             return [
                 { x:x1, y:y1 },
-                { x:x1, y:this.y },
+                { x:x1, y:cell.y },
                 { x:x1, y:y2 },
-                { x:this.x, y:y1 },
-                { x:this.x, y:y2 },
+                { x:cell.x, y:y1 },
+                { x:cell.x, y:y2 },
                 { x:x2, y:y1 },
-                { x:x2, y:this.y },
+                { x:x2, y:cell.y },
                 { x:x2, y:y2 }
             ];
         };
-
-        /** @typedef {{x:number,y:number,nb:?number}} */
-        GOL.Sur;
 
         /**
          * @param {object} elt
