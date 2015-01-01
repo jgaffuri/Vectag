@@ -5,15 +5,12 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-
-        //TODO zoom/pan, with canvas transform
+        //TODO zoom/pan, with canvas transform: better universe limits - extract to canvas plus
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
-        //TODO extract viewer
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
         //TODO jshint
         //TODO fix blue stuff in annotations
-
 
         /**
          * @constructor
@@ -145,7 +142,7 @@ $(function() {
 
                 //create new cells
                 /** @type {Array.<GOL.Cell>} */
-                var surs = GOL.objToArray(surI);
+                var surs = VectA.objToArray(surI);
                 surI = null;
                 for(i=0; i<surs.length; i++){
                     sur = surs[i];
@@ -224,19 +221,6 @@ $(function() {
                 tY += elt.offsetTop - elt.scrollTop;
             } while(elt = elt.offsetParent);
             return {x:e.pageX-tX, y:e.pageY-tY}
-        };
-
-        /**
-         * @template T
-         * @param {Object.<?, T>} obj
-         * @return {Array.<T>}
-         */
-        GOL.objToArray = function(obj){
-            var out = [];
-            for (var key in obj)
-                if (obj.hasOwnProperty(key))
-                    out.push(obj[key]);
-            return out;
         };
 
         var cdiv = $("#cdiv");
