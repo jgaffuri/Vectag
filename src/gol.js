@@ -6,6 +6,7 @@ var GOL =  GOL || {};
 $(function() {
     (function(GOL,$) {
         //TODO zoom/pan, with canvas transform: better universe limits - extract to canvas plus
+        //TODO test gc wit all + externs/export
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO buttons (play, stop, speed, draw, pan)
         //TODO module pattern
