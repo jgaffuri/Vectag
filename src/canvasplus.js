@@ -6,6 +6,7 @@ var CanPl =  CanPl || {};
 
 $(function() {
     (function(CanPl,$) {
+        //TODO annotations
 
         /**
          * @constructor
@@ -13,16 +14,17 @@ $(function() {
          */
         CanPl.CanvasPlus = function(div){
 
-            /*var cdiv = $("#cdiv");
-            /**@type {number}*/
-            var w = cdiv.width();
-            /*@type {number}*/
-            var h = cdiv.height();
-
-            /*var cvs = document.getElementById("canvas");
+            var cvs = document.getElementById(div);
             var ctx = cvs.getContext("2d");
-            ctx.canvas.width  = w;
-            ctx.canvas.height = h;*/
+
+            this.getContext2D = function(){
+                return ctx;
+            };
+
+            this.forceDimension = function(w,h){
+                ctx.canvas.width  = w;
+                ctx.canvas.height = h;
+            };
 
         };
 

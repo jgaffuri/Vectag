@@ -225,23 +225,22 @@ $(function() {
             return {x:e.pageX-tX, y:e.pageY-tY}
         };
 
+        //TODO remove?
         var cdiv = $("#cdiv");
         /**@type {number}*/
         var w = cdiv.width();
         /**@type {number}*/
         var h = cdiv.height();
 
-        var cvs = document.getElementById("canvas");
-        var ctx = cvs.getContext("2d");
-        ctx.canvas.width  = w;
-        ctx.canvas.height = h;
+        var cplus = new CanPl.CanvasPlus("canvas");
+        cplus.forceDimension(w,h);
 
         $("#canvas").click(function(e) {
-            console.log(GOL.canvasClickPosition(cvs, e));
+            //console.log(GOL.canvasClickPosition(cvs, e));
         });
 
         //build and start
-        new GOL.Universe(w,h).fillRandomly(0.05).redraw(ctx).start(5000,0,ctx);
+        new GOL.Universe(w,h).fillRandomly(0.05).redraw(cplus.getContext2D()).start(5000,0,cplus.getContext2D());
 
     })(GOL,$);
 });
