@@ -228,7 +228,7 @@ $(function() {
         var cdiv = $("#cdiv");
         /**@type {number}*/
         var w = cdiv.width();
-        /*@type {number}*/
+        /**@type {number}*/
         var h = cdiv.height();
 
         var cvs = document.getElementById("canvas");
