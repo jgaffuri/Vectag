@@ -4,3 +4,10 @@
 
 var CanPl =  CanPl || {};
 
+
+$(function() {
+    (function(CanPl,$) {
+
+
+    })(CanPl,$);
+});
