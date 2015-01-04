@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e9a554c1-30f2-4023-a9da-d8f015f84526" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/canvasplus.js" afterPath="$PROJECT_DIR$/src/canvasplus.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gol.js" afterPath="$PROJECT_DIR$/src/gol.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="e9a554c1-30f2-4023-a9da-d8f015f84526" name="Default" comment="" />
     <ignored path="vectag.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
