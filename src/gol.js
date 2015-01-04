@@ -69,24 +69,6 @@ $(function() {
             };
 
             /**
-             * @param {object} ctx
-             * @return {GOL.Universe}
-             */
-            this.redraw = function(ctx){
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.fillStyle = "#0000FF";
-                for(var i=0; i<this.population.length; i++){
-                    /** @type {GOL.Cell} */
-                    var cell = this.population[i];
-                    //ctx.beginPath();
-                    //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
-                    //ctx.fill();
-                    ctx.fillRect(cell.x,cell.y,1,1);
-                }
-                return this;
-            };
-
-            /**
              * @return {GOL.Universe}
              */
             this.step = function() {
@@ -166,16 +148,16 @@ $(function() {
             /**
              * @param {number} nb
              * @param {number} timeoutMS
-             * @param {object} ctx
+             * @param {CanPl.CanvasPlus} cplus
              * @return {GOL.Universe}
              */
-            this.start = function(nb, timeoutMS, ctx){
+            this.start = function(nb, timeoutMS, cplus){
                 var i=0;
                 var uni = this;
                 var engine = function(){
                     //console.log(i);
                     uni.step();
-                    uni.redraw(ctx);
+                    cplus.redraw();
                     if(i++ > nb) return;
                     setTimeout(engine, timeoutMS);
                 };
@@ -209,18 +191,28 @@ $(function() {
             ];
         };
 
+        //new GOL.Universe(cdiv.width(), cdiv.height())
+        var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
+
         var cdiv = $("#cdiv");
         var cplus = new CanPl.CanvasPlus("canvas")
-                .forceDimension(cdiv.width(), cdiv.height())
-            ;
+            .forceDimension(cdiv.width(), cdiv.height());
+        cplus.redraw = function(){
+            var ctx = this.getContext2D();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.fillStyle = "#0000FF";
+            for(var i=0; i<uni.population.length; i++){
+                /** @type {GOL.Cell} */
+                var cell = uni.population[i];
+                //ctx.beginPath();
+                //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
+                //ctx.fill();
+                ctx.fillRect(cell.x,cell.y,1,1);
+            }
+        };
 
-        //build and start
-        //new GOL.Universe(cdiv.width(), cdiv.height())
-        new GOL.Universe(500, 300)
-            .fillRandomly(0.05)
-            .redraw(cplus.getContext2D())
-            .start(5000,0,cplus.getContext2D())
-        ;
+        //start
+        uni.start(5000,0,cplus);
 
     })(GOL,$);
 });

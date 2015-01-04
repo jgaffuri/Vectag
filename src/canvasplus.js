@@ -6,7 +6,6 @@ var CanPl =  CanPl || {};
 
 $(function() {
     (function(CanPl,$) {
-        //TODO annotations
 
         /**
          * @constructor
@@ -19,7 +18,8 @@ $(function() {
             var cvs = document.getElementById(div);
             /**@type {Object} */
             var ctx = cvs.getContext("2d");
-            //var that = this;
+            /**@type {CanPl.CanvasPlus} */
+            var that = this;
 
             /**
              * @return {Object}
@@ -39,11 +39,20 @@ $(function() {
                 return this;
             };
 
+            /**
+             * @return {CanPl.CanvasPlus}
+             */
+            this.redraw = function(){
+                console.log("Override redraw method");
+                return this;
+            };
+
             $("#"+div).click(function(e) {
                 console.log(canvasClickPosition(cvs, e));
                 //ctx.translate(10,10);
                 //ctx.scale(2,2);
-                ctx.scale(0.5,0.5);
+                //ctx.scale(0.5,0.5);
+                that.redraw();
             });
 
             /**
