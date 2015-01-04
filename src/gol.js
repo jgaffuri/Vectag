@@ -191,12 +191,11 @@ $(function() {
             ];
         };
 
-        //new GOL.Universe(cdiv.width(), cdiv.height())
-        var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
-
         var cdiv = $("#cdiv");
-        var cplus = new CanPl.CanvasPlus("canvas")
-            .forceDimension(cdiv.width(), cdiv.height());
+        var uni = new GOL.Universe(cdiv.width(), cdiv.height()).fillRandomly(0.05);
+        //var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
+
+        var cplus = new CanPl.CanvasPlus("canvas", cdiv.width(), cdiv.height());
         cplus.redraw = function(){
             var ctx = this.getContext2D();
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);

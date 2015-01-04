@@ -11,33 +11,20 @@ $(function() {
          * @constructor
          * @struct
          * @param {string} div
+         * @param {number} w
+         * @param {number} h
          */
-        CanPl.CanvasPlus = function(div){
+        CanPl.CanvasPlus = function(div, w, h){
 
             /**@type {Object} */
             var cvs = document.getElementById(div);
+
             /**@type {Object} */
             var ctx = cvs.getContext("2d");
-            /**@type {CanPl.CanvasPlus} */
-            var that = this;
-
-            /**
-             * @return {Object}
-             */
-            this.getContext2D = function(){
-                return ctx;
-            };
-
-            /**
-             * @param {number} w
-             * @param {number} h
-             * @return {CanPl.CanvasPlus}
-             */
-            this.forceDimension = function(w,h){
-                ctx.canvas.width  = w;
-                ctx.canvas.height = h;
-                return this;
-            };
+            if(w) ctx.canvas.width  = w; //TODO annotation optional
+            if(h) ctx.canvas.height = h;
+            /**@return {Object} */
+            this.getContext2D = function(){ return ctx; };
 
             /**
              * @return {CanPl.CanvasPlus}
@@ -47,12 +34,31 @@ $(function() {
                 return this;
             };
 
+            /**
+             * @param {number} x
+             * @param {number} y
+             */
+            var pan = function(x,y){
+                //TODO clear
+                //TODO ctx.translate(10,10);
+                //TODO updatelimits
+                this.redraw();
+            };
+
+            /**
+             * @param {number} x
+             * @param {number} y
+             * @param {number} f
+             */
+            var zoom = function(x,y,f){
+                //TODO
+                //ctx.scale(2,2);
+                this.redraw();
+            };
+
             $("#"+div).click(function(e) {
                 console.log(canvasClickPosition(cvs, e));
-                ctx.translate(10,10);
-                //ctx.scale(2,2);
-                //ctx.scale(0.5,0.5);
-                that.redraw();
+                //TODO pan
             });
 
             /**
