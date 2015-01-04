@@ -5,7 +5,7 @@ var GOL =  GOL || {};
 
 $(function() {
     (function(GOL,$) {
-        //TODO zoom/pan, with canvas transform: better universe limits - extract to canvas plus
+        //TODO zoom/pan, with canvas transform: better universe limits
         //TODO test gc wit all + externs/export
         //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
         //TODO buttons (play, stop, speed, draw, pan)
@@ -173,7 +173,7 @@ $(function() {
                 var i=0;
                 var uni = this;
                 var engine = function(){
-                    console.log(i);
+                    //console.log(i);
                     uni.step();
                     uni.redraw(ctx);
                     if(i++ > nb) return;
@@ -209,38 +209,18 @@ $(function() {
             ];
         };
 
-        /**
-         * @param {object} elt
-         * @param {object} e
-         * @return {Object.<string, number>}
-         */
-        GOL.canvasClickPosition = function(elt, e){
-            if (e.offsetX && e.offsetY)
-                return {x:e.offsetX, y:e.offsetY};
-            var tX=0, tY=0;
-            do {
-                tX += elt.offsetLeft - elt.scrollLeft;
-                tY += elt.offsetTop - elt.scrollTop;
-            } while(elt = elt.offsetParent);
-            return {x:e.pageX-tX, y:e.pageY-tY}
-        };
-
-        //TODO remove?
         var cdiv = $("#cdiv");
-        /**@type {number}*/
-        var w = cdiv.width();
-        /**@type {number}*/
-        var h = cdiv.height();
-
-        var cplus = new CanPl.CanvasPlus("canvas");
-        cplus.forceDimension(w,h);
-
-        $("#canvas").click(function(e) {
-            //console.log(GOL.canvasClickPosition(cvs, e));
-        });
+        var cplus = new CanPl.CanvasPlus("canvas")
+                .forceDimension(cdiv.width(), cdiv.height())
+            ;
 
         //build and start
-        new GOL.Universe(w,h).fillRandomly(0.05).redraw(cplus.getContext2D()).start(5000,0,cplus.getContext2D());
+        //new GOL.Universe(cdiv.width(), cdiv.height())
+        new GOL.Universe(500, 300)
+            .fillRandomly(0.05)
+            .redraw(cplus.getContext2D())
+            .start(5000,0,cplus.getContext2D())
+        ;
 
     })(GOL,$);
 });
