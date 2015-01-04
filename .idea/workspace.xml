@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e9a554c1-30f2-4023-a9da-d8f015f84526" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/canvasplus.js" afterPath="$PROJECT_DIR$/src/canvasplus.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gol.js" afterPath="$PROJECT_DIR$/src/gol.js" />
     </list>
     <ignored path="vectag.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gol.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gol.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gol.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.84042555" vertical-offset="2796" max-vertical-offset="3360">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2796" max-vertical-offset="3360">
               <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -39,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="canvasplus.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="canvasplus.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/canvasplus.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.43674177" vertical-offset="438" max-vertical-offset="1200">
+              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
                 <element signature="e#0#39#0" expanded="false" />
               </folding>
@@ -74,8 +73,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/vectag.js" />
         <option value="$PROJECT_DIR$/gol.html" />
-        <option value="$PROJECT_DIR$/src/canvasplus.js" />
         <option value="$PROJECT_DIR$/src/gol.js" />
+        <option value="$PROJECT_DIR$/src/canvasplus.js" />
       </list>
     </option>
   </component>
@@ -488,22 +487,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/canvasplus.js">
+    <entry file="file://$PROJECT_DIR$/src/gol.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2796" max-vertical-offset="3360">
+          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
           <folding>
-            <element signature="e#0#39#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gol.js">
+    <entry file="file://$PROJECT_DIR$/src/canvasplus.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84042555" vertical-offset="2796" max-vertical-offset="3360">
-          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.43674177" vertical-offset="438" max-vertical-offset="1200">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#0#39#0" expanded="false" />
           </folding>
         </state>
       </provider>

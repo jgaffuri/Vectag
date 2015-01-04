@@ -49,7 +49,7 @@ $(function() {
 
             $("#"+div).click(function(e) {
                 console.log(canvasClickPosition(cvs, e));
-                //ctx.translate(10,10);
+                ctx.translate(10,10);
                 //ctx.scale(2,2);
                 //ctx.scale(0.5,0.5);
                 that.redraw();
