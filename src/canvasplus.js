@@ -15,8 +15,8 @@ $(function() {
          * @constructor
          * @struct
          * @param {string} div
-         * @param {number} w
-         * @param {number} h
+         * @param {number=} w
+         * @param {number=} h
          */
         CanPl.CanvasPlus = function(div, w, h){
 
@@ -25,7 +25,7 @@ $(function() {
 
             /**@type {Object} */
             var ctx = cvs.getContext("2d");
-            if(w) ctx.canvas.width  = w; //TODO annotation optional
+            if(w) ctx.canvas.width  = w;
             if(h) ctx.canvas.height = h;
             /**@return {Object} */
             this.getContext2D = function(){ return ctx; };
