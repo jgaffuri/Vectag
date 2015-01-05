@@ -6,6 +6,10 @@ var CanPl =  CanPl || {};
 
 $(function() {
     (function(CanPl,$) {
+        //check:
+        //https://github.com/kangax/fabric.js/
+        //http://kineticjs.com/
+        //http://www.createjs.com/Docs/EaselJS/classes/MouseEvent.html
 
         /**
          * @constructor
