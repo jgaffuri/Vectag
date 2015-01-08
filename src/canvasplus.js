@@ -20,10 +20,6 @@
         /**@type {Object} */
         var cvs = document.getElementById(div);
 
-        console.log(document);
-        console.log(div);
-        console.log(cvs);
-
         /**@type {Object} */
         var ctx = cvs.getContext("2d");
         if(w) ctx.canvas.width  = w;
@@ -78,8 +74,9 @@
             do {
                 tX += elt.offsetLeft - elt.scrollLeft;
                 tY += elt.offsetTop - elt.scrollTop;
-            } while(elt = elt.offsetParent);
-            return {x:e.pageX-tX, y:e.pageY-tY}
+                elt = elt.offsetParent;
+            } while(elt);
+            return {x:e.pageX-tX, y:e.pageY-tY};
         };
 
     };

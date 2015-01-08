@@ -162,8 +162,7 @@
         };
     };
 
-    /** @typedef {{x:number,y:number,nb:?number}} */
-    GOL.Cell;
+    /** @typedef {{x:number,y:number,nb:?number}} GOL.Cell */
 
     /**
      * @param {GOL.Cell} cell
@@ -187,26 +186,28 @@
         ];
     };
 
-    var cdiv = $("#cdiv");
-    var uni = new GOL.Universe(cdiv.width(), cdiv.height()).fillRandomly(0.05);
-    //var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
+    $(function() {
+        var cdiv = $("#cdiv");
+        var uni = new GOL.Universe(cdiv.width(), cdiv.height()).fillRandomly(0.05);
+        //var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
 
-    var cplus = new CanPl.CanvasPlus("canvas", cdiv.width(), cdiv.height());
-    cplus.redraw = function(){
-        var ctx = this.getContext2D();
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = "#0000FF";
-        for(var i=0; i<uni.population.length; i++){
-            /** @type {GOL.Cell} */
-            var cell = uni.population[i];
-            //ctx.beginPath();
-            //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
-            //ctx.fill();
-            ctx.fillRect(cell.x,cell.y,1,1);
-        }
-    };
+        var cplus = new CanPl.CanvasPlus("canvas", cdiv.width(), cdiv.height());
+        cplus.redraw = function(){
+            var ctx = this.getContext2D();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.fillStyle = "#0000FF";
+            for(var i=0; i<uni.population.length; i++){
+                /** @type {GOL.Cell} */
+                var cell = uni.population[i];
+                //ctx.beginPath();
+                //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
+                //ctx.fill();
+                ctx.fillRect(cell.x,cell.y,1,1);
+            }
+        };
 
-    //start
-    uni.start(5000,0,cplus);
+        //start
+        uni.start(5000,0,cplus);
+    });
 
 }( window.GOL = window.GOL || {}, jQuery ));
