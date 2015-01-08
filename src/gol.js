@@ -1,7 +1,7 @@
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js --compilation_level ADVANCED_OPTIMIZATIONS
 
-(function( GOL, $) {
+(function(GOL,$) {
     //TODO zoom/pan, with canvas transform: better universe limits
     //TODO test gc wit all + externs/export
     //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
