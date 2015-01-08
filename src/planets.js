@@ -1,6 +1,3 @@
-/**
- * Created by julien on 08/01/15.
- */
 
 (function(PlaVag,$) {
 

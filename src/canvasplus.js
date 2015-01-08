@@ -1,6 +1,3 @@
-/**
- * Created by juju on 01/01/15.
- */
 
 (function( CanPl, $) {
     //check:

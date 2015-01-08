@@ -154,7 +154,7 @@
                 //console.log(i);
                 uni.step();
                 cplus.redraw();
-                if(i++ > nb) return;
+                if(nb>0 && i++ > nb) return;
                 setTimeout(engine, timeoutMS);
             };
             engine();
@@ -207,7 +207,7 @@
         };
 
         //start
-        uni.start(5000,0,cplus);
+        uni.start(-1,0,cplus);
     });
 
 }( window.GOL = window.GOL || {}, jQuery ));
