@@ -140,9 +140,8 @@
     PlaVag.Universe.prototype.fillRandomly = function(nb, mi){
         /** @type {Array.<PlaVag.Planet>} */
         this.ps = [];
-        for(var i=0; i<nb; i++){
+        for(var i=0; i<nb; i++)
             this.ps.push(new PlaVag.Planet(this, mi, this.w*Math.random(), this.h*Math.random(), 0, 0));
-        }
         return this;
     };
 
