@@ -1,6 +1,7 @@
 
 (function(FishVag,$) {
 
+    //TODO use instance variales foo.Bar.prototype.prop1_ = 4;
     FishVag.Sardin.D_OBS=50;
     FishVag.Sardin.A_OBS=200*Math.PI/180;
     FishVag.Sardin.D_COL=10;
@@ -373,7 +374,8 @@
 */
 
 
-    
+
+    //TODO fish.java
 
 
 

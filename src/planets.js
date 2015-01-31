@@ -135,13 +135,18 @@
     /**
      * @param {number} nb
      * @param {number} mi
+     * @param {number} minSpeed
+     * @param {number} maxSpeed
      * @return {PlaVag.Universe}
      */
-    PlaVag.Universe.prototype.fillRandomly = function(nb, mi){
+    PlaVag.Universe.prototype.fillRandomly = function(nb, mi, minSpeed, maxSpeed){
         /** @type {Array.<PlaVag.Planet>} */
         this.ps = [];
-        for(var i=0; i<nb; i++)
-            this.ps.push(new PlaVag.Planet(this, mi, this.w*Math.random(), this.h*Math.random(), 0, 0));
+        for(var i=0; i<nb; i++) {
+            var speed = minSpeed + Math.random()*(maxSpeed-minSpeed);
+            var angle = 2*Math.random()*Math.PI;
+            this.ps.push(new PlaVag.Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed*Math.cos(angle), speed*Math.sin(angle)));
+        }
         return this;
     };
 
@@ -223,7 +228,7 @@
             uni.step();
             cplus.redraw();
             if(nb>0 && i++ > nb) return;
-            setTimeout(engine, uni.timeStepMs);
+            setTimeout(engine, 0);
         };
         engine();
         return this;
@@ -238,7 +243,7 @@
 
         var nb = 1000, mi = 0.5;
         /** @type {PlaVag.Universe} */
-        var uni = new PlaVag.Universe(w, h, 10).fillRandomly(nb, mi);
+        var uni = new PlaVag.Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
 
         /** @type {CanPl.CanvasPlus} */
         var cplus = new CanPl.CanvasPlus("canvas", w, h);
@@ -284,6 +289,8 @@
          }
          });
          RootPanel.get("b").add(restart);*/
+
+        //TODO add big bang button
 
     });
 
