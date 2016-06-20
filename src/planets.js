@@ -85,17 +85,17 @@
     PlaVag.Planet.prototype.change = function(){
         //compute acceleration
         /** @type {number} */
-        var ax=this.fx/this.m;
+        var ax = this.fx/this.m;
         /** @type {number} */
-        var ay=this.fy/this.m;
+        var ay = this.fy/this.m;
 
         //compute new speed
-        this.vx+=ax*this.u.timeStepMs;
-        this.vy+=ay*this.u.timeStepMs;
+        this.vx += ax*this.u.timeStepMs;
+        this.vy += ay*this.u.timeStepMs;
 
         //compute new position
-        this.x+=this.vx*this.u.timeStepMs;
-        this.y+=this.vy*this.u.timeStepMs;
+        this.x += this.vx*this.u.timeStepMs;
+        this.y += this.vy*this.u.timeStepMs;
 
         //limit
         /*double r=r();
@@ -234,6 +234,7 @@
         return this;
     };
 
+    //entry point
     $(function() {
         var cdiv = $("#cdiv");
         /** @type {number} */
@@ -278,7 +279,7 @@
         //start
         uni.start(-1,cplus);
 
-         //TODO add restart button
+         //TODO add restart/big bang button
         /* Button restart = new Button("Recommencer!");
          restart.addClickHandler(new ClickHandler() {
          @Override
@@ -289,8 +290,6 @@
          }
          });
          RootPanel.get("b").add(restart);*/
-
-        //TODO add big bang button
 
     });
 
