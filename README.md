@@ -1,8 +1,6 @@
 Vectag
 ======
 
-Vectag is a set of experiments on multi-agents models.
-
-For more information and demos, see [here]!
-
- [here]: http://jgaffuri.github.io/Vectag/
+Vectag is a set of experiments on multi-agents models:
+- [Planets system simulation](http://jgaffuri.github.io/Vectag/planets.html)
+- [Game of life](http://jgaffuri.github.io/Vectag/gol.html)

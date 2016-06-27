@@ -1,6 +1,7 @@
 
 (function(FishVag,$) {
 
+
     //TODO use instance variales foo.Bar.prototype.prop1_ = 4;
     FishVag.Sardin.D_OBS=50;
     FishVag.Sardin.A_OBS=200*Math.PI/180;
@@ -40,11 +41,11 @@
      */
     FishVag.Sardin = function(sea,x,y,vx,vy){
         /**@type{FishVag.Sea}*/
-        this.sea=sea;
+        this.sea = sea;
 
         /**@type{number}*/
         this.x=0;
-        if(!x) this.x=sea.w*Math.random();
+        if(!x) this.x = sea.w*Math.random();
         else if(x<0) this.x=0;
         else if(x>sea.w) this.x=sea.w;
         else this.x=x;
@@ -208,8 +209,8 @@
      * @returns {number}
      */
     FishVag.Sardin.prototype.d = function(s){
-        var dx=s.x-this.x;
-        var dy=s.y-this.y;
+        var dx = s.x-this.x;
+        var dy = s.y-this.y;
         return Math.sqrt(dx*dx+dy*dy);
     };
 
