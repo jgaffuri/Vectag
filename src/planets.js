@@ -1,4 +1,5 @@
 import { removeFromArray } from './vectag';
+import { CanvasPlus } from './canvasplus';
 
 //TODO use spatial index to boost collision detection
 
@@ -217,7 +218,7 @@ Universe.prototype.aggregate = function (agg) {
 
 /**
  * @param {number} nb
- * @param {CanPl.CanvasPlus} cplus
+ * @param {CanvasPlus} cplus
  * @return {Universe}
  */
 Universe.prototype.start = function (nb, cplus) {
@@ -238,7 +239,7 @@ Universe.prototype.start = function (nb, cplus) {
 //entry point
 export const planets = function (divId, canvasId) {
 
-    var cdiv = document.getElementById(div);
+    var cdiv = document.getElementById(divId);
     /** @type {number} */
     var w = cdiv.offsetWidth;
     /** @type {number} */
@@ -248,8 +249,8 @@ export const planets = function (divId, canvasId) {
     /** @type {Universe} */
     var uni = new Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
 
-    /** @type {CanPl.CanvasPlus} */
-    var cplus = new CanPl.CanvasPlus(canvas, w, h);
+    /** @type {CanvasPlus} */
+    var cplus = new CanvasPlus(canvasId, w, h);
     var ctx = cplus.getContext2D();
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, w, h);
