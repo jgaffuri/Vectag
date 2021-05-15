@@ -1,3 +1,5 @@
+import { removeFromArray } from './vectag';
+
 //TODO use spatial index to boost collision detection
 
 /**
@@ -167,8 +169,8 @@ Universe.prototype.step = function () {
     var agg = this.findCollision();
     while (agg !== null) {
         this.ps.push(this.aggregate(agg));
-        VectA.removeFromArray(this.ps, agg[0]);
-        VectA.removeFromArray(this.ps, agg[1]);
+        removeFromArray(this.ps, agg[0]);
+        removeFromArray(this.ps, agg[1]);
         agg = this.findCollision();
     }
 };
@@ -233,50 +235,54 @@ Universe.prototype.start = function (nb, cplus) {
 
 
 
-
 //entry point
-var cdiv = document.getElementById("cdiv");
-/** @type {number} */
-var w = cdiv.offsetWidth;
-/** @type {number} */
-var h = cdiv.offsetHeight;
+export const planets = function (divId, canvasId) {
 
-var nb = 1000, mi = 0.5;
-/** @type {Universe} */
-var uni = new Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
+    var cdiv = document.getElementById(div);
+    /** @type {number} */
+    var w = cdiv.offsetWidth;
+    /** @type {number} */
+    var h = cdiv.offsetHeight;
 
-/** @type {CanPl.CanvasPlus} */
-var cplus = new CanPl.CanvasPlus("canvas", w, h);
-var ctx = cplus.getContext2D();
-ctx.fillStyle = "#000000";
-ctx.fillRect(0, 0, w, h);
+    var nb = 1000, mi = 0.5;
+    /** @type {Universe} */
+    var uni = new Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
 
-cplus.redraw = function () {
-    //ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    /** @type {CanPl.CanvasPlus} */
+    var cplus = new CanPl.CanvasPlus(canvas, w, h);
+    var ctx = cplus.getContext2D();
+    ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, w, h);
 
-    //display planets
-    for (var i = 0; i < uni.ps.length; i++) {
-        /** @type {Planet} */
-        var p = uni.ps[i];
-        var t = p.m / (nb * mi);
-        ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.fill();
-    }
+    cplus.redraw = function () {
+        //ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(0,0,0,0.05)";
+        ctx.fillRect(0, 0, w, h);
 
-    //label
-    ctx.fillStyle = "rgb(200,200,200)";
-    ctx.fillRect(0, 0, 65, 13);
-    ctx.fillStyle = "rgb(0,0,0)";
-    ctx.fillText(uni.ps.length + " planets", 2, 10);
-};
+        //display planets
+        for (var i = 0; i < uni.ps.length; i++) {
+            /** @type {Planet} */
+            var p = uni.ps[i];
+            var t = p.m / (nb * mi);
+            ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.fill();
+        }
 
-//start
-uni.start(-1, cplus);
+        //label
+        ctx.fillStyle = "rgb(200,200,200)";
+        ctx.fillRect(0, 0, 65, 13);
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillText(uni.ps.length + " planets", 2, 10);
+    };
+
+    //start
+    uni.start(-1, cplus);
+
+}
+
 
          //TODO add restart/big bang button
 /* Button restart = new Button("Recommencer!");

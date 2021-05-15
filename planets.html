@@ -1,15 +1,18 @@
 <html>
+
 <head>
     <title>Planets</title>
-    <script src="src/vectag.js"></script>
-    <script src="src/canvasplus.js"></script>
 </head>
 
 <body style="margin: 0">
-<div id="cdiv" style="height:100%;">
-    <canvas id="canvas"></canvas>
-</div>
+    <div id="cdiv" style="height:100%;">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script src="build/vectag.min.js"></script>
+    <script>
+        console.log(vectag)
+        vectag.planets("cdiv", "canvas")
+    </script>
 </body>
-</html>
 
-<script src="src/planets.js"></script>
+</html>
