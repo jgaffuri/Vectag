@@ -1,3 +1,7 @@
+import { objToArray } from './vectag';
+import { CanvasPlus } from './canvasplus';
+
+
 //TODO zoom/pan, with canvas transform: better universe limits
 //TODO test gc wit all + externs/export
 //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
@@ -118,7 +122,7 @@ const Universe = function (w, h) {
 
         //create new cells
         /** @type {Array.<Cell>} */
-        var surs = VectA.objToArray(surI);
+        var surs = objToArray(surI);
         surI = null;
         for (i = 0; i < surs.length; i++) {
             sur = surs[i];
@@ -140,7 +144,7 @@ const Universe = function (w, h) {
     /**
      * @param {number} nb
      * @param {number} timeoutMS
-     * @param {CanPl.CanvasPlus} cplus
+     * @param {CanvasPlus} cplus
      * @return {Universe}
      */
     this.start = function (nb, timeoutMS, cplus) {
@@ -185,9 +189,10 @@ var getCellSurrounding = function (cell, uni) {
 
 
 
+//entry point
+export const gameOfLife = function(divId, canvasId) {
 
-
-var cdiv = document.getElementById("cdiv");
+var cdiv = document.getElementById(divId);
 /** @type {number} */
 var w = cdiv.offsetWidth;
 /** @type {number} */
@@ -196,7 +201,7 @@ var h = cdiv.offsetHeight;
 var uni = new Universe(w, h).fillRandomly(0.05);
 //var uni = new Universe(500, 300).fillRandomly(0.05);
 
-var cplus = new CanPl.CanvasPlus("canvas", w, h);
+var cplus = new CanvasPlus(canvasId, w, h);
 cplus.redraw = function () {
     var ctx = this.getContext2D();
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -213,3 +218,5 @@ cplus.redraw = function () {
 
 //start
 uni.start(-1, 0, cplus);
+
+}

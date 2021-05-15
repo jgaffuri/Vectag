@@ -1,15 +1,18 @@
 <html>
+
 <head>
     <title>Game of life</title>
-    <script src="src/vectag.js"></script>
-    <script src="src/canvasplus.js"></script>
 </head>
 
 <body style="margin: 0">
-<div id="cdiv" style="height:100%;">
-    <canvas id="canvas"></canvas>
-</div>
+    <div id="cdiv" style="height:100%;">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script src="./build/vectag.js"></script>
+    <script>
+        //start simulation
+        vectag.gameOfLife("cdiv", "canvas")
+    </script>
 </body>
-</html>
 
-<script src="src/gol.js"></script>
+</html>
