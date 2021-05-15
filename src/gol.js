@@ -1,7 +1,7 @@
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js
 //java -jar /home/juju/programmes/closure_compiler/compiler.jar --js src/gol.js --js_output_file dist/gol.min.js --compilation_level ADVANCED_OPTIMIZATIONS
 
-(function(GOL,$) {
+(function(GOL) {
     //TODO zoom/pan, with canvas transform: better universe limits
     //TODO test gc wit all + externs/export
     //TODO automate deployment (use ant?) - steps are: (closure compiler + html +) git merge toward branch gh-pages + git push
@@ -186,12 +186,16 @@
         ];
     };
 
-    $(function() {
-        var cdiv = $("#cdiv");
-        var uni = new GOL.Universe(cdiv.width(), cdiv.height()).fillRandomly(0.05);
-        //var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
+    var cdiv = document.getElementById("cdiv");
+    /** @type {number} */
+    var w = cdiv.offsetWidth;
+    /** @type {number} */
+    var h = cdiv.offsetHeight;
 
-        var cplus = new CanPl.CanvasPlus("canvas", cdiv.width(), cdiv.height());
+    var uni = new GOL.Universe(w, h).fillRandomly(0.05);
+    //var uni = new GOL.Universe(500, 300).fillRandomly(0.05);
+
+        var cplus = new CanPl.CanvasPlus("canvas", w, h);
         cplus.redraw = function(){
             var ctx = this.getContext2D();
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -208,6 +212,5 @@
 
         //start
         uni.start(-1,0,cplus);
-    });
 
-}( window.GOL = window.GOL || {}, jQuery ));
+}( window.GOL = window.GOL || {}));

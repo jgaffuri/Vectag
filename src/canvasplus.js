@@ -1,5 +1,5 @@
 
-(function( CanPl, $) {
+(function(CanPl) {
     //check:
     //https://github.com/kangax/fabric.js/
     //http://kineticjs.com/
@@ -53,12 +53,12 @@
             //ctx.scale(2,2);
             this.redraw();
         };
-
+/*
         $("#"+div).click(function(e) {
             console.log(canvasClickPosition(cvs, e));
             //TODO pan
         });
-
+*/
         /**
          * @param {object} elt
          * @param {object} e
@@ -77,4 +77,4 @@
         };
 
     };
-}( window.CanPl = window.CanPl || {}, jQuery ));
+}( window.CanPl = window.CanPl || {} ));

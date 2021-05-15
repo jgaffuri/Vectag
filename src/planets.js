@@ -1,5 +1,5 @@
 
-(function(PlaVag,$) {
+(function(PlaVag) {
 
     //TODO use spatial index to boost collision detection
 
@@ -235,12 +235,11 @@
     };
 
     //entry point
-    $(function() {
-        var cdiv = $("#cdiv");
+        var cdiv = document.getElementById("cdiv");
         /** @type {number} */
-        var w = cdiv.width();
+        var w = cdiv.offsetWidth;
         /** @type {number} */
-        var h = cdiv.height();
+        var h = cdiv.offsetHeight;
 
         var nb = 1000, mi = 0.5;
         /** @type {PlaVag.Universe} */
@@ -291,6 +290,4 @@
          });
          RootPanel.get("b").add(restart);*/
 
-    });
-
-}( window.PlaVag = window.PlaVag || {}, jQuery ));
+}( window.PlaVag = window.PlaVag || {} ));
