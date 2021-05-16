@@ -1,5 +1,5 @@
-import { removeFromArray } from './vectag';
-import { CanvasPlus } from './canvasplus';
+import { removeFromArray } from '../base/lib';
+import { CanvasPlus } from '../base/canvasplus';
 
 //TODO use spatial index to boost collision detection
 

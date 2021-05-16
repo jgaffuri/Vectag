@@ -1,5 +1,5 @@
-import { objToArray } from './vectag';
-import { CanvasPlus } from './canvasplus';
+import { objToArray } from '../base/lib';
+import { CanvasPlus } from '../base/canvasplus';
 
 
 //TODO zoom/pan, with canvas transform: better universe limits
