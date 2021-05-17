@@ -5,18 +5,18 @@ import { Universe } from './Universe';
 //entry point
 export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1, nbIterations = -1) {
 
-    var cdiv = document.getElementById(divId);
+    const cdiv = document.getElementById(divId);
     /** @type {number} */
-    var w = cdiv.offsetWidth;
+    const w = cdiv.offsetWidth;
     /** @type {number} */
-    var h = cdiv.offsetHeight;
+    const h = cdiv.offsetHeight;
 
     /** @type {Universe} */
-    var uni = new Universe(w, h, 10).fillRandomly(nb, mi, minSpeed, maxSpeed);
+    const uni = new Universe(w, h, 10).fillRandomly(nb, mi, minSpeed, maxSpeed);
 
     /** @type {CanvasPlus} */
-    var cplus = new CanvasPlus(canvasId, w, h);
-    var ctx = cplus.getContext2D();
+    const cplus = new CanvasPlus(canvasId, w, h);
+    const ctx = cplus.getContext2D();
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, w, h);
 
@@ -26,9 +26,9 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
         ctx.fillRect(0, 0, w, h);
 
         //display planets
-        for (var i = 0; i < uni.ps.length; i++) {
+        for (let j = 0; j < uni.ps.length; j++) {
             /** @type {Planet} */
-            var p = uni.ps[i];
+            var p = uni.ps[j];
             var t = p.m / (nb * mi);
             ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
             ctx.beginPath();
@@ -48,7 +48,7 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
 
     //start
     let i = 0;
-    var engine = function () {
+    const engine = function () {
         uni.step();
         cplus.redraw();
         if (nbIterations > 0 && i++ > nbIterations)
@@ -56,6 +56,7 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
         setTimeout(engine, 0);
     };
     engine();
+
     return this;
 
 }
