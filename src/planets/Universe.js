@@ -29,6 +29,14 @@ export class Universe {
         return m;
     }
 
+    /**
+     * Add a planet
+     */
+    add(m, x, y, sx, sy) {
+        const p = new Planet(this, m, x, y, sx, sy);
+        this.ps.push(p);
+        //TODO Grid
+    }
 
     /**
      * @return {Array.<Planet>}
