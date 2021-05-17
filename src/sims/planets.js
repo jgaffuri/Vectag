@@ -1,7 +1,6 @@
 import { removeFromArray } from '../base/lib';
 import { CanvasPlus } from '../base/canvasplus';
 
-//TODO use spatial index to boost collision detection
 
 class Planet {
 
@@ -21,48 +20,46 @@ class Planet {
         /** @type {number} */
         this.m = m;
 
+        //compute radius
         /** @type {number} */
         const r = this.r();
 
+        //set position
         /** @type {number} */
-        this.x = 0;
-        if (x < r)
-            this.x = r;
-        else if (x > u.w - r)
-            this.x = u.w - r;
-        else
-            this.x = x;
-
+        this.x = x < r ? r : x > u.w - r ? u.w - r : x;
         /** @type {number} */
-        this.y = 0;
-        if (y < r)
-            this.y = r;
-        else if (y > u.h - r)
-            this.y = u.h - r;
-        else
-            this.y = y;
+        this.y = y < r ? r : y > u.h - r ? u.h - r : y;
 
+        //set speed
         /** @type {number} */
         this.vx = vx;
         /** @type {number} */
         this.vy = vy;
+
     }
 
     /**
+     * Update the force, based on the gravity of other planets.
      */
     observe() {
-        //update the force
+
         /** @type {number} */
         this.fx = 0;
         /** @type {number} */
         this.fy = 0;
-        for (var i = 0; i < this.u.ps.length; i++) {
+
+        //check all other planets in the universe
+        for (let i = 0; i < this.u.ps.length; i++) {
             /** @type {Planet} */
-            var p = this.u.ps[i];
-            if (this == p)
-                continue;
+            const p = this.u.ps[i];
+            if (this == p) continue;
+
+            //compute and add gravity force
+
             /** @type {number} */
-            var d = this.d(p);
+            let d = this.d(p);
+            if (d === 0) continue;
+
             d = d * d * d;
             this.fx += 0.01 * (p.x - this.x) * this.m * p.m / d;
             this.fy += 0.01 * (p.y - this.y) * this.m * p.m / d;
@@ -71,7 +68,7 @@ class Planet {
 
     /**
      * @param {Planet} p
-     * @return {number}
+     * @return {number} The distance to the planet p.
      */
     d(p) {
         /** @type {number} */
@@ -82,7 +79,7 @@ class Planet {
     }
 
     /**
-     * @return {number}
+     * @return {number} The radius of the planet, depending on its mass.
      */
     r() {
         return Math.sqrt(this.m / Math.PI);
@@ -91,6 +88,7 @@ class Planet {
     /**
      */
     change() {
+
         //compute acceleration
         /** @type {number} */
         var ax = this.fx / this.m;
@@ -144,6 +142,7 @@ class Universe {
         this.ps = [];
     }
 
+
     /**
      * @param {number} nb
      * @param {number} mi
@@ -191,6 +190,7 @@ class Universe {
      * @return {Array.<Planet>}
      */
     findCollision() {
+        //TODO use spatial index to boost collision detection
         for (var i = 0; i < this.ps.length; i++) {
             /** @type {Planet} */
             var pi = this.ps[i];
@@ -210,6 +210,8 @@ class Universe {
     }
 
     /**
+     * Aggregate planets, after collision.
+     * 
      * @param {Array.<Planet>} agg
      */
     aggregate(agg) {
@@ -227,6 +229,7 @@ class Universe {
             (p1.vy * p1.m + p2.vy * p2.m) / m
         );
     }
+
 
     /**
      * @param {number} nb
@@ -253,7 +256,7 @@ class Universe {
 
 
 //entry point
-export const planets = function (divId, canvasId) {
+export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
 
     var cdiv = document.getElementById(divId);
     /** @type {number} */
@@ -261,12 +264,8 @@ export const planets = function (divId, canvasId) {
     /** @type {number} */
     var h = cdiv.offsetHeight;
 
-    console.log(cdiv)
-    console.log(w, h)
-
-    var nb = 1000, mi = 0.5;
     /** @type {Universe} */
-    var uni = new Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
+    var uni = new Universe(w, h, 10).fillRandomly(nb, mi, minSpeed, maxSpeed);
 
     /** @type {CanvasPlus} */
     var cplus = new CanvasPlus(canvasId, w, h);
