@@ -8,20 +8,27 @@ export class Universe {
  * @struct
  * @param {number} w
  * @param {number} h
- * @param {number} timeStepMs
  */
-    constructor(w, h, timeStepMs = 10) {
+    constructor(w, h) {
         /** @type {number} */
         this.w = w;
         /** @type {number} */
         this.h = h;
 
-        /** @type {number} */
-        this.timeStepMs = timeStepMs;
-
         /** @type {Array.<Planet>} */
         this.ps = [];
     }
+
+    /**
+     * Compute the mass of the universe
+     */
+    m() {
+        let m = 0;
+        for (let i = 0; i < this.ps.length; i++)
+            m += this.ps[i].m;
+        return m;
+    }
+
 
     /**
      * @return {Array.<Planet>}
@@ -69,7 +76,7 @@ export class Universe {
 
     /**
      */
-    step(bounce) {
+    step(timeStepMs = 10, bounce = false) {
         /** @type {number} */
         let i;
 
@@ -79,7 +86,7 @@ export class Universe {
 
         //action
         for (i = 0; i < this.ps.length; i++)
-            this.ps[i].change(bounce);
+            this.ps[i].change(timeStepMs, bounce);
 
         //collision detections
         /** @type {Array.<Planet>} */
@@ -90,24 +97,6 @@ export class Universe {
             removeFromArray(this.ps, agg[1]);
             agg = this.findCollision();
         }
-    }
-
-    /**
-     * @param {number} nb
-     * @param {number} mi
-     * @param {number} minSpeed
-     * @param {number} maxSpeed
-     * @return {Universe}
-     */
-    fillRandomly(nb, mi, minSpeed, maxSpeed) {
-        /** @type {Array.<Planet>} */
-        this.ps = [];
-        for (let i = 0; i < nb; i++) {
-            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const angle = 2 * Math.random() * Math.PI;
-            this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
-        }
-        return this;
     }
 
 }

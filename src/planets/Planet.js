@@ -85,7 +85,7 @@ export class Planet {
     /**
      * @param {boolean} bounce
      */
-    change(bounce) {
+    change(timeStepMs = 10, bounce = false) {
 
         //compute acceleration
         /** @type {number} */
@@ -94,12 +94,12 @@ export class Planet {
         const ay = this.fy / this.m;
 
         //compute new speed
-        this.vx += ax * this.u.timeStepMs;
-        this.vy += ay * this.u.timeStepMs;
+        this.vx += ax * timeStepMs;
+        this.vy += ay * timeStepMs;
 
         //compute new position
-        this.x += this.vx * this.u.timeStepMs;
-        this.y += this.vy * this.u.timeStepMs;
+        this.x += this.vx * timeStepMs;
+        this.y += this.vy * timeStepMs;
 
         //limit
         if(bounce) {
