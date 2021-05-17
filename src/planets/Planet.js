@@ -83,8 +83,9 @@ export class Planet {
     }
 
     /**
+     * @param {boolean} bounce
      */
-    change() {
+    change(bounce) {
 
         //compute acceleration
         /** @type {number} */
@@ -101,14 +102,18 @@ export class Planet {
         this.y += this.vy * this.u.timeStepMs;
 
         //limit
-        /*double r=r();
-         if(x<r) { x=r; vx=-vx*e; }
-         if(y<r) { y=r; vy=-vy*e; }
-         if(x>u.w-r) { x=u.w-r; vx=-vx*e; }
-         if(y>u.h-r) { y=u.h-r; vy=-vy*e; }*/
-        if (this.x < 0) { this.x = this.u.w; }
-        if (this.y < 0) { this.y = this.u.h; }
-        if (this.x > this.u.w) { this.x = 0; }
-        if (this.y > this.u.h) { this.y = 0; }
+        if(bounce) {
+            const r = this.r();
+            const e = 1;
+            if(this.x<r) { this.x=r; this.vx=-this.vx*e; }
+            if(this.y<r) { this.y=r; this.vy=-this.vy*e; }
+            if(this.x>this.u.w-r) { this.x=this.u.w-r; this.vx=-this.vx*e; }
+            if(this.y>this.u.h-r) { this.y=this.u.h-r; this.vy=-this.vy*e; }
+        } else {
+            if (this.x < 0) { this.x = this.u.w; }
+            if (this.y < 0) { this.y = this.u.h; }
+            if (this.x > this.u.w) { this.x = 0; }
+            if (this.y > this.u.h) { this.y = 0; }
+        }
     }
 }

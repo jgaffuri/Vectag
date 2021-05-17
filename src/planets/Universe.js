@@ -10,7 +10,7 @@ export class Universe {
  * @param {number} h
  * @param {number} timeStepMs
  */
-    constructor(w, h, timeStepMs) {
+    constructor(w, h, timeStepMs = 10) {
         /** @type {number} */
         this.w = w;
         /** @type {number} */
@@ -21,50 +21,6 @@ export class Universe {
 
         /** @type {Array.<Planet>} */
         this.ps = [];
-    }
-
-
-    /**
-     * @param {number} nb
-     * @param {number} mi
-     * @param {number} minSpeed
-     * @param {number} maxSpeed
-     * @return {Universe}
-     */
-    fillRandomly(nb, mi, minSpeed, maxSpeed) {
-        /** @type {Array.<Planet>} */
-        this.ps = [];
-        for (let i = 0; i < nb; i++) {
-            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const angle = 2 * Math.random() * Math.PI;
-            this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
-        }
-        return this;
-    }
-
-    /**
-     */
-    step() {
-        /** @type {number} */
-        let i;
-
-        //observation
-        for (i = 0; i < this.ps.length; i++)
-            this.ps[i].observe();
-
-        //action
-        for (i = 0; i < this.ps.length; i++)
-            this.ps[i].change();
-
-        //collision detections
-        /** @type {Array.<Planet>} */
-        let agg = this.findCollision();
-        while (agg !== null) {
-            this.ps.push(this.aggregate(agg));
-            removeFromArray(this.ps, agg[0]);
-            removeFromArray(this.ps, agg[1]);
-            agg = this.findCollision();
-        }
     }
 
     /**
@@ -91,7 +47,7 @@ export class Universe {
     }
 
     /**
-     * Aggregate planets, after collision.
+     * Aggregate a pair of planets, after collision.
      *
      * @param {Array.<Planet>} agg
      */
@@ -110,4 +66,48 @@ export class Universe {
             (p1.vy * p1.m + p2.vy * p2.m) / m
         );
     }
+
+    /**
+     */
+    step(bounce) {
+        /** @type {number} */
+        let i;
+
+        //observation
+        for (i = 0; i < this.ps.length; i++)
+            this.ps[i].observe();
+
+        //action
+        for (i = 0; i < this.ps.length; i++)
+            this.ps[i].change(bounce);
+
+        //collision detections
+        /** @type {Array.<Planet>} */
+        let agg = this.findCollision();
+        while (agg !== null) {
+            this.ps.push(this.aggregate(agg));
+            removeFromArray(this.ps, agg[0]);
+            removeFromArray(this.ps, agg[1]);
+            agg = this.findCollision();
+        }
+    }
+
+    /**
+     * @param {number} nb
+     * @param {number} mi
+     * @param {number} minSpeed
+     * @param {number} maxSpeed
+     * @return {Universe}
+     */
+    fillRandomly(nb, mi, minSpeed, maxSpeed) {
+        /** @type {Array.<Planet>} */
+        this.ps = [];
+        for (let i = 0; i < nb; i++) {
+            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+            const angle = 2 * Math.random() * Math.PI;
+            this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
+        }
+        return this;
+    }
+
 }

@@ -1,9 +1,11 @@
 import { CanvasPlus } from '../base/canvasplus';
 import { Universe } from './Universe';
 
+//TODO
+//bigbang start
 
 //entry point
-export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1, nbIterations = -1) {
+export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1, bounce = false, nbIterations = -1) {
 
     const cdiv = document.getElementById(divId);
     /** @type {number} */
@@ -49,7 +51,7 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
     //start
     let i = 0;
     const engine = function () {
-        uni.step();
+        uni.step(bounce);
         cplus.redraw();
         if (nbIterations > 0 && i++ > nbIterations)
             return;
