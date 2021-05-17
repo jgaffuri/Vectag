@@ -1,3 +1,4 @@
+import { removeFromArray } from '../base/lib';
 
 export class Grid {
 

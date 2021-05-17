@@ -107,22 +107,26 @@ export class Planet {
         }
 
         //compute new position
-        this.x += this.vx * timeStepMs;
-        this.y += this.vy * timeStepMs;
+        let nx = this.x + this.vx * timeStepMs;
+        let ny = this.y + this.vy * timeStepMs;
 
         //handle position limit
         if (bounce) {
             const r = this.r();
             const e = 1;
-            if (this.x < r) { this.x = r; this.vx = -this.vx * e; }
-            if (this.y < r) { this.y = r; this.vy = -this.vy * e; }
-            if (this.x > this.u.w - r) { this.x = this.u.w - r; this.vx = -this.vx * e; }
-            if (this.y > this.u.h - r) { this.y = this.u.h - r; this.vy = -this.vy * e; }
+            if (nx < r) { nx = r; this.vx = -this.vx * e; }
+            if (ny < r) { ny = r; this.vy = -this.vy * e; }
+            if (nx > this.u.w - r) { nx = this.u.w - r; this.vx = -this.vx * e; }
+            if (ny > this.u.h - r) { ny = this.u.h - r; this.vy = -this.vy * e; }
         } else {
-            if (this.x < 0) { this.x = this.u.w; }
-            if (this.y < 0) { this.y = this.u.h; }
-            if (this.x > this.u.w) { this.x = 0; }
-            if (this.y > this.u.h) { this.y = 0; }
+            if (nx < 0) { nx = this.u.w; }
+            if (ny < 0) { ny = this.u.h; }
+            if (nx > this.u.w) { nx = 0; }
+            if (ny > this.u.h) { ny = 0; }
         }
+
+        //move planet
+        this.u.move(this, nx, ny)
+
     }
 }

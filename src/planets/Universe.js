@@ -1,15 +1,16 @@
 import { removeFromArray } from '../base/lib';
+import { Grid } from '../base/grid';
 import { Planet } from './Planet';
 
 export class Universe {
 
-    /**
+/**
  * @constructor
  * @struct
  * @param {number} w
  * @param {number} h
  */
-    constructor(w, h) {
+    constructor(w, h, gres = Math.min(w,h)/100.0) {
         /** @type {number} */
         this.w = w;
         /** @type {number} */
@@ -17,6 +18,9 @@ export class Universe {
 
         /** @type {Array.<Planet>} */
         this.ps = [];
+
+        /** @type {Grid} */
+        this.grid = new Grid(w, h, gres);
     }
 
     /**
@@ -30,13 +34,56 @@ export class Universe {
     }
 
     /**
+     * Create a planet
+     */
+    createPlanet(m, x, y, sx, sy) {
+        const p = new Planet(this, m, x, y, sx, sy);
+        this.add(p);
+    }
+
+    /**
      * Add a planet
      */
-    add(m, x, y, sx, sy) {
-        const p = new Planet(this, m, x, y, sx, sy);
+    add(p) {
+        p.u = this;
         this.ps.push(p);
-        //TODO Grid
+        this.grid.add(p, p.x, p.y);
     }
+
+    /**
+     * Remove a planet
+     */
+    remove(p) {
+        p.u = null;
+        removeFromArray(this.ps, p);
+        this.grid.remove(p, p.x, p.y);
+    }
+
+    /**
+     * Move a planet
+     */
+    move(p, nx, ny) {
+        this.grid.move(p, p.x, p.y, nx, ny);
+        p.x = nx; p.y = ny;
+    }
+
+    /**
+     * Aggregate two planets
+     */
+    aggregate(p1, p2) {
+        const m = p1.m + p2.m;
+        const p = this.createPlanet(
+            m,
+            (p1.x * p1.m + p2.x * p2.m) / m,
+            (p1.y * p1.m + p2.y * p2.m) / m,
+            (p1.vx * p1.m + p2.vx * p2.m) / m,
+            (p1.vy * p1.m + p2.vy * p2.m) / m
+        );
+        this.remove(p1);
+        this.remove(p2);
+        return p;
+    }
+
 
     /**
      * @return {Array.<Planet>}
@@ -62,26 +109,6 @@ export class Universe {
         return null;
     }
 
-    /**
-     * Aggregate a pair of planets, after collision.
-     *
-     * @param {Array.<Planet>} agg
-     */
-    aggregate(agg) {
-        /** @type {Planet} */
-        const p1 = agg[0];
-        /** @type {Planet} */
-        const p2 = agg[1];
-        /** @type {number} */
-        const m = p1.m + p2.m;
-        return new Planet(this,
-            m,
-            (p1.x * p1.m + p2.x * p2.m) / m,
-            (p1.y * p1.m + p2.y * p2.m) / m,
-            (p1.vx * p1.m + p2.vx * p2.m) / m,
-            (p1.vy * p1.m + p2.vy * p2.m) / m
-        );
-    }
 
     /**
      */
@@ -97,14 +124,15 @@ export class Universe {
         for (i = 0; i < this.ps.length; i++)
             this.ps[i].change(bounce, vmax, timeStepMs);
 
-        //collision detections
+        //collision detection
+        //find first collision
         /** @type {Array.<Planet>} */
-        let agg = this.findCollision(collisionFactor);
-        while (agg !== null) {
-            this.ps.push(this.aggregate(agg));
-            removeFromArray(this.ps, agg[0]);
-            removeFromArray(this.ps, agg[1]);
-            agg = this.findCollision(collisionFactor);
+        let pair = this.findCollision(collisionFactor);
+        while (pair !== null) {
+            //aggregate
+            this.aggregate(pair[0], pair[1])
+            //find next collision
+            pair = this.findCollision(collisionFactor);
         }
     }
 

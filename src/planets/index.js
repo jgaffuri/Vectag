@@ -59,7 +59,7 @@ class PlanetSimulation {
         for (let i = 0; i < nb; i++) {
             const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
             const angle = 2 * Math.random() * Math.PI;
-            this.uni.add(mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle));
+            this.uni.createPlanet(mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle));
         }
         return this;
     }
@@ -82,7 +82,7 @@ class PlanetSimulation {
             const aS = a + 2*(Math.random()-0.5) * 2*Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
 
-            this.uni.add(mi, x, y, sx, sy);
+            this.uni.createPlanet(mi, x, y, sx, sy);
         }
         return this;
     }
