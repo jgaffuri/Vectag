@@ -245,6 +245,9 @@ export const planets = function (divId, canvasId) {
     /** @type {number} */
     var h = cdiv.offsetHeight;
 
+    console.log(cdiv)
+    console.log(w,h)
+
     var nb = 1000, mi = 0.5;
     /** @type {Universe} */
     var uni = new Universe(w, h, 10).fillRandomly(nb, mi, 0, 0.1);
