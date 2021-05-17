@@ -23,10 +23,10 @@ export class Grid {
         /** @type {Array.<Array.<Array.<T>>>} */
         this.cells = [];
 
-        for (var i = 0; i < this.lengthX; i++) {
+        for (let i = 0; i < this.lengthX; i++) {
             /** @type {Array.<Array.<T>>} */
             this.cells[i] = [];
-            for (var j = 0; j < this.lengthY; j++) {
+            for (let j = 0; j < this.lengthY; j++) {
                 /** @type {Array.<T>} */
                 this.cells[i][j] = [];
             }
@@ -41,11 +41,11 @@ export class Grid {
      * @return {Array.<T>}
      */
     get(xmin, ymin, xmax, ymax) {
-        var as = [];
-        for (var i = Math.floor(xmin / this.res); i < Math.floor(xmax / this.res + 1); i++) {
+        const as = [];
+        for (let i = Math.floor(xmin / this.res); i < Math.floor(xmax / this.res + 1); i++) {
             if (i < 0 || i >= this.lengthX)
                 continue;
-            for (var j = Math.floor(ymin / this.res); j < Math.floor(ymax / this.res + 1); j++) {
+            for (let j = Math.floor(ymin / this.res); j < Math.floor(ymax / this.res + 1); j++) {
                 if (j < 0 || j >= this.lengthY)
                     continue;
                 as.push.apply(as, this.cells[i][j]);
