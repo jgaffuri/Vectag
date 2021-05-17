@@ -10,11 +10,16 @@ export class Grid {
      * @param {number} res
      */
     constructor(w, h, res) {
+
+        /** @type {number} */
         this.res = res;
+
         /** @type {number} */
         this.lengthX = Math.floor(w / res + 1);
+
         /** @type {number} */
         this.lengthY = Math.floor(h / res + 1);
+
         /** @type {Array.<Array.<Array.<T>>>} */
         this.cells = [];
 
@@ -67,4 +72,27 @@ export class Grid {
     remove(obj, x, y) {
         removeFromArray(this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)], obj);
     }
+
+
+     /**
+     * @param {T} obj
+     * @param {number} xIni
+     * @param {number} yIni
+     * @param {number} xFin
+     * @param {number} yFin
+     */
+    move(obj, xIni, yIni, xFin, yFin) {
+        const iIni = Math.floor(xIni / this.res);
+        const jIni = Math.floor(yIni / this.res);
+        const iFin = Math.floor(xFin / this.res);
+        const jFin = Math.floor(yFin / this.res);
+
+        //no change, still same cell
+        if(iIni==iFin && jIni==jFin) return;
+
+        //change cell
+        removeFromArray(this.cells[iIni][jIni], obj);
+        return this.cells[iFin][jFin].push(obj);
+    }
+
 }
