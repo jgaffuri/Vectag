@@ -3,236 +3,252 @@ import { CanvasPlus } from '../base/canvasplus';
 
 //TODO use spatial index to boost collision detection
 
-/**
- * @constructor
- * @struct
- * @param {Universe} u
- * @param {number} m
- * @param {number} x
- * @param {number} y
- * @param {number} vx
- * @param {number} vy
- */
-const Planet = function (u, m, x, y, vx, vy) {
-    /** @type {Universe} */
-    this.u = u;
-    /** @type {number} */
-    this.m = m;
+class Planet {
 
-    /** @type {number} */
-    var r = this.r();
-
-    /** @type {number} */
-    this.x = 0;
-    if (x < r) this.x = r;
-    else if (x > u.w - r) this.x = u.w - r;
-    else this.x = x;
-
-    /** @type {number} */
-    this.y = 0;
-    if (y < r) this.y = r;
-    else if (y > u.h - r) this.y = u.h - r;
-    else this.y = y;
-
-    /** @type {number} */
-    this.vx = vx;
-    /** @type {number} */
-    this.vy = vy;
-};
-
-/**
- */
-Planet.prototype.observe = function () {
-    //update the force
-    /** @type {number} */
-    this.fx = 0;
-    /** @type {number} */
-    this.fy = 0;
-    for (var i = 0; i < this.u.ps.length; i++) {
-        /** @type {Planet} */
-        var p = this.u.ps[i];
-        if (this == p) continue;
+    /**
+     * @constructor
+     * @struct
+     * @param {Universe} u The universe the planet belongs to
+     * @param {number} m The mass
+     * @param {number} x The x position
+     * @param {number} y The y position
+     * @param {number} vx The speed x
+     * @param {number} vy The speed y
+     */
+    constructor(u, m, x, y, vx, vy) {
+        /** @type {Universe} */
+        this.u = u;
         /** @type {number} */
-        var d = this.d(p);
-        d = d * d * d;
-        this.fx += 0.01 * (p.x - this.x) * this.m * p.m / d;
-        this.fy += 0.01 * (p.y - this.y) * this.m * p.m / d;
+        this.m = m;
+
+        /** @type {number} */
+        const r = this.r();
+
+        /** @type {number} */
+        this.x = 0;
+        if (x < r)
+            this.x = r;
+        else if (x > u.w - r)
+            this.x = u.w - r;
+        else
+            this.x = x;
+
+        /** @type {number} */
+        this.y = 0;
+        if (y < r)
+            this.y = r;
+        else if (y > u.h - r)
+            this.y = u.h - r;
+        else
+            this.y = y;
+
+        /** @type {number} */
+        this.vx = vx;
+        /** @type {number} */
+        this.vy = vy;
     }
-};
 
-/**
- * @param {Planet} p
- * @return {number}
- */
-Planet.prototype.d = function (p) {
-    /** @type {number} */
-    var dx = p.x - this.x;
-    /** @type {number} */
-    var dy = p.y - this.y;
-    return Math.sqrt(dx * dx + dy * dy);
-};
+    /**
+     */
+    observe() {
+        //update the force
+        /** @type {number} */
+        this.fx = 0;
+        /** @type {number} */
+        this.fy = 0;
+        for (var i = 0; i < this.u.ps.length; i++) {
+            /** @type {Planet} */
+            var p = this.u.ps[i];
+            if (this == p)
+                continue;
+            /** @type {number} */
+            var d = this.d(p);
+            d = d * d * d;
+            this.fx += 0.01 * (p.x - this.x) * this.m * p.m / d;
+            this.fy += 0.01 * (p.y - this.y) * this.m * p.m / d;
+        }
+    }
+
+    /**
+     * @param {Planet} p
+     * @return {number}
+     */
+    d(p) {
+        /** @type {number} */
+        var dx = p.x - this.x;
+        /** @type {number} */
+        var dy = p.y - this.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * @return {number}
+     */
+    r() {
+        return Math.sqrt(this.m / Math.PI);
+    }
+
+    /**
+     */
+    change() {
+        //compute acceleration
+        /** @type {number} */
+        var ax = this.fx / this.m;
+        /** @type {number} */
+        var ay = this.fy / this.m;
+
+        //compute new speed
+        this.vx += ax * this.u.timeStepMs;
+        this.vy += ay * this.u.timeStepMs;
+
+        //compute new position
+        this.x += this.vx * this.u.timeStepMs;
+        this.y += this.vy * this.u.timeStepMs;
+
+        //limit
+        /*double r=r();
+         if(x<r) { x=r; vx=-vx*e; }
+         if(y<r) { y=r; vy=-vy*e; }
+         if(x>u.w-r) { x=u.w-r; vx=-vx*e; }
+         if(y>u.h-r) { y=u.h-r; vy=-vy*e; }*/
+        if (this.x < 0) { this.x = this.u.w; }
+        if (this.y < 0) { this.y = this.u.h; }
+        if (this.x > this.u.w) { this.x = 0; }
+        if (this.y > this.u.h) { this.y = 0; }
+    }
+}
 
 
-/**
- * @return {number}
- */
-Planet.prototype.r = function () {
-    return Math.sqrt(this.m / Math.PI);
-};
-
-/**
- */
-Planet.prototype.change = function () {
-    //compute acceleration
-    /** @type {number} */
-    var ax = this.fx / this.m;
-    /** @type {number} */
-    var ay = this.fy / this.m;
-
-    //compute new speed
-    this.vx += ax * this.u.timeStepMs;
-    this.vy += ay * this.u.timeStepMs;
-
-    //compute new position
-    this.x += this.vx * this.u.timeStepMs;
-    this.y += this.vy * this.u.timeStepMs;
-
-    //limit
-    /*double r=r();
-     if(x<r) { x=r; vx=-vx*e; }
-     if(y<r) { y=r; vy=-vy*e; }
-     if(x>u.w-r) { x=u.w-r; vx=-vx*e; }
-     if(y>u.h-r) { y=u.h-r; vy=-vy*e; }*/
-    if (this.x < 0) { this.x = this.u.w; }
-    if (this.y < 0) { this.y = this.u.h; }
-    if (this.x > this.u.w) { this.x = 0; }
-    if (this.y > this.u.h) { this.y = 0; }
-};
 
 
 
-/**
+class Universe {
+
+    /**
  * @constructor
  * @struct
  * @param {number} w
  * @param {number} h
  * @param {number} timeStepMs
  */
-const Universe = function (w, h, timeStepMs) {
-    /** @type {number} */
-    this.w = w;
-    /** @type {number} */
-    this.h = h;
+    constructor(w, h, timeStepMs) {
+        /** @type {number} */
+        this.w = w;
+        /** @type {number} */
+        this.h = h;
 
-    /** @type {number} */
-    this.timeStepMs = timeStepMs;
+        /** @type {number} */
+        this.timeStepMs = timeStepMs;
 
-    /** @type {Array.<Planet>} */
-    this.ps = [];
-};
-
-
-/**
- * @param {number} nb
- * @param {number} mi
- * @param {number} minSpeed
- * @param {number} maxSpeed
- * @return {Universe}
- */
-Universe.prototype.fillRandomly = function (nb, mi, minSpeed, maxSpeed) {
-    /** @type {Array.<Planet>} */
-    this.ps = [];
-    for (var i = 0; i < nb; i++) {
-        var speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-        var angle = 2 * Math.random() * Math.PI;
-        this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
+        /** @type {Array.<Planet>} */
+        this.ps = [];
     }
-    return this;
-};
 
-
-/**
- */
-Universe.prototype.step = function () {
-    /** @type {number} */
-    var i;
-
-    //observation
-    for (i = 0; i < this.ps.length; i++)
-        this.ps[i].observe();
-
-    //action
-    for (i = 0; i < this.ps.length; i++)
-        this.ps[i].change();
-
-    //collision detections
-    /** @type {Array.<Planet>} */
-    var agg = this.findCollision();
-    while (agg !== null) {
-        this.ps.push(this.aggregate(agg));
-        removeFromArray(this.ps, agg[0]);
-        removeFromArray(this.ps, agg[1]);
-        agg = this.findCollision();
+    /**
+     * @param {number} nb
+     * @param {number} mi
+     * @param {number} minSpeed
+     * @param {number} maxSpeed
+     * @return {Universe}
+     */
+    fillRandomly(nb, mi, minSpeed, maxSpeed) {
+        /** @type {Array.<Planet>} */
+        this.ps = [];
+        for (var i = 0; i < nb; i++) {
+            var speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+            var angle = 2 * Math.random() * Math.PI;
+            this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
+        }
+        return this;
     }
-};
 
-/**
- * @return {Array.<Planet>}
- */
-Universe.prototype.findCollision = function () {
-    for (var i = 0; i < this.ps.length; i++) {
-        /** @type {Planet} */
-        var pi = this.ps[i];
-        for (var j = i + 1; j < this.ps.length; j++) {
-            /** @type {Planet} */
-            var pj = this.ps[j];
-            /** @type {number} */
-            var d1 = pi.d(pj);
-            /** @type {number} */
-            var d2 = pi.r() + pj.r();
-            if (d1 > d2) continue;
-            return [pi, pj];
+    /**
+     */
+    step() {
+        /** @type {number} */
+        var i;
+
+        //observation
+        for (i = 0; i < this.ps.length; i++)
+            this.ps[i].observe();
+
+        //action
+        for (i = 0; i < this.ps.length; i++)
+            this.ps[i].change();
+
+        //collision detections
+        /** @type {Array.<Planet>} */
+        var agg = this.findCollision();
+        while (agg !== null) {
+            this.ps.push(this.aggregate(agg));
+            removeFromArray(this.ps, agg[0]);
+            removeFromArray(this.ps, agg[1]);
+            agg = this.findCollision();
         }
     }
-    return null;
-};
 
-/**
- * @param {Array.<Planet>} agg
- */
-Universe.prototype.aggregate = function (agg) {
-    /** @type {Planet} */
-    var p1 = agg[0];
-    /** @type {Planet} */
-    var p2 = agg[1];
-    /** @type {number} */
-    var m = p1.m + p2.m;
-    return new Planet(this,
-        m,
-        (p1.x * p1.m + p2.x * p2.m) / m,
-        (p1.y * p1.m + p2.y * p2.m) / m,
-        (p1.vx * p1.m + p2.vx * p2.m) / m,
-        (p1.vy * p1.m + p2.vy * p2.m) / m
-    );
-};
+    /**
+     * @return {Array.<Planet>}
+     */
+    findCollision() {
+        for (var i = 0; i < this.ps.length; i++) {
+            /** @type {Planet} */
+            var pi = this.ps[i];
+            for (var j = i + 1; j < this.ps.length; j++) {
+                /** @type {Planet} */
+                var pj = this.ps[j];
+                /** @type {number} */
+                var d1 = pi.d(pj);
+                /** @type {number} */
+                var d2 = pi.r() + pj.r();
+                if (d1 > d2)
+                    continue;
+                return [pi, pj];
+            }
+        }
+        return null;
+    }
 
-/**
- * @param {number} nb
- * @param {CanvasPlus} cplus
- * @return {Universe}
- */
-Universe.prototype.start = function (nb, cplus) {
-    var i = 0;
-    var uni = this;
-    var engine = function () {
-        uni.step();
-        cplus.redraw();
-        if (nb > 0 && i++ > nb) return;
-        setTimeout(engine, 0);
-    };
-    engine();
-    return this;
-};
+    /**
+     * @param {Array.<Planet>} agg
+     */
+    aggregate(agg) {
+        /** @type {Planet} */
+        var p1 = agg[0];
+        /** @type {Planet} */
+        var p2 = agg[1];
+        /** @type {number} */
+        var m = p1.m + p2.m;
+        return new Planet(this,
+            m,
+            (p1.x * p1.m + p2.x * p2.m) / m,
+            (p1.y * p1.m + p2.y * p2.m) / m,
+            (p1.vx * p1.m + p2.vx * p2.m) / m,
+            (p1.vy * p1.m + p2.vy * p2.m) / m
+        );
+    }
+
+    /**
+     * @param {number} nb
+     * @param {CanvasPlus} cplus
+     * @return {Universe}
+     */
+    start(nb, cplus) {
+        var i = 0;
+        var uni = this;
+        var engine = function () {
+            uni.step();
+            cplus.redraw();
+            if (nb > 0 && i++ > nb)
+                return;
+            setTimeout(engine, 0);
+        };
+        engine();
+        return this;
+    }
+}
+
+
 
 
 
@@ -246,7 +262,7 @@ export const planets = function (divId, canvasId) {
     var h = cdiv.offsetHeight;
 
     console.log(cdiv)
-    console.log(w,h)
+    console.log(w, h)
 
     var nb = 1000, mi = 0.5;
     /** @type {Universe} */
