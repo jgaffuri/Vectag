@@ -89,13 +89,16 @@ export class Universe {
      * @return {Array.<Planet>}
      */
     findCollision(collisionFactor = 1) {
-        //TODO use spatial index to boost collision detection
         for (let i = 0; i < this.ps.length; i++) {
             /** @type {Planet} */
             const pi = this.ps[i];
-            for (let j = i + 1; j < this.ps.length; j++) {
+            const w = 2*pi.r();
+            const cand = this.grid.get(pi.x-w, pi.y-w, pi.x+w, pi.y+w);
+            for (let j = 0; j < cand.length; j++) {
                 /** @type {Planet} */
-                const pj = this.ps[j];
+                const pj = cand[j];
+
+                if(pi == pj) continue;
     
                 /** @type {number} */
                 const d1 = pi.d(pj);
@@ -104,6 +107,7 @@ export class Universe {
                 if (d1 > d2)
                     continue;
                 return [pi, pj];
+
             }
         }
         return null;

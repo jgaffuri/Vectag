@@ -1,5 +1,4 @@
 import { Universe } from './Universe';
-import { Planet } from './Planet';
 import { CanvasPlus } from '../base/canvasplus';
 
 
