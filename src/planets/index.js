@@ -57,7 +57,7 @@ export const planets = function (opts = {}) {
     
 
 
-    out.fillRandomly = function(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
+    out.initRandom = function(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         /** @type {Array.<Planet>} */
         uni.ps = [];
         for (let i = 0; i < nb; i++) {
@@ -69,17 +69,23 @@ export const planets = function (opts = {}) {
     }
 
 
-    out.fillBigBang = function(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
+    out.initBigBang = function(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
         /** @type {Array.<Planet>} */
         uni.ps = [];
         const cx = w * 0.5, cy = h * 0.5;
-        const angleStep = 2 * Math.random() / nb;
-        const rad = 10;
+        const angleStep = 2*Math.PI / nb;
         for (let i = 0; i < nb; i++) {
             const a = i * angleStep;
-            const x = cx + rad * Math.cos(a), y = cy + rad * Math.sin(a);
+
+            //position
+            const d = rad * Math.random();
+            const x = cx + d * Math.cos(a), y = cy + d * Math.sin(a);
+
+            //speed
             const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const sx = speed * Math.cos(a), sy = speed * Math.sin(a);
+            const aS = a + 2*(Math.random()-0.5) * 2*Math.PI / 3;
+            const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
+
             uni.ps.push(new Planet(uni, mi, x, y, sx, sy));
         }
         return this;
