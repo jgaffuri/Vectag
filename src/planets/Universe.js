@@ -34,9 +34,9 @@ export class Universe {
     fillRandomly(nb, mi, minSpeed, maxSpeed) {
         /** @type {Array.<Planet>} */
         this.ps = [];
-        for (var i = 0; i < nb; i++) {
-            var speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            var angle = 2 * Math.random() * Math.PI;
+        for (let i = 0; i < nb; i++) {
+            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+            const angle = 2 * Math.random() * Math.PI;
             this.ps.push(new Planet(this, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
         }
         return this;
@@ -46,7 +46,7 @@ export class Universe {
      */
     step() {
         /** @type {number} */
-        var i;
+        let i;
 
         //observation
         for (i = 0; i < this.ps.length; i++)
@@ -58,7 +58,7 @@ export class Universe {
 
         //collision detections
         /** @type {Array.<Planet>} */
-        var agg = this.findCollision();
+        let agg = this.findCollision();
         while (agg !== null) {
             this.ps.push(this.aggregate(agg));
             removeFromArray(this.ps, agg[0]);
@@ -72,16 +72,16 @@ export class Universe {
      */
     findCollision() {
         //TODO use spatial index to boost collision detection
-        for (var i = 0; i < this.ps.length; i++) {
+        for (let i = 0; i < this.ps.length; i++) {
             /** @type {Planet} */
-            var pi = this.ps[i];
-            for (var j = i + 1; j < this.ps.length; j++) {
+            const pi = this.ps[i];
+            for (let j = i + 1; j < this.ps.length; j++) {
                 /** @type {Planet} */
-                var pj = this.ps[j];
+                const pj = this.ps[j];
                 /** @type {number} */
-                var d1 = pi.d(pj);
+                const d1 = pi.d(pj);
                 /** @type {number} */
-                var d2 = pi.r() + pj.r();
+                const d2 = pi.r() + pj.r();
                 if (d1 > d2)
                     continue;
                 return [pi, pj];
@@ -97,11 +97,11 @@ export class Universe {
      */
     aggregate(agg) {
         /** @type {Planet} */
-        var p1 = agg[0];
+        const p1 = agg[0];
         /** @type {Planet} */
-        var p2 = agg[1];
+        const p2 = agg[1];
         /** @type {number} */
-        var m = p1.m + p2.m;
+        const m = p1.m + p2.m;
         return new Planet(this,
             m,
             (p1.x * p1.m + p2.x * p2.m) / m,

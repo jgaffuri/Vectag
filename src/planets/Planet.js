@@ -69,9 +69,9 @@ export class Planet {
      */
     d(p) {
         /** @type {number} */
-        var dx = p.x - this.x;
+        const dx = p.x - this.x;
         /** @type {number} */
-        var dy = p.y - this.y;
+        const dy = p.y - this.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
 
@@ -88,9 +88,9 @@ export class Planet {
 
         //compute acceleration
         /** @type {number} */
-        var ax = this.fx / this.m;
+        const ax = this.fx / this.m;
         /** @type {number} */
-        var ay = this.fy / this.m;
+        const ay = this.fy / this.m;
 
         //compute new speed
         this.vx += ax * this.u.timeStepMs;

@@ -28,8 +28,8 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
         //display planets
         for (let j = 0; j < uni.ps.length; j++) {
             /** @type {Planet} */
-            var p = uni.ps[j];
-            var t = p.m / (nb * mi);
+            const p = uni.ps[j];
+            const t = p.m / (nb * mi);
             ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
