@@ -1,2 +1,2 @@
-export * from "./sims/planets"
-export * from "./sims/gol"
+export * from "./planets/planets"
+export * from "./gol/gol"

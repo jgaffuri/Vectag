@@ -7,7 +7,7 @@ class Planet {
     /**
      * @constructor
      * @struct
-     * @param {Universe} u The universe the planet belongs to
+     * @param {Universe} u The universe the planet belongs to.
      * @param {number} m The mass
      * @param {number} x The x position
      * @param {number} y The y position
@@ -230,25 +230,6 @@ class Universe {
         );
     }
 
-
-    /**
-     * @param {number} nb
-     * @param {CanvasPlus} cplus
-     * @return {Universe}
-     */
-    start(nb, cplus) {
-        var i = 0;
-        var uni = this;
-        var engine = function () {
-            uni.step();
-            cplus.redraw();
-            if (nb > 0 && i++ > nb)
-                return;
-            setTimeout(engine, 0);
-        };
-        engine();
-        return this;
-    }
 }
 
 
@@ -256,7 +237,7 @@ class Universe {
 
 
 //entry point
-export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
+export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1, nbIterations = -1) {
 
     var cdiv = document.getElementById(divId);
     /** @type {number} */
@@ -297,8 +278,19 @@ export const planets = function (divId, canvasId, nb = 1000, mi = 0.5, minSpeed 
         ctx.fillText(uni.ps.length + " planets", 2, 10);
     };
 
+
+
     //start
-    uni.start(-1, cplus);
+    let i = 0;
+    var engine = function () {
+        uni.step();
+        cplus.redraw();
+        if (nbIterations > 0 && i++ > nbIterations)
+            return;
+        setTimeout(engine, 0);
+    };
+    engine();
+    return this;
 
 }
 
