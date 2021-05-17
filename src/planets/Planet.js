@@ -79,13 +79,13 @@ export class Planet {
      * @return {number} The radius of the planet, depending on its mass.
      */
     r() {
-        return Math.sqrt(this.m / Math.PI);
+        return Math.pow(this.m / Math.PI, 0.5);
     }
 
     /**
      * @param {boolean} bounce
      */
-    change(timeStepMs = 10, bounce = false) {
+    change(bounce = false, vmax = 0.8, timeStepMs = 10) {
 
         //compute acceleration
         /** @type {number} */
@@ -97,18 +97,27 @@ export class Planet {
         this.vx += ax * timeStepMs;
         this.vy += ay * timeStepMs;
 
+        //check vmax
+        if (vmax > 0) {
+            const v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (v > vmax) {
+                this.vx = vmax * this.vx / v;
+                this.vy = vmax * this.vy / v;
+            }
+        }
+
         //compute new position
         this.x += this.vx * timeStepMs;
         this.y += this.vy * timeStepMs;
 
-        //limit
-        if(bounce) {
+        //handle position limit
+        if (bounce) {
             const r = this.r();
             const e = 1;
-            if(this.x<r) { this.x=r; this.vx=-this.vx*e; }
-            if(this.y<r) { this.y=r; this.vy=-this.vy*e; }
-            if(this.x>this.u.w-r) { this.x=this.u.w-r; this.vx=-this.vx*e; }
-            if(this.y>this.u.h-r) { this.y=this.u.h-r; this.vy=-this.vy*e; }
+            if (this.x < r) { this.x = r; this.vx = -this.vx * e; }
+            if (this.y < r) { this.y = r; this.vy = -this.vy * e; }
+            if (this.x > this.u.w - r) { this.x = this.u.w - r; this.vx = -this.vx * e; }
+            if (this.y > this.u.h - r) { this.y = this.u.h - r; this.vy = -this.vy * e; }
         } else {
             if (this.x < 0) { this.x = this.u.w; }
             if (this.y < 0) { this.y = this.u.h; }

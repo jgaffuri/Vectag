@@ -2,77 +2,73 @@ import { Universe } from './Universe';
 import { Planet } from './Planet';
 import { CanvasPlus } from '../base/canvasplus';
 
-//TODO
-//bigbang start
 
-//entry point
-export const planets = function (opts = {}) {
+class PlanetSimulation {
 
-    const out = {};
-    out.divId = opts.divId || "cdiv";
-    out.canvasId = opts.canvasId || "canvas";
+    constructor(opts) {
+        opts = opts || {};
+        opts.divId = opts.divId || "cdiv";
+        opts.canvasId = opts.canvasId || "canvas";
+
+        const cdiv = document.getElementById(opts.divId);
+        /** @type {number} */
+        this.w = cdiv.offsetWidth;
+        /** @type {number} */
+        this.h = cdiv.offsetHeight;
+    
+        /** @type {Universe} */
+        this.uni = new Universe(this.w, this.h)
+    
+        /** @type {CanvasPlus} */
+        this.cplus = new CanvasPlus(opts.canvasId, this.w, this.h);
+        const ctx = this.cplus.getContext2D();
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, this.w, this.h);
+
+        const th = this;
+        this.cplus.redraw = function () {
+            //ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = "rgba(0,0,0,0.05)";
+            ctx.fillRect(0, 0, th.w, th.h);
+    
+            //display planets
+            for (let j = 0; j < th.uni.ps.length; j++) {
+                /** @type {Planet} */
+                const p = th.uni.ps[j];
+                const t = p.m / th.uni.m();
+                ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.fill();
+            }
+    
+            //label
+            ctx.fillStyle = "rgb(200,200,200)";
+            ctx.fillRect(0, 0, 65, 13);
+            ctx.fillStyle = "rgb(0,0,0)";
+            ctx.fillText(th.uni.ps.length + " planets", 2, 10);
+        };
+    
+    }
 
     //
-    //minSpeed = 0, maxSpeed
-
-    const cdiv = document.getElementById(out.divId);
-    /** @type {number} */
-    const w = cdiv.offsetWidth;
-    /** @type {number} */
-    const h = cdiv.offsetHeight;
-
-    /** @type {Universe} */
-    const uni = new Universe(w, h)
-
-    /** @type {CanvasPlus} */
-    const cplus = new CanvasPlus(out.canvasId, w, h);
-    const ctx = cplus.getContext2D();
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, w, h);
-
-    cplus.redraw = function () {
-        //ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = "rgba(0,0,0,0.05)";
-        ctx.fillRect(0, 0, w, h);
-
-        //display planets
-        for (let j = 0; j < uni.ps.length; j++) {
-            /** @type {Planet} */
-            const p = uni.ps[j];
-            const t = p.m / uni.m();
-            ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        //label
-        ctx.fillStyle = "rgb(200,200,200)";
-        ctx.fillRect(0, 0, 65, 13);
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillText(uni.ps.length + " planets", 2, 10);
-    };
-
-    
-
-
-    out.initRandom = function(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
+    initRandom(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         /** @type {Array.<Planet>} */
-        uni.ps = [];
+        this.uni.ps = [];
         for (let i = 0; i < nb; i++) {
             const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
             const angle = 2 * Math.random() * Math.PI;
-            uni.ps.push(new Planet(uni, mi, w * Math.random(), h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
+            this.uni.ps.push(new Planet(this.uni, mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle)));
         }
         return this;
     }
 
-
-    out.initBigBang = function(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
+    //
+    initBigBang(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
         /** @type {Array.<Planet>} */
-        uni.ps = [];
-        const cx = w * 0.5, cy = h * 0.5;
+        this.uni.ps = [];
+        const cx = this.w * 0.5, cy = this.h * 0.5;
         const angleStep = 2*Math.PI / nb;
         for (let i = 0; i < nb; i++) {
             const a = i * angleStep;
@@ -86,19 +82,18 @@ export const planets = function (opts = {}) {
             const aS = a + 2*(Math.random()-0.5) * 2*Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
 
-            uni.ps.push(new Planet(uni, mi, x, y, sx, sy));
+            this.uni.ps.push(new Planet(this.uni, mi, x, y, sx, sy));
         }
         return this;
     }
 
-
-
     //start
-    out.start = function(bounce = false, timeStepMs = 10, nbIterations = -1) {
+    start(bounce = false, vmax = 0.8, collisionFactor = 0.8, timeStepMs = 10, nbIterations = -1) {
         let i = 0;
+        const t = this;
         const engine = function () {
-            uni.step(timeStepMs, bounce);
-            cplus.redraw();
+            t.uni.step(bounce, vmax, collisionFactor, timeStepMs);
+            t.cplus.redraw();
             if (nbIterations > 0 && i++ > nbIterations)
                 return;
             setTimeout(engine, 0);
@@ -106,13 +101,16 @@ export const planets = function (opts = {}) {
         engine();
     }
 
-    out.stop = function() {
+    //stop
+    stop() {
         //TODO
     }
 
+}
 
-    return out;
 
+export const planets = function (opts) {
+    return new PlanetSimulation(opts)
 }
 
 
