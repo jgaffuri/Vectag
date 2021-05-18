@@ -43,7 +43,7 @@ class PlanetSimulation {
                 const t = p.m / th.uni.m();
                 this.c2d.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
                 this.c2d.beginPath();
-                this.c2d.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
+                this.c2d.arc(this.geoToPixX(p.x), this.geoToPixY(p.y), p.r() / this.ps, 0, 2 * Math.PI);
                 this.c2d.closePath();
                 this.c2d.fill();
             }

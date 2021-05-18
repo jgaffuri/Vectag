@@ -30,7 +30,7 @@ class GoLSimulation {
                 //ctx.beginPath();
                 //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
                 //ctx.fill();
-                this.c2d.fillRect(cell.x, cell.y, 1, 1);
+                this.c2d.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1/this.ps, 1/this.ps);
             }
         };
 
