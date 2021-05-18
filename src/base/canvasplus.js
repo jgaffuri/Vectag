@@ -13,7 +13,7 @@ export class CanvasPlus {
      * @param {number=} w
      * @param {number=} h
      */
-    constructor(canvasId, w, h) {
+    constructor(canvasId = "canvas", w=100, h=100) {
         /**@type {Object} */
         var cvs = document.getElementById(canvasId);
 

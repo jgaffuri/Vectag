@@ -10,18 +10,20 @@ class GoLSimulation {
 
     constructor(opts) {
         opts = opts || {};
-        opts.divId = opts.divId || "cdiv";
-        opts.canvasId = opts.canvasId || "canvas";
+        opts.divId = opts.divId || "vadiv";
 
-        const cdiv = document.getElementById(opts.divId);
+        const div = document.getElementById(opts.divId);
         /** @type {number} */
-        const w = cdiv.offsetWidth;
+        this.w = div.offsetWidth;
         /** @type {number} */
-        const h = cdiv.offsetHeight;
+        this.h = div.offsetHeight;
 
-        this.uni = new Universe(w, h);
+        //make canvas within div
+        const canvas = document.createElement("canvas");
+        canvas.id = "vacanvas"+Math.random();
+        div.appendChild(canvas)
 
-        this.cplus = new CanvasPlus(opts.canvasId, w, h);
+        this.cplus = new CanvasPlus(canvas.id, this.w, this.h);
 
         const th = this;
         this.cplus.redraw = function () {
@@ -37,6 +39,8 @@ class GoLSimulation {
                 ctx.fillRect(cell.x, cell.y, 1, 1);
             }
         };
+
+        this.uni = new Universe(this.w, this.h);
     }
 
 

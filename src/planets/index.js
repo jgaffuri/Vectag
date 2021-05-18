@@ -1,8 +1,6 @@
 import { Universe } from './Universe';
 import { CanvasPlus } from '../base/canvasplus';
 
-
-
 //TODO add restart/big bang button
 /* Button restart = new Button("Recommencer!");
  restart.addClickHandler(new ClickHandler() {
@@ -15,25 +13,25 @@ import { CanvasPlus } from '../base/canvasplus';
  });
  RootPanel.get("b").add(restart);*/
 
-
 class PlanetSimulation {
 
     constructor(opts) {
         opts = opts || {};
-        opts.divId = opts.divId || "cdiv";
-        opts.canvasId = opts.canvasId || "canvas";
+        opts.divId = opts.divId || "vadiv";
 
-        const cdiv = document.getElementById(opts.divId);
+        const div = document.getElementById(opts.divId);
         /** @type {number} */
-        this.w = cdiv.offsetWidth;
+        this.w = div.offsetWidth;
         /** @type {number} */
-        this.h = cdiv.offsetHeight;
-    
-        /** @type {Universe} */
-        this.uni = new Universe(this.w, this.h)
-    
+        this.h = div.offsetHeight;
+
+        //make canvas within div
+        const canvas = document.createElement("canvas");
+        canvas.id = "vacanvas"+Math.random();
+        div.appendChild(canvas)
+
         /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus(opts.canvasId, this.w, this.h);
+        this.cplus = new CanvasPlus(canvas.id, this.w, this.h);
         const ctx = this.cplus.getContext2D();
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, this.w, this.h);
@@ -63,6 +61,8 @@ class PlanetSimulation {
             ctx.fillText(th.uni.ps.length + " planets", 2, 10);
         };
     
+        /** @type {Universe} */
+        this.uni = new Universe(this.w, this.h)
     }
 
     //
