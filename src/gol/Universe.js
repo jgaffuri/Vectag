@@ -40,25 +40,6 @@ export class Universe {
     }
 
     /**
-     * @param {number} density
-     * @return {Universe}
-     */
-    fillRandomly(density) {
-        let i = 0;
-        /** @type {number} */
-        const nb = this.w * this.h * density;
-        while (i < nb) {
-            const x = Math.round(this.w * Math.random());
-            const y = Math.round(this.h * Math.random());
-            /** @type {Cell} */
-            const cell = this.add(x, y);
-            if (cell)
-                i++;
-        }
-        return this;
-    }
-
-    /**
      * @return {Universe}
      */
     step() {

@@ -2,6 +2,20 @@ import { Universe } from './Universe';
 import { CanvasPlus } from '../base/canvasplus';
 
 
+
+//TODO add restart/big bang button
+/* Button restart = new Button("Recommencer!");
+ restart.addClickHandler(new ClickHandler() {
+ @Override
+ public void onClick(ClickEvent event) {
+ u.fill();
+ c.getContext2d().setFillStyle(CssColor.make(0,0,0));
+ c.getContext2d().fillRect(0, 0, w, h);
+ }
+ });
+ RootPanel.get("b").add(restart);*/
+
+
 class PlanetSimulation {
 
     constructor(opts) {
@@ -111,16 +125,3 @@ class PlanetSimulation {
 export const planets = function (opts) {
     return new PlanetSimulation(opts)
 }
-
-
-         //TODO add restart/big bang button
-/* Button restart = new Button("Recommencer!");
- restart.addClickHandler(new ClickHandler() {
- @Override
- public void onClick(ClickEvent event) {
- u.fill();
- c.getContext2d().setFillStyle(CssColor.make(0,0,0));
- c.getContext2d().fillRect(0, 0, w, h);
- }
- });
- RootPanel.get("b").add(restart);*/

@@ -1,2 +1,2 @@
 export * from "./planets/index"
-export * from "./gol/gol"
+export * from "./gol/index"
