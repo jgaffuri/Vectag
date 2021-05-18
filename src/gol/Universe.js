@@ -28,13 +28,12 @@ export class Universe {
     add(x, y) {
         //find agent at location
         /**@type {string}*/
-        var id = x + "_" + y;
-        /**@type {Cell} */
-        var cell = this.populationI[id];
-        if (cell)
+        const id = x + "_" + y;
+        if (this.populationI[id])
             return null;
         //create new cell
-        cell = { x: x, y: y, nb: 0 };
+        /**@type {Cell} */
+        const cell = { x: x, y: y, nb: 0 };
         this.population.push(cell);
         this.populationI[id] = cell;
         return cell;
@@ -45,14 +44,14 @@ export class Universe {
      * @return {Universe}
      */
     fillRandomly(density) {
-        var i = 0;
+        let i = 0;
         /** @type {number} */
-        var nb = this.w * this.h * density;
+        const nb = this.w * this.h * density;
         while (i < nb) {
-            var x = Math.round(this.w * Math.random());
-            var y = Math.round(this.h * Math.random());
+            const x = Math.round(this.w * Math.random());
+            const y = Math.round(this.h * Math.random());
             /** @type {Cell} */
-            var cell = this.add(x, y);
+            const cell = this.add(x, y);
             if (cell)
                 i++;
         }
@@ -64,23 +63,23 @@ export class Universe {
      */
     step() {
         /** @type {number} */
-        var i, j;
+        let i, j;
         /** @type {Cell} */
-        var cell, cell_;
+        let cell, cell_;
         /** @type {Cell} */
-        var sur, sur_;
+        let sur, sur_;
         /** @type {string} */
-        var key;
+        let key;
 
         //populate cell surroundings
         /** @type {Object.<string, Cell>}
          * @dict */
-        var surI = {};
+        const surI = {};
         //go through list of cells
         for (i = 0; i < this.population.length; i++) {
             // +1 surrounding cells
             /** @type {Array.<Cell>} */
-            var srs = Universe.getCellSurrounding(this.population[i], this);
+            const srs = Universe.getCellSurrounding(this.population[i], this);
             for (j = 0; j < srs.length; j++) {
                 sur = srs[j];
                 key = sur.x + "_" + sur.y;
@@ -97,10 +96,10 @@ export class Universe {
         //B3/S23
         //kill cells
         /** @type {Array.<Cell>} */
-        var cellsToKeep = [];
+        const cellsToKeep = [];
         /** @type {Object.<string, Cell>}
          * @dict */
-        var cellsToKeepI = {};
+        const cellsToKeepI = {};
         for (i = 0; i < this.population.length; i++) {
             cell = this.population[i];
             key = cell.x + "_" + cell.y;
@@ -118,8 +117,7 @@ export class Universe {
 
         //create new cells
         /** @type {Array.<Cell>} */
-        var surs = objToArray(surI);
-        surI = null;
+        const surs = objToArray(surI);
         for (i = 0; i < surs.length; i++) {
             sur = surs[i];
 
@@ -146,9 +144,9 @@ export class Universe {
      * @return {Universe}
      */
     start(nb, timeoutMS, cplus) {
-        var i = 0;
-        var uni = this;
-        var engine = function () {
+        let i = 0;
+        const uni = this;
+        const engine = function () {
             //console.log(i);
             uni.step();
             cplus.redraw();
@@ -166,10 +164,10 @@ export class Universe {
      * @return {Array.<Cell>}
      */
     static getCellSurrounding(cell, uni) {
-        var x1 = cell.x === 0 ? uni.w - 1 : cell.x - 1;
-        var x2 = cell.x === uni.w - 1 ? 0 : cell.x + 1;
-        var y1 = cell.y === 0 ? uni.h - 1 : cell.y - 1;
-        var y2 = cell.y === uni.h - 1 ? 0 : cell.y + 1;
+        const x1 = cell.x === 0 ? uni.w - 1 : cell.x - 1;
+        const x2 = cell.x === uni.w - 1 ? 0 : cell.x + 1;
+        const y1 = cell.y === 0 ? uni.h - 1 : cell.y - 1;
+        const y2 = cell.y === uni.h - 1 ? 0 : cell.y + 1;
         return [
             { x: x1, y: y1 },
             { x: x1, y: cell.y },

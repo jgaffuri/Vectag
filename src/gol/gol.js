@@ -8,23 +8,23 @@ import { Universe } from './Universe';
 //entry point
 export const gameOfLife = function (divId, canvasId) {
 
-    var cdiv = document.getElementById(divId);
+    const cdiv = document.getElementById(divId);
     /** @type {number} */
-    var w = cdiv.offsetWidth;
+    const w = cdiv.offsetWidth;
     /** @type {number} */
-    var h = cdiv.offsetHeight;
+    const h = cdiv.offsetHeight;
 
-    var uni = new Universe(w, h).fillRandomly(0.05);
+    const uni = new Universe(w, h).fillRandomly(0.05);
     //var uni = new Universe(500, 300).fillRandomly(0.05);
 
-    var cplus = new CanvasPlus(canvasId, w, h);
+    const cplus = new CanvasPlus(canvasId, w, h);
     cplus.redraw = function () {
-        var ctx = this.getContext2D();
+        const ctx = this.getContext2D();
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.fillStyle = "#0000FF";
-        for (var i = 0; i < uni.population.length; i++) {
+        for (let i = 0; i < uni.population.length; i++) {
             /** @type {Cell} */
-            var cell = uni.population[i];
+            const cell = uni.population[i];
             //ctx.beginPath();
             //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
             //ctx.fill();
