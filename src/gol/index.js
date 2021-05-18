@@ -18,25 +18,19 @@ class GoLSimulation {
         /** @type {number} */
         this.h = div.offsetHeight;
 
-        //make canvas within div
-        const canvas = document.createElement("canvas");
-        canvas.id = "vacanvas"+Math.random();
-        div.appendChild(canvas)
-
-        this.cplus = new CanvasPlus(canvas.id, this.w, this.h);
+        this.cplus = new CanvasPlus(opts.divId, "vacanvas");
 
         const th = this;
         this.cplus.redraw = function () {
-            const ctx = this.getContext2D();
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            ctx.fillStyle = "#0000FF";
+            this.c2d.clearRect(0, 0, th.w, th.h);
+            this.c2d.fillStyle = "#0000FF";
             for (let i = 0; i < th.uni.population.length; i++) {
                 /** @type {Cell} */
                 const cell = th.uni.population[i];
                 //ctx.beginPath();
                 //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
                 //ctx.fill();
-                ctx.fillRect(cell.x, cell.y, 1, 1);
+                this.c2d.fillRect(cell.x, cell.y, 1, 1);
             }
         };
 

@@ -29,8 +29,7 @@ export class Universe {
         //find agent at location
         /**@type {string}*/
         const id = x + "_" + y;
-        if (this.populationI[id])
-            return null;
+        if (this.populationI[id]) return null;
         //create new cell
         /**@type {Cell} */
         const cell = { x: x, y: y, nb: 0 };
@@ -85,11 +84,9 @@ export class Universe {
             cell = this.population[i];
             key = cell.x + "_" + cell.y;
             cell_ = surI[key];
-            if (!cell_)
-                continue;
+            if (!cell_) continue;
             //if (nb<2 or nb>3) -> kill
-            if (cell_.nb < 2 || cell_.nb > 3)
-                continue;
+            if (cell_.nb < 2 || cell_.nb > 3) continue;
             cellsToKeep.push(cell);
             cellsToKeepI[key] = cell;
         }
@@ -102,14 +99,12 @@ export class Universe {
         for (i = 0; i < surs.length; i++) {
             sur = surs[i];
 
-            if (sur.nb !== 3)
-                continue;
+            if (sur.nb !== 3) continue;
 
             //check if already alive
             key = sur.x + "_" + sur.y;
             cell = this.populationI[key];
-            if (cell)
-                continue;
+            if (cell) continue;
 
             //create new cell
             this.population.push(sur);
@@ -117,6 +112,7 @@ export class Universe {
         }
         return this;
     }
+
 
     /**
      * @param {number} nb
@@ -131,8 +127,7 @@ export class Universe {
             //console.log(i);
             uni.step();
             cplus.redraw();
-            if (nb > 0 && i++ > nb)
-                return;
+            if (nb > 0 && i++ > nb) return;
             setTimeout(engine, timeoutMS);
         };
         engine();

@@ -9,20 +9,27 @@ export class CanvasPlus {
     /**
      * @constructor
      * @struct
-     * @param {string} canvasId
+     * @param {string} divId
      * @param {number=} w
      * @param {number=} h
      */
-    constructor(canvasId = "canvas", w=100, h=100) {
-        /**@type {Object} */
-        var cvs = document.getElementById(canvasId);
+    constructor(divId = "vadiv", canvasId = "vacanvas") {
+
+        const div = document.getElementById(divId);
+        /** @type {number} */
+        this.w = div.offsetWidth;
+        /** @type {number} */
+        this.h = div.offsetHeight;
+
+        //make canvas within div
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = canvasId;
+        this.canvas.width = this.w;
+        this.canvas.height = this.h;
+        div.appendChild(this.canvas)
 
         /**@type {Object} */
-        var ctx = cvs.getContext("2d");
-        if (w) ctx.canvas.width = w;
-        if (h) ctx.canvas.height = h;
-        /**@return {Object} */
-        this.getContext2D = function () { return ctx; };
+        this.c2d = this.canvas.getContext("2d");
     }
 
 
@@ -69,7 +76,7 @@ export class CanvasPlus {
     canvasClickPosition(elt, e) {
         if (e.offsetX && e.offsetY)
             return { x: e.offsetX, y: e.offsetY };
-        var tX = 0, tY = 0;
+        const tX = 0, tY = 0;
         do {
             tX += elt.offsetLeft - elt.scrollLeft;
             tY += elt.offsetTop - elt.scrollTop;

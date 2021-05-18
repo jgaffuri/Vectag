@@ -25,40 +25,34 @@ class PlanetSimulation {
         /** @type {number} */
         this.h = div.offsetHeight;
 
-        //make canvas within div
-        const canvas = document.createElement("canvas");
-        canvas.id = "vacanvas"+Math.random();
-        div.appendChild(canvas)
-
         /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus(canvas.id, this.w, this.h);
-        const ctx = this.cplus.getContext2D();
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, this.w, this.h);
+        this.cplus = new CanvasPlus(opts.divId, "vacanvas");
+        this.cplus.c2d.fillStyle = "black";
+        this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
         const th = this;
         this.cplus.redraw = function () {
             //ctx.clearRect(0, 0, w, h);
-            ctx.fillStyle = "rgba(0,0,0,0.05)";
-            ctx.fillRect(0, 0, th.w, th.h);
+            this.c2d.fillStyle = "rgba(0,0,0,0.05)";
+            this.c2d.fillRect(0, 0, th.w, th.h);
     
             //display planets
             for (let j = 0; j < th.uni.ps.length; j++) {
                 /** @type {Planet} */
                 const p = th.uni.ps[j];
                 const t = p.m / th.uni.m();
-                ctx.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
-                ctx.closePath();
-                ctx.fill();
+                this.c2d.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
+                this.c2d.beginPath();
+                this.c2d.arc(p.x, p.y, p.r(), 0, 2 * Math.PI);
+                this.c2d.closePath();
+                this.c2d.fill();
             }
     
             //label
-            ctx.fillStyle = "rgb(200,200,200)";
-            ctx.fillRect(0, 0, 65, 13);
-            ctx.fillStyle = "rgb(0,0,0)";
-            ctx.fillText(th.uni.ps.length + " planets", 2, 10);
+            this.c2d.fillStyle = "rgb(200,200,200)";
+            this.c2d.fillRect(0, 0, 65, 13);
+            this.c2d.fillStyle = "rgb(0,0,0)";
+            this.c2d.fillText(th.uni.ps.length + " planets", 2, 10);
         };
     
         /** @type {Universe} */
