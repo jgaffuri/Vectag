@@ -23,10 +23,46 @@ class FishSimulation {
 
         };
 
+
+        /*/mouse listeners
+        c.addMouseOverHandler(new MouseOverHandler() {
+            @Override
+            public void onMouseOver(MouseOverEvent e) {
+                s.shark=new double[]{e.getX(),e.getY(),0};
+            }
+        });
+        c.addMouseMoveHandler(new MouseMoveHandler() {
+            @Override
+            public void onMouseMove(MouseMoveEvent e) {
+                double a=Math.atan2(e.getY()-s.shark[1],e.getX()-s.shark[0]);
+                s.shark=new double[]{e.getX(),e.getY(),a};
+            }
+        });
+        c.addMouseOutHandler(new MouseOutHandler() {
+            @Override
+            public void onMouseOut(MouseOutEvent e) {
+                s.shark=null;
+            }
+        });*/
+
+
+
         /** @type {Sea} */
         this.sea = new Sea(this.cplus.canvas, this.w, this.h)
 
     }
+
+    start() {
+        const t = this;
+        const engine = function () {
+            t.sea.run();
+            setTimeout(engine, 0);
+        };
+        engine();
+
+    }
+
+
 }
 
 export const fish = function (opts) {
