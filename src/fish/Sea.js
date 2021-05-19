@@ -1,21 +1,7 @@
+import { Grid } from '../base/grid';
+import { Sardin } from './Sardin';
+
 export class Sea {
-
-    static timeStepMs = 10;
-
-    static backColor = "rgba(120,120,255,0.6)";
-
-    static sardinWidth = 2;
-    static sardinLength = 7;
-    static sharkColor = "black";
-    static sharkWidth = 4;
-    static sharkLength = 12;
-
-    static D_SHARK_EAT = 12;
-    static bloodColor = "red";
-    static EATEN_SARDIN_NB = 0;
-
-	static fishView = true;
-	static fishHalo = true;
 
     constructor(c2, nb, w, h) {
         this.c2 = c2
@@ -30,6 +16,26 @@ export class Sea {
         //TODO move to init method
         for (let i = 0; i < nb; i++)
             this.fish.push(new Sardin(this));
+
+
+        this.timeStepMs = 10
+
+        this.backColor = "rgba(120,120,255,0.6)"
+
+        this.sardinWidth = 2
+        this.sardinLength = 7
+        this.sharkColor = "black"
+        this.sharkWidth = 4
+        this.sharkLength = 12
+
+        this.D_SHARK_EAT = 12
+        this.bloodColor = "red"
+        this.EATEN_SARDIN_NB = 0
+
+        this.fishView = true
+        this.fishHalo = true
+
+
     }
 
 

@@ -1,16 +1,5 @@
 export class Sardin {
 
-    //observation
-    static D_OBS = 50
-    static A_OBS = 200 * Math.PI / 180
-
-    //collision
-    static D_COL = 10
-
-    //speed
-    static V_TARGET = 0.3
-    static V_MAX = 0.6
-
     /*
         Sea sea;
         x,y position, in pix
@@ -18,7 +7,19 @@ export class Sardin {
         v, va speed angle (in -Pi,Pi) and norm
         ax, ay acceleration, in pix per s2
         */
-    constructor(sea, x, y, vx, vy) {
+    constructor(sea, x = sea.w * Math.random(), y = sea.h * Math.random(), vx = 0, vy = 0) {
+
+        //observation
+        this.D_OBS = 50
+        this.A_OBS = 200 * Math.PI / 180
+
+        //collision
+        this.D_COL = 10
+
+        //speed
+        this.V_TARGET = 0.3
+        this.V_MAX = 0.6
+
 
         this.sea = sea;
 
@@ -29,9 +30,9 @@ export class Sardin {
         //speed
         if (vx == undefined && vy == undefined) {
             this.va = Math.random() * 2 * Math.PI - Math.PI;
-            this.v = Math.random() * V_MAX;
-            this.vx = v * Math.cos(va);
-            this.vy = v * Math.sin(va);
+            this.v = Math.random() * this.V_MAX;
+            this.vx = this.v * Math.cos(this.va);
+            this.vy = this.v * Math.sin(this.va);
         } else {
             this.vx = vx;
             this.vy = vy;
@@ -44,6 +45,8 @@ export class Sardin {
         this.ay = 0
 
         //add to spatial index
+
+        console.log(this, this.x, this.y)
         sea.grid.add(this, this.x, this.y)
 
         //list of sardins in vision field
@@ -62,7 +65,7 @@ export class Sardin {
         col.clear();
 
         //get sardins around using spatial index
-        const ss = sea.grid.get(x - D_OBS, y - D_OBS, x + D_OBS, y + D_OBS);
+        const ss = sea.grid.get(x - this.D_OBS, y - this.D_OBS, x + this.D_OBS, y + this.D_OBS);
 
         //get sardins in observation and collision fields
         for (let s of ss) {
@@ -74,7 +77,7 @@ export class Sardin {
                 if (da > Math.PI) da -= 2 * Math.PI;
                 else if (da <= -Math.PI) da += 2 * Math.PI;
                 da = Math.abs(da);
-                if (da > A_OBS * 0.5) continue;
+                if (da > this.A_OBS * 0.5) continue;
                 obs.add(s);
             }
         }
@@ -85,13 +88,13 @@ export class Sardin {
         //collision: repulsion
         for (let s of col) {
             const d = d(s);
-            const a = 1.0 * (1 / (d * d) - 1 / (D_COL * D_COL));
+            const a = 1.0 * (1 / (d * d) - 1 / (this.D_COL * this.D_COL));
             this.ax += a * (x - s.x) / d;
             this.ay += a * (y - s.y) / d;
         }
 
         // toward v target
-        const dv = (V_TARGET - v) * 0.01;
+        const dv = (this.V_TARGET - v) * 0.01;
         this.ax += dv * vx / v;
         this.ay += dv * vy / v;
 
@@ -150,9 +153,9 @@ export class Sardin {
         this.v = Math.hypot(vx, vy);
         this.va = Math.atan2(vy, vx);
         if (v > V_MAX) {
-            this.v = V_MAX;
-            this.vx = V_MAX * Math.cos(va);
-            this.vy = V_MAX * Math.sin(va);
+            this.v = this.V_MAX;
+            this.vx = this.V_MAX * Math.cos(va);
+            this.vy = this.V_MAX * Math.sin(va);
         }
 
         //compute new position
