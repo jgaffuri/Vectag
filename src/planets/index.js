@@ -32,7 +32,8 @@ class PlanetSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
-            //ctx.clearRect(0, 0, w, h);
+
+            //clear, with transparency
             this.c2d.fillStyle = "rgba(0,0,0,0.05)";
             this.c2d.fillRect(0, 0, th.w, th.h);
     
@@ -53,6 +54,12 @@ class PlanetSimulation {
             this.c2d.fillRect(0, 0, 65, 13);
             this.c2d.fillStyle = "rgb(0,0,0)";
             this.c2d.fillText(th.uni.ps.length + " planets", 2, 10);
+
+            //frame
+            this.c2d.strokeStyle = "darkgray";
+            this.c2d.beginPath();
+            this.c2d.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            this.c2d.stroke();
         };
     
         /** @type {Universe} */
