@@ -48,7 +48,7 @@ class FishSimulation {
 
 
         /** @type {Sea} */
-        this.sea = new Sea(this.cplus.canvas, this.w, this.h)
+        this.sea = new Sea(this.cplus.canvas, this.w, this.h, 300)
 
     }
 

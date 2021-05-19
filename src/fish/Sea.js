@@ -26,6 +26,8 @@ export class Sea {
         this.shark = null;
 
         this.fish = []
+
+        //TODO move to init method
         for (let i = 0; i < nb; i++)
             this.fish.push(new Sardin(this));
     }
