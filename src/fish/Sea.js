@@ -14,6 +14,8 @@ export class Sea {
     static bloodColor = "red";
     static EATEN_SARDIN_NB = 0;
 
+	static fishView = true;
+	static fishHalo = true;
 
     constructor(c2, nb, w, h) {
         this.c2 = c2
@@ -46,7 +48,6 @@ export class Sea {
         //display
 
         //clear
-        //c2.clearRect(0, 0, w, h);
         c2.setFillStyle(backColor);
         c2.fillRect(0, 0, w, h);
 
@@ -67,7 +68,7 @@ export class Sea {
 
         //display halos
         //vision
-        if (fishView.getValue()) {
+        if (fishView) {
             c2.setFillStyle(CssColor.make("rgba(255,255,255,0.3)"));
             c2.setLineWidth(1);
             for (let sa of fish) {
@@ -90,7 +91,7 @@ export class Sea {
             }
         }
         //collision
-        if (fishHalo.getValue()) {
+        if (fishHalo) {
             c2.setLineWidth(1);
             c2.setStrokeStyle(CssColor.make(255, 0, 0));
             for (let sa of fish) {
@@ -123,28 +124,29 @@ export class Sea {
     }
 
     sharkEat() {
-        ArrayList < Sardin > killed = new ArrayList<Sardin>();
+        const killed = [];
         if (shark == null) return killed;
-        double x = shark[0], y = shark[1];
-        ArrayList < Sardin > ss = grid.get(x - D_SHARK_EAT, y - D_SHARK_EAT, x + D_SHARK_EAT, y + D_SHARK_EAT);
-        for (Sardin s: ss) {
-            double d = Math.hypot((x - s.x), (y - s.y));
+
+        const x = shark[0], y = shark[1];
+        const ss = grid.get(x - D_SHARK_EAT, y - D_SHARK_EAT, x + D_SHARK_EAT, y + D_SHARK_EAT);
+        for (let s of ss) {
+            const d = Math.hypot((x - s.x), (y - s.y));
             if (d > D_SHARK_EAT) continue;
-            killed.add(s);
+            killed.push(s);
             fish.remove(s);
             grid.remove(s, s.x, s.y);
         }
         EATEN_SARDIN_NB += killed.size();
-        eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
+        //eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
         return killed;
     }
 
-    private void display(Sardin sa) {
-        int c = (int)(255 * Math.abs(sa.va) / Math.PI);
-        c2.setStrokeStyle(CssColor.make(255, 255, c));
-        double a = sardinLength / sa.v;
-        double dx = a * sa.vx * 0.5;
-        double dy = a * sa.vy * 0.5;
+    display(sa) {
+        const c = (int)(255 * Math.abs(sa.va) / Math.PI);
+        this.c2.setStrokeStyle(CssColor.make(255, 255, c));
+        const a = sardinLength / sa.v;
+        const dx = a * sa.vx * 0.5;
+        const dy = a * sa.vy * 0.5;
 
         c2.beginPath();
         c2.moveTo(sa.x - dx, sa.y - dy);
@@ -152,6 +154,5 @@ export class Sea {
         c2.closePath();
         c2.stroke();
     }
-
 
 }

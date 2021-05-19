@@ -20,10 +20,11 @@ class FishSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
+
         };
-    
+
         /** @type {Sea} */
-        this.sea = new Sea(this.w, this.h)
+        this.sea = new Sea(this.cplus.canvas, this.w, this.h)
 
     }
 }
