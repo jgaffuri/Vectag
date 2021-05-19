@@ -4,11 +4,26 @@ import { Sardin } from './Sardin';
 export class Sea {
 
     constructor(c2, nb, w, h) {
+
+        //observation
+        this.D_OBS = 50
+        this.A_OBS = 200 * Math.PI / 180
+
+        //collision
+        this.D_COL = 10
+
+        //speed
+        this.V_TARGET = 0.3
+        this.V_MAX = 0.6
+
+
+
+
         this.c2 = c2
 
         this.w = w;
         this.h = h;
-        this.grid = new Grid(w, h, Sardin.D_OBS);
+        this.grid = new Grid(w, h, this.D_OBS);
         this.shark = null;
 
         this.fish = []

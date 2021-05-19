@@ -7,19 +7,7 @@ export class Sardin {
         v, va speed angle (in -Pi,Pi) and norm
         ax, ay acceleration, in pix per s2
         */
-    constructor(sea, x = sea.w * Math.random(), y = sea.h * Math.random(), vx = 0, vy = 0) {
-
-        //observation
-        this.D_OBS = 50
-        this.A_OBS = 200 * Math.PI / 180
-
-        //collision
-        this.D_COL = 10
-
-        //speed
-        this.V_TARGET = 0.3
-        this.V_MAX = 0.6
-
+    constructor(sea, x = sea.w * Math.random(), y = sea.h * Math.random(), vx = undefined, vy = undefined) {
 
         this.sea = sea;
 
@@ -28,7 +16,7 @@ export class Sardin {
         this.y = y < 0 ? 0 : y > sea.h ? sea.h : y
 
         //speed
-        if (vx == undefined && vy == undefined) {
+        if (!vx && !vy) {
             this.va = Math.random() * 2 * Math.PI - Math.PI;
             this.v = Math.random() * this.V_MAX;
             this.vx = this.v * Math.cos(this.va);
@@ -45,8 +33,6 @@ export class Sardin {
         this.ay = 0
 
         //add to spatial index
-
-        console.log(this, this.x, this.y)
         sea.grid.add(this, this.x, this.y)
 
         //list of sardins in vision field
@@ -61,24 +47,24 @@ export class Sardin {
     observe() {
 
         //initialise lists
-        obs.clear();
-        col.clear();
+        this.obs = [];
+        this.col = [];
 
         //get sardins around using spatial index
-        const ss = sea.grid.get(x - this.D_OBS, y - this.D_OBS, x + this.D_OBS, y + this.D_OBS);
+        const ss = this.sea.grid.get(this.x - this.sea.D_OBS, this.y - this.sea.D_OBS, this.x + this.sea.D_OBS, this.y + this.sea.D_OBS);
 
         //get sardins in observation and collision fields
         for (let s of ss) {
             if (s == this) continue;
-            if (d(s) <= D_COL) col.add(s);
-            if (d(s) <= D_OBS) {
+            if (this.d(s) <= this.sea.D_COL) this.col.push(s);
+            if (this.d(s) <= this.sea.D_OBS) {
                 //check angle
-                let da = Math.atan2(s.y - y, s.x - x) - va;
+                let da = Math.atan2(s.y - this.y, s.x - this.x) - this.va;
                 if (da > Math.PI) da -= 2 * Math.PI;
                 else if (da <= -Math.PI) da += 2 * Math.PI;
                 da = Math.abs(da);
-                if (da > this.A_OBS * 0.5) continue;
-                obs.add(s);
+                if (da > this.sea.A_OBS * 0.5) continue;
+                this.obs.push(s);
             }
         }
 
@@ -86,17 +72,17 @@ export class Sardin {
         this.ax = 0; this.ay = 0;
 
         //collision: repulsion
-        for (let s of col) {
-            const d = d(s);
-            const a = 1.0 * (1 / (d * d) - 1 / (this.D_COL * this.D_COL));
-            this.ax += a * (x - s.x) / d;
-            this.ay += a * (y - s.y) / d;
+        for (let s of this.col) {
+            const d = this.d(s);
+            const a = 1.0 * (1 / (d * d) - 1 / (this.sea.D_COL * this.sea.D_COL));
+            this.ax += a * (this.x - s.x) / d;
+            this.ay += a * (this.y - s.y) / d;
         }
 
         // toward v target
-        const dv = (this.V_TARGET - v) * 0.01;
-        this.ax += dv * vx / v;
-        this.ay += dv * vy / v;
+        const dv = (this.sea.V_TARGET - this.v) * 0.01;
+        this.ax += dv * this.vx / this.v;
+        this.ay += dv * this.vy / this.v;
 
         //toward the observed mean position
         /*if(obs.size()>1){
@@ -114,14 +100,14 @@ export class Sardin {
 
         //toward the observed speed
         const t = 0.9;
-        if (obs.size() > 1) {
+        if (this.obs.length > 1) {
             let dvx = 0, dvy = 0;
-            for (let s of obs) {
+            for (let s of this.obs) {
                 dvx += s.vx;
                 dvy += s.vy;
             }
-            dvx = (t - 1) * vx + (1 - t) * dvx / obs.size();
-            dvy = (t - 1) * vy + (1 - t) * dvy / obs.size();
+            dvx = (t - 1) * this.vx + (1 - t) * dvx / this.obs.length;
+            dvy = (t - 1) * this.vy + (1 - t) * dvy / this.obs.length;
 
             const a = 0.1;
             this.ax += a * dvx;
@@ -129,13 +115,13 @@ export class Sardin {
         }
 
         //avoid shark
-        if (sea.shark != null) {
-            const s = sea.shark;
-            const d = Math.hypot((s[0] - x), (s[1] - y));
-            if (d <= D_OBS) {
-                const a = 5.0 * (1 / (d * d) - 1 / (D_OBS * D_OBS));
-                this.ax += a * (x - s[0]) / d;
-                this.ay += a * (y - s[1]) / d;
+        if ( this.sea.shark != null) {
+            const s =  this.sea.shark;
+            const d = Math.hypot((s[0] -  this.x), (s[1] -  this.y));
+            if (d <= this.sea.D_OBS) {
+                const a = 5.0 * (1 / (d * d) - 1 / (this.sea.D_OBS * this.sea.D_OBS));
+                this.ax += a * ( this.x - s[0]) / d;
+                this.ay += a * ( this.y - s[1]) / d;
             }
         }
 
@@ -145,30 +131,32 @@ export class Sardin {
 
     /** */
     move() {
-        sea.grid.remove(this, this.x, this.y);
+        this.sea.grid.remove(this, this.x, this.y);
 
         //compute new speed
-        this.vx += ax * sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
-        this.vy += ay * sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
-        this.v = Math.hypot(vx, vy);
-        this.va = Math.atan2(vy, vx);
-        if (v > V_MAX) {
-            this.v = this.V_MAX;
-            this.vx = this.V_MAX * Math.cos(va);
-            this.vy = this.V_MAX * Math.sin(va);
+        this.vx += this.ax * this.sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
+        this.vy += this.ay * this.sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
+        this.v = Math.hypot(this.vx, this.vy);
+        this.va = Math.atan2(this.vy, this.vx);
+        if (this.v > this.sea.V_MAX) {
+            this.v = this.sea.V_MAX;
+            this.vx = this.sea.V_MAX * Math.cos(this.va);
+            this.vy = this.sea.V_MAX * Math.sin(this.va);
         }
 
         //compute new position
-        this.x += vx * sea.timeStepMs;
-        this.y += vy * sea.timeStepMs;
+        this.x += this.vx * this.sea.timeStepMs;
+        this.y += this.vy * this.sea.timeStepMs;
 
         //limit
-        if (x < 0) x = sea.w;
-        if (y < 0) y = sea.h;
-        if (x > sea.w) x = 0;
-        if (y > sea.h) y = 0;
+        if (this.x < 0) this.x = this.sea.w;
+        if (this.y < 0) this.y = this.sea.h;
+        if (this.x > this.sea.w) this.x = 0;
+        if (this.y > this.sea.h) this.y = 0;
 
-        sea.grid.add(this, this.x, this.y);
+        //TODO use move?
+        console.log(this)
+        this.sea.grid.add(this, this.x, this.y);
     }
 
 
