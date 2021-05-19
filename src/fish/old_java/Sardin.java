@@ -49,6 +49,10 @@ public class Sardin {
 		sea.grid.add(this, this.x, this.y);
 	}
 
+
+
+
+
 	ArrayList<Sardin> obs = new ArrayList<Sardin>();
 	ArrayList<Sardin> col = new ArrayList<Sardin>();
 	public void observe() {

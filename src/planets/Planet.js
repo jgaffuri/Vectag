@@ -31,7 +31,6 @@ export class Planet {
         this.vx = vx;
         /** @type {number} */
         this.vy = vy;
-
     }
 
     /**
