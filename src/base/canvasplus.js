@@ -36,18 +36,19 @@ export class CanvasPlus {
         // zoom factor: pixel size, in m/pix
         this.ps = ps;
 
-        //click element
-        //TODO drag and drop
-        this.canvas.onclick = e => {
-            this.pan(this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY))
-        };
+        //mouse click - pan
+        let mpan = false
+        this.canvas.addEventListener("mousedown", e => { mpan = true });
+        this.canvas.addEventListener("mousemove", e => {
+            if (mpan) this.pan(-e.movementX * this.ps, e.movementY * this.ps)
+        });
+        this.canvas.addEventListener("mouseup", e => { mpan = false });
 
-        //mouse wheel
+        //mouse wheel - zoom
+        const f = 1.5
         this.canvas.addEventListener("wheel", e => {
-            //console.log(e.deltaY, e.offsetX, e.offsetY)
-            let f = 1.5
-            if (e.deltaY < 0) f = 1 / f;
-            this.zoom(e.offsetX, e.offsetY, f)
+            const f_ = e.deltaY > 0 ? f : 1 / f;
+            this.zoom(f_, this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY))
         });
 
     }
@@ -68,8 +69,9 @@ export class CanvasPlus {
      * @param {number} x
      * @param {number} y
      */
-    pan(x, y) {
-        this.center = { "x": x, "y": y };
+    pan(dxGeo, dyGeo) {
+        this.center.x += dxGeo;
+        this.center.y += dyGeo;
         this.redraw();
     }
 
@@ -78,9 +80,10 @@ export class CanvasPlus {
      * @param {number} y
      * @param {number} f
      */
-    zoom(x, y, f) {
-        //TODO zoom to mouse position
+    zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
         this.ps *= f;
+        this.center.x += (xGeo-this.center.x)*(1-f)
+        this.center.y += (yGeo-this.center.y)*(1-f)
         this.redraw();
     }
 

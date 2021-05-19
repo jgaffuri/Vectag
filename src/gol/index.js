@@ -32,6 +32,7 @@ class GoLSimulation {
                 //ctx.fill();
                 this.c2d.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1/this.ps, 1/this.ps);
             }
+            //this.c2d.drawRect(0, 0, th.w, th.h);
         };
 
         this.uni = new Universe(this.w, this.h);
