@@ -32,36 +32,35 @@ class PlanetSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
+            const c2 = this.c2d
 
             //clear, with transparency
-            this.c2d.fillStyle = "rgba(0,0,0,0.05)";
-            this.c2d.fillRect(0, 0, th.w, th.h);
-    
+            c2.fillStyle = "rgba(0,0,0,0.05)";
+            c2.fillRect(0, 0, th.w, th.h);
+
             //display planets
-            for (let j = 0; j < th.uni.ps.length; j++) {
-                /** @type {Planet} */
-                const p = th.uni.ps[j];
+            for (let p of th.uni.ps) {
                 const t = p.m / th.uni.m();
-                this.c2d.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
-                this.c2d.beginPath();
-                this.c2d.arc(this.geoToPixX(p.x), this.geoToPixY(p.y), p.r() / this.ps, 0, 2 * Math.PI);
-                this.c2d.closePath();
-                this.c2d.fill();
+                c2.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
+                c2.beginPath();
+                c2.arc(this.geoToPixX(p.x), this.geoToPixY(p.y), p.r() / this.ps, 0, 2 * Math.PI);
+                c2.closePath();
+                c2.fill();
             }
-    
+
             //label
-            this.c2d.fillStyle = "rgb(200,200,200)";
-            this.c2d.fillRect(0, 0, 65, 13);
-            this.c2d.fillStyle = "rgb(0,0,0)";
-            this.c2d.fillText(th.uni.ps.length + " planets", 2, 10);
+            c2.fillStyle = "rgb(200,200,200)";
+            c2.fillRect(0, 0, 65, 13);
+            c2.fillStyle = "rgb(0,0,0)";
+            c2.fillText(th.uni.ps.length + " planets", 2, 10);
 
             //frame
-            this.c2d.strokeStyle = "darkgray";
-            this.c2d.beginPath();
-            this.c2d.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
-            this.c2d.stroke();
+            c2.strokeStyle = "darkgray";
+            c2.beginPath();
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.stroke();
         };
-    
+
         /** @type {Universe} */
         this.uni = new Universe(this.w, this.h)
     }
@@ -83,7 +82,7 @@ class PlanetSimulation {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
         const cx = this.w * 0.5, cy = this.h * 0.5;
-        const angleStep = 2*Math.PI / nb;
+        const angleStep = 2 * Math.PI / nb;
         for (let i = 0; i < nb; i++) {
             const a = i * angleStep;
 
@@ -93,7 +92,7 @@ class PlanetSimulation {
 
             //speed
             const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const aS = a + 2*(Math.random()-0.5) * 2*Math.PI / 3;
+            const aS = a + 2 * (Math.random() - 0.5) * 2 * Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
 
             this.uni.createPlanet(mi, x, y, sx, sy);
