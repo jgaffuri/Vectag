@@ -22,26 +22,22 @@ class GoLSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
+            const c2 = this.c2d
 
             //clear
-            this.c2d.clearRect(0, 0, th.w, th.h);
-            this.c2d.fillStyle = "#0000FF";
+            c2.fillStyle = "white";
+            c2.fillRect(0, 0, th.w, th.h);
 
             //draw cells
-            for (let i = 0; i < th.uni.population.length; i++) {
-                /** @type {Cell} */
-                const cell = th.uni.population[i];
-                //ctx.beginPath();
-                //ctx.arc(cell.x,cell.y,1,0,2*Math.PI);
-                //ctx.fill();
-                this.c2d.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1 / this.ps, 1 / this.ps);
-            }
+            c2.fillStyle = "blue";
+            for (let cell of th.uni.population)
+                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1 / this.ps, 1 / this.ps);
 
             //frame
-            this.c2d.strokeStyle = "lightgray";
-            this.c2d.beginPath();
-            this.c2d.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
-            this.c2d.stroke();
+            c2.strokeStyle = "lightgray";
+            c2.beginPath();
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.stroke();
         };
 
         this.uni = new Universe(this.w, this.h);

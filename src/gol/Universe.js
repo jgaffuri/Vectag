@@ -42,28 +42,19 @@ export class Universe {
      * @return {Universe}
      */
     step() {
-        /** @type {number} */
-        let i, j;
-        /** @type {Cell} */
-        let cell, cell_;
-        /** @type {Cell} */
-        let sur, sur_;
-        /** @type {string} */
-        let key;
 
+        //TODO double indexing? by raw and then column ?
         //populate cell surroundings
         /** @type {Object.<string, Cell>}
          * @dict */
         const surI = {};
         //go through list of cells
-        for (i = 0; i < this.population.length; i++) {
+        for (let cell of this.population) {
             // +1 surrounding cells
-            /** @type {Array.<Cell>} */
-            const srs = Universe.getCellSurrounding(this.population[i], this);
-            for (j = 0; j < srs.length; j++) {
-                sur = srs[j];
-                key = sur.x + "_" + sur.y;
-                sur_ = surI[key];
+            const srs = Universe.getCellSurrounding(cell, this);
+            for (let sur of srs) {
+                const key = sur.x + "_" + sur.y;
+                const sur_ = surI[key];
                 if (sur_) {
                     sur_.nb++;
                 } else {
@@ -80,10 +71,9 @@ export class Universe {
         /** @type {Object.<string, Cell>}
          * @dict */
         const cellsToKeepI = {};
-        for (i = 0; i < this.population.length; i++) {
-            cell = this.population[i];
-            key = cell.x + "_" + cell.y;
-            cell_ = surI[key];
+        for (let cell of this.population) {
+            const key = cell.x + "_" + cell.y;
+            const cell_ = surI[key];
             if (!cell_) continue;
             //if (nb<2 or nb>3) -> kill
             if (cell_.nb < 2 || cell_.nb > 3) continue;
@@ -96,14 +86,13 @@ export class Universe {
         //create new cells
         /** @type {Array.<Cell>} */
         const surs = objToArray(surI);
-        for (i = 0; i < surs.length; i++) {
-            sur = surs[i];
+        for (let sur of surs) {
 
             if (sur.nb !== 3) continue;
 
             //check if already alive
-            key = sur.x + "_" + sur.y;
-            cell = this.populationI[key];
+            const key = sur.x + "_" + sur.y;
+            let cell = this.populationI[key];
             if (cell) continue;
 
             //create new cell
