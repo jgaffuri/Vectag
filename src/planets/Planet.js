@@ -44,9 +44,7 @@ export class Planet {
         this.fy = 0;
 
         //check all other planets in the universe
-        for (let i = 0; i < this.u.ps.length; i++) {
-            /** @type {Planet} */
-            const p = this.u.ps[i];
+        for (let p of this.u.ps) {
             if (this == p)
                 continue;
 

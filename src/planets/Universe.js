@@ -4,13 +4,13 @@ import { Planet } from './Planet';
 
 export class Universe {
 
-/**
- * @constructor
- * @struct
- * @param {number} w
- * @param {number} h
- */
-    constructor(w, h, gres = Math.min(w,h)/100.0) {
+    /**
+     * @constructor
+     * @struct
+     * @param {number} w
+     * @param {number} h
+     */
+    constructor(w, h, gres = Math.min(w, h) / 100.0) {
         /** @type {number} */
         this.w = w;
         /** @type {number} */
@@ -28,8 +28,8 @@ export class Universe {
      */
     m() {
         let m = 0;
-        for (let i = 0; i < this.ps.length; i++)
-            m += this.ps[i].m;
+        for (let p of this.ps)
+            m += p.m;
         return m;
     }
 
@@ -89,17 +89,15 @@ export class Universe {
      * @return {Array.<Planet>}
      */
     findCollision(collisionFactor = 1) {
-        for (let i = 0; i < this.ps.length; i++) {
-            /** @type {Planet} */
-            const pi = this.ps[i];
-            const w = 2*pi.r();
-            const cand = this.grid.get(pi.x-w, pi.y-w, pi.x+w, pi.y+w);
-            for (let j = 0; j < cand.length; j++) {
-                /** @type {Planet} */
-                const pj = cand[j];
+        for (let pi of this.ps) {
 
-                if(pi == pj) continue;
-    
+            const w = 2 * pi.r();
+            const cand = this.grid.get(pi.x - w, pi.y - w, pi.x + w, pi.y + w);
+
+            for (let pj of cand) {
+
+                if (pi == pj) continue;
+
                 /** @type {number} */
                 const d1 = pi.d(pj);
                 /** @type {number} */
@@ -117,16 +115,14 @@ export class Universe {
     /**
      */
     step(bounce = false, vmax = 0.8, collisionFactor = 1, timeStepMs = 10) {
-        /** @type {number} */
-        let i;
 
         //observation
-        for (i = 0; i < this.ps.length; i++)
-            this.ps[i].observe();
+        for (let p of this.ps)
+            p.observe();
 
         //action
-        for (i = 0; i < this.ps.length; i++)
-            this.ps[i].change(bounce, vmax, timeStepMs);
+        for (let p of this.ps)
+            p.change(bounce, vmax, timeStepMs);
 
         //collision detection
         //find first collision
