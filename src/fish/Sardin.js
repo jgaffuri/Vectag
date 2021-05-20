@@ -15,10 +15,11 @@ export class Sardin {
         this.x = x < 0 ? 0 : x > sea.w ? sea.w : x
         this.y = y < 0 ? 0 : y > sea.h ? sea.h : y
 
+
         //speed
         if (!vx && !vy) {
             this.va = Math.random() * 2 * Math.PI - Math.PI;
-            this.v = Math.random() * this.V_MAX;
+            this.v = Math.random() * this.sea.V_MAX;
             this.vx = this.v * Math.cos(this.va);
             this.vy = this.v * Math.sin(this.va);
         } else {
@@ -33,12 +34,13 @@ export class Sardin {
         this.ay = 0
 
         //add to spatial index
-        sea.grid.add(this, this.x, this.y)
+        this.sea.grid.add(this, this.x, this.y)
 
         //list of sardins in vision field
         this.obs = []
         //list of sardins in collision field
         this.col = []
+
     }
 
 
@@ -115,13 +117,13 @@ export class Sardin {
         }
 
         //avoid shark
-        if ( this.sea.shark != null) {
-            const s =  this.sea.shark;
-            const d = Math.hypot((s[0] -  this.x), (s[1] -  this.y));
+        if (this.sea.shark != null) {
+            const s = this.sea.shark;
+            const d = Math.hypot((s.x - this.x), (s.y - this.y));
             if (d <= this.sea.D_OBS) {
                 const a = 5.0 * (1 / (d * d) - 1 / (this.sea.D_OBS * this.sea.D_OBS));
-                this.ax += a * ( this.x - s[0]) / d;
-                this.ay += a * ( this.y - s[1]) / d;
+                this.ax += a * (this.x - s.x) / d;
+                this.ay += a * (this.y - s.y) / d;
             }
         }
 
@@ -130,12 +132,12 @@ export class Sardin {
 
 
     /** */
-    move() {
+    move(timeStepMs = 10) {
         this.sea.grid.remove(this, this.x, this.y);
 
         //compute new speed
-        this.vx += this.ax * this.sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
-        this.vy += this.ay * this.sea.timeStepMs + (1 - 2 * Math.random()) * 0.02;
+        this.vx += this.ax * timeStepMs + (1 - 2 * Math.random()) * 0.02;
+        this.vy += this.ay * timeStepMs + (1 - 2 * Math.random()) * 0.02;
         this.v = Math.hypot(this.vx, this.vy);
         this.va = Math.atan2(this.vy, this.vx);
         if (this.v > this.sea.V_MAX) {
@@ -145,8 +147,8 @@ export class Sardin {
         }
 
         //compute new position
-        this.x += this.vx * this.sea.timeStepMs;
-        this.y += this.vy * this.sea.timeStepMs;
+        this.x += this.vx * timeStepMs;
+        this.y += this.vy * timeStepMs;
 
         //limit
         if (this.x < 0) this.x = this.sea.w;
@@ -155,7 +157,6 @@ export class Sardin {
         if (this.y > this.sea.h) this.y = 0;
 
         //TODO use move?
-        console.log(this)
         this.sea.grid.add(this, this.x, this.y);
     }
 
