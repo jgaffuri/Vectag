@@ -21,9 +21,9 @@ class PlanetSimulation {
 
         const div = document.getElementById(opts.divId);
         /** @type {number} */
-        this.w = div.offsetWidth;
+        this.w = opts.w || div.offsetWidth;
         /** @type {number} */
-        this.h = div.offsetHeight;
+        this.h = opts.h || div.offsetHeight;
 
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus(opts.divId, "vacanvas");
