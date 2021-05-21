@@ -20,14 +20,26 @@ class PreyPredatorSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
+            const c2 = this.c2d
+
+            const preyColor = "blue"
+            const preyColor2 = "rgba(0,0,255,0.5)"
+            const predatorColor = "red"
+            const predatorColor2 = "rgba(255,0,0,0.5)"
+            const backColor = "rgba(255,255,255,0.5)"
+            const backColor2 = "white"
+
+            c2.fillStyle = backColor2;
+            c2.fillRect(0, 0, w, h);
+
 
             //frame
-            this.c2d.strokeStyle = "darkgray";
-            this.c2d.beginPath();
-            this.c2d.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
-            this.c2d.stroke();
+            c2.strokeStyle = "darkgray";
+            c2.beginPath();
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.stroke();
         };
-    
+
 
         /** @type {Land} */
         this.land = new Land()
@@ -37,6 +49,11 @@ class PreyPredatorSimulation {
 
     initRandom(nb = 1000) {
         //TODO
+		for(int i=0;i<5;i++)
+			preys.add(new Animal(Animal.PREY, this, w*Math.random(), h*Math.random()));
+		for(int i=0;i<150;i++)
+			predators.add(new Animal(Animal.PREDATOR, this, w*Math.random(), h*Math.random()));
+
         return this;
     }
 
