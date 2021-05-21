@@ -67,11 +67,13 @@ export class Land {
             }
         }
 
-        this.preys.addAll(preysToBorn);
-        this.predators.addAll(predsToBorn);
-        this.preys.removeAll(preysToDie);
+        this.preys.push(...preysToBorn);
+        this.predators.push(...predsToBorn);
+        //this.preys.removeAll(preysToDie);
+        this.preys = this.preys.filter(x => !preysToDie.has(x));
         for (let a of preysToDie) grid.remove(a, a.x, a.y);
-        this.predators.removeAll(predsToDie);
+        //this.predators.removeAll(predsToDie);
+        this.predators = this.predators.filter(x => !predsToDie.has(x));
         for (let a of predsToDie) grid.remove(a, a.x, a.y);
 
         //move
