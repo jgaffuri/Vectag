@@ -33,25 +33,27 @@ class Land {
 
     }
 
-    step(timeStepMs) {
-        //observe
-        for (Animal a: preys) a.observe();
-        for (Animal a: predators) a.observe();
 
-        ArrayList < Animal > preysToBorn = new ArrayList<Animal>();
-        ArrayList < Animal > preysToDie = new ArrayList<Animal>();
-        ArrayList < Animal > predsToBorn = new ArrayList<Animal>();
-        ArrayList < Animal > predsToDie = new ArrayList<Animal>();
+    step(timeStepMs) {
+
+        //observe
+        for (let a of this.preys) a.observe();
+        for (let a of this.predators) a.observe();
+
+        const preysToBorn = []
+        const preysToDie = []
+        const predsToBorn = []
+        const predsToDie = []
 
         //prey reproduction if no predator around
-        for (Animal prey: preys) {
+        for (let prey of this.preys) {
             if (Math.random() > q) continue;
-            if (prey.predators.size() != 0) continue;
-            if (prey.preys.size() >= nb) continue;
-            preysToBorn.add(prey.makeChild());
+            if (prey.predators.length != 0) continue;
+            if (prey.preys.length >= nb) continue;
+            preysToBorn.push(prey.makeChild());
         }
 
-        for (Animal pred: predators) {
+        for (let pred of this.predators) {
             if (pred.preys.size() == 0) {
                 //no prey around: predator dies with probability p
                 if (Math.random() < p) predsToDie.add(pred);
