@@ -15,8 +15,19 @@ class PreyPredatorSimulation {
 
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus(opts.divId, "vacanvas");
-        this.cplus.c2d.fillStyle = "black";
+        this.cplus.c2d.fillStyle = "white";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
+
+
+        //display animal
+        const display = function (a) {
+            c2.fillRect(a.x, a.y, 3, 3);
+            /*c2.beginPath();
+            c2.arc(a.x, a.y, 0.5, 0, 2*Math.PI);
+            c2.closePath();
+            c2.fill();*/
+        }
+
 
         const th = this;
         this.cplus.redraw = function () {
@@ -27,11 +38,53 @@ class PreyPredatorSimulation {
             const predatorColor = "red"
             const predatorColor2 = "rgba(255,0,0,0.5)"
             const backColor = "rgba(255,255,255,0.5)"
-            const backColor2 = "white"
 
-            c2.fillStyle = backColor2;
+            //transparency
+            c2.fillStyle = backColor;
             c2.fillRect(0, 0, w, h);
 
+            //display animals
+            c2.fillStyle = preyColor;
+            for (let a of preys)
+                display(a);
+            c2.fillStyle = predatorColor;
+            for (let a of predators)
+                display(a);
+
+            //label
+            c2.fillStyle = "lightgray";
+            c2.fillRect(0, 0, 65, 13);
+            c2.fillStyle = "black";
+            c2.fillText(preys.length + "/" + predators.length, 2, 10);
+
+            //chart
+            //c2Chart.setFillStyle(backColor2);
+            //c2Chart.fillRect(0, 0, w, h);
+
+            //double max = getMaxHisto();
+            /*public int getMaxHisto() {
+                int max=0;
+                for(int i=0;i<histo.length;i++){
+                    if(histo[i][0]>max) max=histo[i][0];
+                    if(histo[i][1]>max) max=histo[i][1];
+                }
+                return max;
+            }*/
+            /*
+                        if (max != 0) {
+                            double h1, h2;
+                            for (int i = 0; i < histo.length; i++) {
+                                h1 = hChart * histo[i][0] / max;
+                                h2 = hChart * histo[i][1] / max;
+                                c2Chart.setFillStyle(preyColor2);
+                                c2Chart.fillRect(i, hChart - h1, 1, h1);
+                                c2Chart.setFillStyle(predatorColor2);
+                                c2Chart.fillRect(i, hChart - h2, 1, h2);
+                            }
+                        }
+                        c2Chart.setFillStyle(CssColor.make(255, 255, 255));
+                        c2Chart.fillRect(index, 0, 1, hChart);
+            */
 
             //frame
             c2.strokeStyle = "darkgray";
@@ -49,10 +102,10 @@ class PreyPredatorSimulation {
 
     initRandom(nb = 1000) {
         //TODO
-		for(int i=0;i<5;i++)
-			preys.add(new Animal(Animal.PREY, this, w*Math.random(), h*Math.random()));
-		for(int i=0;i<150;i++)
-			predators.add(new Animal(Animal.PREDATOR, this, w*Math.random(), h*Math.random()));
+        for (let i = 0; i < 5; i++)
+            preys.add(new Animal(Animal.PREY, this.land, this.w * Math.random(), this.h * Math.random()));
+        for (let i = 0; i < 150; i++)
+            predators.add(new Animal(Animal.PREDATOR, this.land, this.w * Math.random(), this.h * Math.random()));
 
         return this;
     }
