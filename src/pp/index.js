@@ -1,4 +1,5 @@
 import { Land } from './Land';
+import { Animal } from './Animal';
 import { CanvasPlus } from '../base/canvasplus';
 
 class PreyPredatorSimulation {
@@ -33,21 +34,15 @@ class PreyPredatorSimulation {
         this.cplus.redraw = function () {
             const c2 = this.c2d
 
-            const preyColor = "blue"
-            const preyColor2 = "rgba(0,0,255,0.5)"
-            const predatorColor = "red"
-            const predatorColor2 = "rgba(255,0,0,0.5)"
-            const backColor = "rgba(255,255,255,0.5)"
-
             //transparency
-            c2.fillStyle = backColor;
+            c2.fillStyle = "rgba(255,255,255,0.5)";
             c2.fillRect(0, 0, w, h);
 
             //display animals
-            c2.fillStyle = preyColor;
+            c2.fillStyle = "blue";
             for (let a of preys)
                 display(a);
-            c2.fillStyle = predatorColor;
+            c2.fillStyle = "red";
             for (let a of predators)
                 display(a);
 
@@ -101,12 +96,14 @@ class PreyPredatorSimulation {
 
 
     initRandom(nb = 1000) {
-        //TODO
         for (let i = 0; i < 5; i++)
-            preys.add(new Animal(Animal.PREY, this.land, this.w * Math.random(), this.h * Math.random()));
+            this.land.preys.push(
+                new Animal(0, this.land, this.w * Math.random(), this.h * Math.random())
+            );
         for (let i = 0; i < 150; i++)
-            predators.add(new Animal(Animal.PREDATOR, this.land, this.w * Math.random(), this.h * Math.random()));
-
+            this.land.predators.push(
+                new Animal(1, this.land, this.w * Math.random(), this.h * Math.random())
+            );
         return this;
     }
 

@@ -1,7 +1,8 @@
+
 class Animal {
 
-    //final static int PREY=0;
-    //final static int PREDATOR=1;
+    //Animal.PREY = 0;
+    //Animal.PREDATOR = 1;
 
     constructor(type, l, x = 0, y = 0) {
         this.type = type;

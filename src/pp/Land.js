@@ -16,8 +16,7 @@ export class Land {
         this.preys = []
         this.d = 10
         this.timeStepMs = 20
-        this.grid
-        this.grid = new Grid(w, h, d);
+        this.grid = new Grid(w, h, this.d);
 
 
 
