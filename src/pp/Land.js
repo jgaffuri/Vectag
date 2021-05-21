@@ -1,7 +1,6 @@
 import { Grid } from '../base/grid';
-import { Animal } from './Animal';
 
-class Land {
+export class Land {
 
     constructor(w, h) {
 
