@@ -90,17 +90,17 @@ class PreyPredatorSimulation {
 
 
         /** @type {Land} */
-        this.land = new Land()
+        this.land = new Land(this.w, this.h)
 
     }
 
 
-    initRandom(nb = 1000) {
-        for (let i = 0; i < 5; i++)
+    initRandom(nbPrey = 5, nbPredator = 150) {
+        for (let i = 0; i < nbPrey; i++)
             this.land.preys.push(
                 new Animal(0, this.land, this.w * Math.random(), this.h * Math.random())
             );
-        for (let i = 0; i < 150; i++)
+        for (let i = 0; i < nbPredator; i++)
             this.land.predators.push(
                 new Animal(1, this.land, this.w * Math.random(), this.h * Math.random())
             );

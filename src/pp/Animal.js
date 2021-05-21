@@ -1,5 +1,5 @@
 
-class Animal {
+export class Animal {
 
     //Animal.PREY = 0;
     //Animal.PREDATOR = 1;

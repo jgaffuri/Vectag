@@ -45,16 +45,16 @@ export class Land {
 
         //prey reproduction if no predator around
         for (let prey of this.preys) {
-            if (Math.random() > q) continue;
+            if (Math.random() > this.q) continue;
             if (prey.predators.length != 0) continue;
-            if (prey.preys.length >= nb) continue;
+            if (prey.preys.length >= this.nb) continue;
             preysToBorn.push(prey.makeChild());
         }
 
         for (let pred of this.predators) {
             if (pred.preys.length == 0) {
                 //no prey around: predator dies with probability p
-                if (Math.random() < p) predsToDie.push(pred);
+                if (Math.random() < this.p) predsToDie.push(pred);
             } else {
                 //prey eaten
                 const preyToEat = pred.preys.get((int)(pred.preys.length * Math.random()));
@@ -67,16 +67,18 @@ export class Land {
             }
         }
 
-        preys.addAll(preysToBorn);
-        predators.addAll(predsToBorn);
-        preys.removeAll(preysToDie);
+        this.preys.addAll(preysToBorn);
+        this.predators.addAll(predsToBorn);
+        this.preys.removeAll(preysToDie);
         for (let a of preysToDie) grid.remove(a, a.x, a.y);
-        predators.removeAll(predsToDie);
+        this.predators.removeAll(predsToDie);
         for (let a of predsToDie) grid.remove(a, a.x, a.y);
 
-        //animal movements
-        for (let a of preys) a.move();
-        for (let a of predators) a.move();
+        //move
+        for (let a of this.preys)
+            a.move();
+        for (let a of this.predators)
+            a.move();
 
         /*/histo
         histo[index] = new int[]{ preys.size(), predators.size() };
