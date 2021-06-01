@@ -121,7 +121,6 @@ class FishSimulation {
                 c2.fill();
             }
 
-
             //frame
             c2.strokeStyle = "darkgray";
             c2.beginPath();
@@ -129,16 +128,13 @@ class FishSimulation {
             c2.stroke();
         };
 
-
         this.cplus.canvas.addEventListener("mouseover", e => {
             th.sea.shark = { x: th.cplus.pixToGeoX(e.offsetX), y: th.cplus.pixToGeoY(e.offsetY), angle: 0 }
         });
         this.cplus.canvas.addEventListener("mousemove", e => {
             const xG = th.cplus.pixToGeoX(e.offsetX);
             const yG = th.cplus.pixToGeoY(e.offsetY);
-            const angle = Math.atan2(yG - th.sea.shark.y, xG - th.sea.shark.x);
-            //TODO check angle
-            //console.log(angle)
+            const angle = Math.atan2(-yG + th.sea.shark.y, xG - th.sea.shark.x);
             th.sea.shark = { x: xG, y: yG, angle: angle }
         });
         this.cplus.canvas.addEventListener("mouseout", e => {
