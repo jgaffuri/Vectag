@@ -164,7 +164,7 @@ class FishSimulation {
             setTimeout(engine, 0);
         };
         engine();
-
+        return this
     }
 
 }

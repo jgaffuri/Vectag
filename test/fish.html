@@ -6,11 +6,12 @@
 </head>
 
 <body style="margin: 0; height:100%;">
+    <button type="button" onclick="app.sea.addFish(10)">Add fish</button>
     <div id="vadiv" style="height:100%;"></div>
     <script src="../build/vectag.js"></script>
     <script>
         //start simulation
-        vectag.fish().initRandom().start()
+        app = vectag.fish().initRandom().start()
     </script>
 </body>
 
