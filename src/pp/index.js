@@ -120,6 +120,7 @@ class PreyPredatorSimulation {
             setTimeout(engine, 0);
         };
         engine();
+        return this;
     }
 
 }

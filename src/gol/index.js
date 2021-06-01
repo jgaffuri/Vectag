@@ -63,6 +63,7 @@ class GoLSimulation {
     //
     start() {
         this.uni.start(-1, 0, this.cplus);
+        return this;
     }
 
 }
