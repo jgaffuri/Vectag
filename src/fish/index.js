@@ -42,11 +42,11 @@ class FishSimulation {
             //show vision links
             if (th.showFishVisionLinks)
                 for (let sa of s.fish)
-                    sa.displayVisionLinks(this, "rgb(255,0,255)", 0.5)
+                    sa.displayVisionLinks(this, "rgba(255,100,100,0.3)", 1)
             //show collision field
             if (th.showFishCollisionField)
                 for (let sa of s.fish)
-                    sa.displayCollisionField(this, "red", 1)
+                    sa.displayCollisionField(this, "purple", 1)
 
 
             //display sardins
