@@ -15,3 +15,26 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+
+<head>
+    <title>Fish schooling simulation</title>
+</head>
+
+<body style="margin: 0; height:100%; font-family: Arial, Helvetica, sans-serif;">
+    <div id="vadiv" style="height:100%;">
+        <div style="position: absolute; top:10px; left: 10px;">
+            <button type="button" onclick="app.sea.addFish(10)">Add fish</button><br />
+            <input type="checkbox" id="vision" name="vision" value="false" onclick="app.fishView=this.checked"><label for="vision">Vision</label><br />
+            <input type="checkbox" id="collision" name="collision" value="false" onclick="app.fishHalo=this.checked"><label for="collision">Collision</label><br />
+        </div>
+    </div>
+    <script src="../build/vectag.min.js"></script>
+    <script>
+        //start simulation
+        app = vectag.fish().initRandom().start()
+    </script>
+</body>
+
+</html>
