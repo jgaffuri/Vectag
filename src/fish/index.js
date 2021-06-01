@@ -1,5 +1,4 @@
 import { Sea } from './Sea';
-import { Sardin } from './Sardin';
 import { CanvasPlus } from '../base/canvasplus';
 
 class FishSimulation {
@@ -149,8 +148,7 @@ class FishSimulation {
 
 
     initRandom(nb = 1500) {
-        for (let i = 0; i < nb; i++)
-            this.sea.fish.push(new Sardin(this.sea));
+        this.sea.addFish(nb);
         return this
     }
 

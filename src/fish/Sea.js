@@ -1,3 +1,4 @@
+import { Sardin } from './Sardin';
 import { Grid } from '../base/grid';
 import { removeFromArray } from '../base/lib';
 
@@ -64,6 +65,11 @@ export class Sea {
         this.EATEN_SARDIN_NB += this.killed.length;
         //eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
         return;
+    }
+
+    addFish(nb = 1) {
+        for (let i = 0; i < nb; i++)
+            this.fish.push(new Sardin(this));
     }
 
 }
