@@ -9,8 +9,10 @@
     <div id="vadiv" style="height:100%;">
         <div style="position: absolute; top:10px; left: 10px;">
             <button type="button" onclick="app.sea.addFish(10)">Add fish</button><br />
-            <input type="checkbox" id="vision" name="vision" value="false" onclick="app.fishView=this.checked"><label for="vision">Vision</label><br />
-            <input type="checkbox" id="collision" name="collision" value="false" onclick="app.fishHalo=this.checked"><label for="collision">Collision</label><br />
+            <button type="button" onclick="app.sea.setRandomSpeed()">Muddle</button><br />
+            <input type="checkbox" id="visionF" name="visionF" value="false" onclick="app.showFishVisionField=this.checked"><label for="visionF">Vision fields</label><br />
+            <input type="checkbox" id="visionL" name="visionL" value="false" onclick="app.showFishVisionLinks=this.checked"><label for="visionL">Vision links</label><br />
+            <input type="checkbox" id="collision" name="collision" value="false" onclick="app.showFishCollisionField=this.checked"><label for="collision">Collision fields</label><br />
         </div>
     </div>
     <script src="../build/vectag.js"></script>

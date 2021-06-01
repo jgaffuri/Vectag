@@ -6,6 +6,8 @@ export class Sea {
 
     constructor(w, h) {
 
+        //TODO should become static attributes of Sardin class
+
         //observation
         this.D_OBS = 50
         this.A_OBS = 200 * Math.PI / 180
@@ -17,9 +19,11 @@ export class Sea {
         this.V_TARGET = 0.3
         this.V_MAX = 0.6
 
+
         //shark
         this.D_SHARK_EAT = 12
         this.EATEN_SARDIN_NB = 0
+
 
         this.w = w;
         this.h = h;
@@ -67,9 +71,19 @@ export class Sea {
         return;
     }
 
+    /** Add a number of fish */
     addFish(nb = 1) {
         for (let i = 0; i < nb; i++)
             this.fish.push(new Sardin(this));
+        return this
+    }
+
+    /** Set random speed for all fish */
+    setRandomSpeed() {
+        for (let f of this.fish) {
+            f.setRandomSpeed()
+        }
+        return this
     }
 
 }

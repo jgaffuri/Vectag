@@ -14,11 +14,7 @@ class FishSimulation {
         this.h = div.offsetHeight;
 
         //TODO
-        //add fish button
         //add eaten fish nb label
-        //add visibility checkboxes
-        //pc.add(s.fishView);
-        //pc.add(s.fishHalo);
 
 
         /** @type {CanvasPlus} */
@@ -26,8 +22,9 @@ class FishSimulation {
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
-        this.fishView = false
-        this.fishHalo = false
+        this.showFishVisionField = false
+        this.showFishVisionLinks = false
+        this.showFishCollisionField = false
 
         const th = this;
         this.cplus.redraw = function () {
@@ -38,59 +35,26 @@ class FishSimulation {
             c2.fillStyle = "rgba(120,120,255,0.6)";
             c2.fillRect(0, 0, th.w, th.h);
 
+            //show vision field
+            if (th.showFishVisionField)
+                for (let sa of s.fish)
+                    sa.displayVisionField(this, "rgba(200,200,200,0.15)", 1)
+
             //display sardins
             c2.lineWidth = 2 / this.ps
             const sardinLength = 7
-            for (let sa of s.fish) {
-                const c = Math.floor(255 * Math.abs(sa.va) / Math.PI);
-                c2.strokeStyle = "rgb(255, 255, " + c + ")"
-                const a = sardinLength / sa.v;
-                const dx = a * sa.vx * 0.5;
-                const dy = a * sa.vy * 0.5;
+            for (let sa of s.fish)
+                sa.display(this, sardinLength)
 
-                c2.beginPath();
-                c2.moveTo(this.geoToPixX(sa.x - dx), this.geoToPixY(sa.y - dy));
-                c2.lineTo(this.geoToPixX(sa.x + dx), this.geoToPixY(sa.y + dy));
-                c2.closePath();
-                c2.stroke();
-            }
+            //show vision links
+            if (th.showFishVisionLinks)
+                for (let sa of s.fish)
+                    sa.displayVisionLinks(this, "rgb(255,0,255)", 0.5)
+            //show collision field
+            if (th.showFishCollisionField)
+                for (let sa of s.fish)
+                    sa.displayCollisionField(this, "red", 1)
 
-            //display halos
-            //vision
-            if (th.fishView) {
-                c2.fillStyle = "rgba(255,255,255,0.3)";
-                c2.lineWidth = 1;
-                for (let sa of s.fish) {
-                    c2.beginPath();
-                    c2.moveTo(this.geoToPixX(sa.x), this.geoToPixY(sa.y));
-                    //TODO check angle
-                    c2.arc(this.geoToPixX(sa.x), this.geoToPixY(sa.y), s.D_OBS / this.ps, sa.va - s.A_OBS * 0.5, sa.va + s.A_OBS * 0.5);
-                    c2.closePath();
-                    c2.fill();
-                }
-                c2.strokeStyle = "rgb(255,0,255)";
-                c2.lineWidth = 0.5;
-                for (let sa of s.fish) {
-                    for (let sa2 of sa.obs) {
-                        c2.beginPath();
-                        c2.moveTo(this.geoToPixX(sa.x), this.geoToPixY(sa.y));
-                        c2.lineTo(this.geoToPixX(sa2.x), this.geoToPixY(sa2.y));
-                        c2.closePath();
-                        c2.stroke();
-                    }
-                }
-            }
-            //collision
-            if (th.fishHalo) {
-                c2.strokeStyle = "red";
-                c2.lineWidth = 1;
-                for (let sa of s.fish) {
-                    c2.beginPath();
-                    c2.arc(this.geoToPixX(sa.x), this.geoToPixY(sa.y), s.D_COL * 0.5 / this.ps, 0, 2 * Math.PI);
-                    c2.closePath();
-                    c2.stroke();
-                }
-            }
 
             //display shark
             if (s.shark != null) {

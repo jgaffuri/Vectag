@@ -18,10 +18,7 @@ export class Sardin {
 
         //speed
         if (!vx && !vy) {
-            this.va = Math.random() * 2 * Math.PI - Math.PI;
-            this.v = Math.random() * this.sea.V_MAX;
-            this.vx = this.v * Math.cos(this.va);
-            this.vy = this.v * Math.sin(this.va);
+            this.setRandomSpeed()
         } else {
             this.vx = vx;
             this.vy = vy;
@@ -43,6 +40,14 @@ export class Sardin {
 
     }
 
+
+    /** Set random speed */
+    setRandomSpeed() {
+        this.va = Math.random() * 2 * Math.PI - Math.PI;
+        this.v = Math.random() * this.sea.V_MAX;
+        this.vx = this.v * Math.cos(this.va);
+        this.vy = this.v * Math.sin(this.va);
+    }
 
 
     /** */
@@ -164,6 +169,62 @@ export class Sardin {
     /** Distance to other sardin */
     d(s) {
         return Math.hypot((s.x - this.x), (s.y - this.y));
+    }
+
+
+    /** Display a sardin body */
+    display(cp, length) {
+        const c2 = cp.c2d
+        const c = Math.floor(255 * Math.abs(this.va) / Math.PI);
+        c2.strokeStyle = "rgb(255, 255, " + c + ")"
+        const a = length / this.v;
+        const dx = a * this.vx * 0.5;
+        const dy = a * this.vy * 0.5;
+
+        c2.beginPath();
+        c2.moveTo(cp.geoToPixX(this.x - dx), cp.geoToPixY(this.y - dy));
+        c2.lineTo(cp.geoToPixX(this.x + dx), cp.geoToPixY(this.y + dy));
+        c2.closePath();
+        c2.stroke();
+    }
+
+    /** Display sardin vision field */
+    displayVisionField(cp, fillStyle, lineWidth) {
+        const c2 = cp.c2d
+        c2.fillStyle = fillStyle;
+        c2.lineWidth = lineWidth;
+        c2.beginPath();
+        c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
+        //TODO correct that !
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.ps,
+            Math.PI - this.va + this.sea.A_OBS * 0.5, Math.PI - this.va - this.sea.A_OBS * 0.5);
+        c2.closePath();
+        c2.fill();
+    }
+
+    /** Display sardin vision links */
+    displayVisionLinks(cp, strokeStyle, lineWidth) {
+        const c2 = cp.c2d
+        c2.strokeStyle = strokeStyle;
+        c2.lineWidth = lineWidth;
+        for (let sa2 of this.obs) {
+            c2.beginPath();
+            c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
+            c2.lineTo(cp.geoToPixX(sa2.x), cp.geoToPixY(sa2.y));
+            c2.closePath();
+            c2.stroke();
+        }
+    }
+
+    /** Display sardin collision field */
+    displayCollisionField(cp, strokeStyle, lineWidth) {
+        const c2 = cp.c2d
+        c2.strokeStyle = strokeStyle;
+        c2.lineWidth = lineWidth;
+        c2.beginPath();
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_COL * 0.5 / cp.ps, 0, 2 * Math.PI);
+        c2.closePath();
+        c2.stroke();
     }
 
 }
