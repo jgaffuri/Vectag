@@ -6,11 +6,16 @@
 </head>
 
 <body style="margin: 0; height:100%;">
-    <div id="vadiv" style="height:100%;"></div>
+    <div id="vadiv" style="height:100%;">
+        <div style="position: absolute; top:10px; left: 10px;">
+            <button type="button" onclick="app.uni.addPlanets(50)">Add planets</button><br />
+            <button type="button" onclick="app.uni.setRandomSpeed()">Muddle</button><br />
+        </div>
+    </div>
     <script src="../build/vectag.min.js"></script>
     <script>
         //start simulation
-        vectag.planets().initBigBang().start()
+        app = vectag.planets().initBigBang().start()
     </script>
 </body>
 
