@@ -112,6 +112,18 @@ export class Universe {
     }
 
 
+    /** Add panets with random speed */
+    addPlanets(nb = 1, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
+        for (let i = 0; i < nb; i++) {
+            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+            const angle = 2 * Math.random() * Math.PI;
+            this.createPlanet(mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle));
+        }
+        return this;
+    }
+
+
+
     /**
      */
     step(bounce = false, vmax = 0.8, collisionFactor = 1, timeStepMs = 10) {
@@ -134,6 +146,7 @@ export class Universe {
             //find next collision
             pair = this.findCollision(collisionFactor);
         }
+        return this;
     }
 
 }

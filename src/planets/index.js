@@ -69,11 +69,7 @@ class PlanetSimulation {
     initRandom(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
-        for (let i = 0; i < nb; i++) {
-            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const angle = 2 * Math.random() * Math.PI;
-            this.uni.createPlanet(mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle));
-        }
+        this.uni.addPlanets(nb, mi, minSpeed, maxSpeed);
         return this;
     }
 
