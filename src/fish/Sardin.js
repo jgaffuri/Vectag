@@ -42,9 +42,9 @@ export class Sardin {
 
 
     /** Set random speed */
-    setRandomSpeed() {
-        this.va = Math.random() * 2 * Math.PI - Math.PI;
-        this.v = Math.random() * this.sea.V_MAX;
+    setRandomSpeed(smax = this.sea.V_MAX) {
+        this.va = Math.random() * 2 * Math.PI;
+        this.v = Math.random() * smax;
         this.vx = this.v * Math.cos(this.va);
         this.vy = this.v * Math.sin(this.va);
     }

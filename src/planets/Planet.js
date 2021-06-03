@@ -126,4 +126,14 @@ export class Planet {
         this.u.move(this, nx, ny)
 
     }
+
+
+    /** Set random speed */
+    setRandomSpeed(minSpeed = 0, maxSpeed = 0.1) {
+        const angle = 2 * Math.random() * Math.PI;
+        const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+        this.vx = speed * Math.cos(angle)
+        this.vy = speed * Math.sin(angle)
+    }
+
 }

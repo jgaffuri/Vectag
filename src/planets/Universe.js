@@ -36,9 +36,10 @@ export class Universe {
     /**
      * Create a planet
      */
-    createPlanet(m, x, y, sx, sy) {
+    createPlanet(m, x, y, sx = 0, sy = 0) {
         const p = new Planet(this, m, x, y, sx, sy);
         this.add(p);
+        return p;
     }
 
     /**
@@ -115,9 +116,8 @@ export class Universe {
     /** Add panets with random speed */
     addPlanets(nb = 1, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         for (let i = 0; i < nb; i++) {
-            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const angle = 2 * Math.random() * Math.PI;
-            this.createPlanet(mi, this.w * Math.random(), this.h * Math.random(), speed * Math.cos(angle), speed * Math.sin(angle));
+            const p = this.createPlanet(mi, this.w * Math.random(), this.h * Math.random());
+            p.setRandomSpeed(minSpeed, maxSpeed);
         }
         return this;
     }
@@ -147,6 +147,19 @@ export class Universe {
             pair = this.findCollision(collisionFactor);
         }
         return this;
+    }
+
+
+    setRandomSpeed() {
+        for (let p of this.ps)
+            p.setRandomSpeed()
+        return this
+    }
+
+    explodeSun() {
+        //TODO
+        //get sun
+        //disaggregate it
     }
 
 }

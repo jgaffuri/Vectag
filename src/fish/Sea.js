@@ -80,9 +80,8 @@ export class Sea {
 
     /** Set random speed for all fish */
     setRandomSpeed() {
-        for (let f of this.fish) {
+        for (let f of this.fish)
             f.setRandomSpeed()
-        }
         return this
     }
 
