@@ -74,6 +74,7 @@ class PlanetSimulation {
     }
 
     //
+    //TODO move and merge with "explode"
     initBigBang(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
