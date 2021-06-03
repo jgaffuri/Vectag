@@ -149,17 +149,24 @@ export class Universe {
         return this;
     }
 
-
-    setRandomSpeed() {
+    /** Assign random speed to all planets */
+    setRandomSpeed(minSpeed = 0, maxSpeed = 0.1) {
         for (let p of this.ps)
-            p.setRandomSpeed()
+            p.setRandomSpeed(minSpeed, maxSpeed)
         return this
     }
 
-    explodeSun() {
-        //TODO
-        //get sun
-        //disaggregate it
+    /** Return the largest planet of the universe, usually the star */
+    getLargestPlanet() {
+        let pM = null, mM = 0;
+        for (let p of this.ps)
+            if (p.m > mM) { pM = p; mM = p.m }
+        return pM
+    }
+
+    /** Get largest planet and explode it */
+    explodeLargestPlanet() {
+        this.getLargestPlanet().explode()
     }
 
 }
