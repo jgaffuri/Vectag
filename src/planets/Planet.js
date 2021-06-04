@@ -136,4 +136,14 @@ export class Planet {
         this.vy = speed * Math.sin(angle)
     }
 
+    /** Display planet */
+    display(cp, fillStyle) {
+        const c2 = cp.c2d
+        c2.fillStyle = fillStyle;
+        c2.beginPath();
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.r() / cp.ps, 0, 2 * Math.PI);
+        c2.closePath();
+        c2.fill();
+    }
+
 }

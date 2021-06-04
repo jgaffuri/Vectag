@@ -41,18 +41,14 @@ class PlanetSimulation {
             //display planets
             for (let p of th.uni.ps) {
                 const t = p.m / th.uni.m();
-                c2.fillStyle = "rgb(255,255," + Math.floor(255 * (1 - t)) + ")";
-                c2.beginPath();
-                c2.arc(this.geoToPixX(p.x), this.geoToPixY(p.y), p.r() / this.ps, 0, 2 * Math.PI);
-                c2.closePath();
-                c2.fill();
+                p.display(this, "rgb(255,255," + Math.floor(255 * (1 - t)) + ")")
             }
 
             //label
-            c2.fillStyle = "rgb(200,200,200)";
+            /*c2.fillStyle = "rgb(200,200,200)";
             c2.fillRect(0, 0, 65, 13);
             c2.fillStyle = "rgb(0,0,0)";
-            c2.fillText(th.uni.ps.length + " planets", 2, 10);
+            c2.fillText(th.uni.ps.length + " planets", 2, 10);*/
 
             //frame
             c2.strokeStyle = "darkgray";
@@ -65,7 +61,7 @@ class PlanetSimulation {
         this.uni = new Universe(this.w, this.h)
     }
 
-    //
+    /** Initialise with random planets */
     initRandom(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
@@ -73,31 +69,19 @@ class PlanetSimulation {
         return this;
     }
 
-    //
-    //TODO move and merge with "explode"
+    /** Initialise with big bang setup */
     initBigBang(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
+        //create big planet in the middle
         const cx = this.w * 0.5, cy = this.h * 0.5;
-        const angleStep = 2 * Math.PI / nb;
-        for (let i = 0; i < nb; i++) {
-            const a = i * angleStep;
-
-            //position
-            const d = rad * Math.random();
-            const x = cx + d * Math.cos(a), y = cy + d * Math.sin(a);
-
-            //speed
-            const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-            const aS = a + 2 * (Math.random() - 0.5) * 2 * Math.PI / 3;
-            const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
-
-            this.uni.createPlanet(mi, x, y, sx, sy);
-        }
+        const p = this.uni.createPlanet(nb * mi, cx, cy, 0, 0);
+        //explode it
+        this.uni.explode(p, nb, minSpeed, maxSpeed, rad)
         return this;
     }
 
-    //start
+    /** Start simulation */
     start(bounce = false, vmax = 0.8, collisionFactor = 0.8, timeStepMs = 10, nbIterations = -1) {
         let i = 0;
         const t = this;

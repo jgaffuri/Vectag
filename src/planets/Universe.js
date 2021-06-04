@@ -170,8 +170,8 @@ export class Universe {
         this.explode(p)
     }
 
-    /** explode the planet into pieces */
-    explode(p, nb = -1) {
+    /** Explode the planet into pieces */
+    explode(p, nb = -1, minSpeed = 0.8, maxSpeed = 1.5, rad = -1) {
         if (nb <= 0) nb = Math.floor(p.m);
         if (nb <= 0) return;
         const angleStep = 2 * Math.PI / nb;
@@ -179,13 +179,12 @@ export class Universe {
             //create planet
 
             //position
-            const rad = 2 * p.r()
+            if (rad < 0) rad = 2 * p.r()
             const d = rad * Math.random();
             const a = i * angleStep;
             const x = d * Math.cos(a), y = d * Math.sin(a);
 
             //speed
-            const minSpeed = 0.8, maxSpeed = 1.5
             const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
             const aS = a + 2 * (Math.random() - 0.5) * 2 * Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
