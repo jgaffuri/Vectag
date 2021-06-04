@@ -5,12 +5,17 @@
     <title>Planets</title>
 </head>
 
-<body style="margin: 0; height:100%;">
+<body style="margin: 0; height:100%; font-family: Arial, Helvetica, sans-serif;">
     <div id="vadiv" style="height:100%;">
-        <div style="position: absolute; top:10px; left: 10px;">
+        <div
+            style="background-color:rgba(255, 255, 255, 0.5) ; border-radius:5px; padding:5px; margin:10px; position: absolute; top:0px; ">
             <button type="button" onclick="app.uni.addPlanets(50)">Add planets</button><br />
             <button type="button" onclick="app.uni.setRandomSpeed(0.05,0.2)">Muddle</button><br />
             <button type="button" onclick="app.uni.explodeLargestPlanet()">Explode sun</button><br />
+        </div>
+        <div
+            style="background-color:rgba(255, 255, 255, 0.5) ; border-radius:5px; padding:5px; margin:10px; position: absolute; bottom:0px; ">
+            See more on <a href="https://github.com/jgaffuri/Vectag">GitHub</a>
         </div>
     </div>
     <script src="../build/vectag.js"></script>
