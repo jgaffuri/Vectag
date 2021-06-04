@@ -1,5 +1,5 @@
 import { Sardin } from './Sardin';
-import { Grid } from '../base/grid';
+import { Grid } from '../base/Grid';
 import { removeFromArray } from '../base/lib';
 
 export class Sea {

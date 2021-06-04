@@ -1,5 +1,5 @@
 import { Sea } from './Sea';
-import { CanvasPlus } from '../base/canvasplus';
+import { CanvasPlus } from '../base/CanvasPlus';
 
 class FishSimulation {
 

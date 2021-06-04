@@ -1,8 +1,11 @@
+//@ts-check
+import { Universe } from "./Universe";
+import {CanvasPlus} from "../base/CanvasPlus"
+
 export class Planet {
 
     /**
      * @constructor
-     * @struct
      * @param {Universe} u The universe the planet belongs to.
      * @param {number} m The mass
      * @param {number} x The x position
@@ -31,6 +34,12 @@ export class Planet {
         this.vx = vx;
         /** @type {number} */
         this.vy = vy;
+
+        //set force
+        /** @type {number} */
+        this.fx = 0;
+        /** @type {number} */
+        this.fy = 0;
     }
 
     /**
@@ -38,9 +47,7 @@ export class Planet {
      */
     observe() {
 
-        /** @type {number} */
         this.fx = 0;
-        /** @type {number} */
         this.fy = 0;
 
         //check all other planets in the universe
@@ -80,7 +87,10 @@ export class Planet {
     }
 
     /**
-     * @param {boolean} bounce
+     * 
+     * @param {boolean} bounce 
+     * @param {number} vmax 
+     * @param {number} timeStepMs 
      */
     change(bounce = false, vmax = 0.8, timeStepMs = 10) {
 
@@ -96,6 +106,7 @@ export class Planet {
 
         //check vmax
         if (vmax > 0) {
+            /** @type {number} */
             const v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
             if (v > vmax) {
                 this.vx = vmax * this.vx / v;
@@ -104,7 +115,9 @@ export class Planet {
         }
 
         //compute new position
+        /** @type {number} */
         let nx = this.x + this.vx * timeStepMs;
+        /** @type {number} */
         let ny = this.y + this.vy * timeStepMs;
 
         //handle position limit
@@ -124,11 +137,14 @@ export class Planet {
 
         //move planet
         this.u.move(this, nx, ny)
-
     }
 
 
-    /** Set random speed */
+    /** 
+    * Set random speed
+    * @param {number} minSpeed
+    * @param {number} maxSpeed
+    */
     setRandomSpeed(minSpeed = 0, maxSpeed = 0.1) {
         const angle = 2 * Math.random() * Math.PI;
         const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
@@ -136,7 +152,12 @@ export class Planet {
         this.vy = speed * Math.sin(angle)
     }
 
-    /** Display planet */
+    /**
+     * Display planet
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {String} fillStyle 
+     */
     display(cp, fillStyle) {
         const c2 = cp.c2d
         c2.fillStyle = fillStyle;

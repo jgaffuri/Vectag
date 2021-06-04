@@ -1,4 +1,4 @@
-import { CanvasPlus } from '../base/canvasplus';
+import { CanvasPlus } from '../base/CanvasPlus';
 import { Universe } from './Universe';
 
 //TODO zoom/pan, with canvas transform: better universe limits

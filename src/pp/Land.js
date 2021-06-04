@@ -1,4 +1,4 @@
-import { Grid } from '../base/grid';
+import { Grid } from '../base/Grid';
 import { removeFromArrayS } from '../base/lib';
 
 export class Land {

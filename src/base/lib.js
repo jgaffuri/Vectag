@@ -15,6 +15,7 @@ export const objToArray = function (obj) {
  * @template T
  * @param {Array.<T>} arr
  * @param {T} obj
+ * @param {boolean} msg 
  */
 export const removeFromArray = function (arr, obj, msg = true) {
     /** @type {number} */
@@ -25,6 +26,13 @@ export const removeFromArray = function (arr, obj, msg = true) {
         if (msg) console.log("Impossible to remove element not present in array.");
 };
 
+/**
+ * 
+ * @template T
+ * @param {Array.<T>} arr
+ * @param {Array.<T>} objs 
+ * @param {boolean} msg 
+ */
 export const removeFromArrayS = function (arr, objs, msg = true) {
     for (let obj of objs)
         removeFromArray(arr, obj, msg)

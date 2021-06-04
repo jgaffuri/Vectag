@@ -1,17 +1,8 @@
+//@ts-check
 import { Universe } from './Universe';
-import { CanvasPlus } from '../base/canvasplus';
+import { Planet } from './Planet';
+import { CanvasPlus } from '../base/CanvasPlus';
 
-//TODO add restart/big bang button
-/* Button restart = new Button("Recommencer!");
- restart.addClickHandler(new ClickHandler() {
- @Override
- public void onClick(ClickEvent event) {
- u.fill();
- c.getContext2d().setFillStyle(CssColor.make(0,0,0));
- c.getContext2d().fillRect(0, 0, w, h);
- }
- });
- RootPanel.get("b").add(restart);*/
 
 class PlanetSimulation {
 
