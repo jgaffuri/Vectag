@@ -56,7 +56,7 @@ export class Animal {
         if (this.y < 0) this.y = l.h;
         else if (this.y > l.h) this.y = 0;
 
-        //TODO use move instead ?
+        //TODO use grid.move instead ?
         l.grid.add(this, this.x, this.y);
     }
 

@@ -24,3 +24,8 @@ export const removeFromArray = function (arr, obj) {
     else
         console.log("Impossible to remove element not present in array.");
 };
+
+export const removeFromArrayS = function (arr, objs) {
+    for (let obj of objs)
+        removeFromArray(arr, obj)
+};

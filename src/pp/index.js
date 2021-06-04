@@ -21,8 +21,8 @@ class PreyPredatorSimulation {
 
 
         //display animal
-        const display = function (a) {
-            c2.fillRect(a.x, a.y, 3, 3);
+        const display = function (cp, a) {
+            cp.c2d.fillRect(a.x, a.y, 3, 3);
             /*c2.beginPath();
             c2.arc(a.x, a.y, 0.5, 0, 2*Math.PI);
             c2.closePath();
@@ -36,21 +36,21 @@ class PreyPredatorSimulation {
 
             //transparency
             c2.fillStyle = "rgba(255,255,255,0.5)";
-            c2.fillRect(0, 0, w, h);
+            c2.fillRect(0, 0, th.w, th.h);
 
             //display animals
             c2.fillStyle = "blue";
-            for (let a of preys)
-                display(a);
+            for (let a of th.land.preys)
+                display(this, a);
             c2.fillStyle = "red";
-            for (let a of predators)
-                display(a);
+            for (let a of th.land.predators)
+                display(this, a);
 
-            //label
+            /*/label
             c2.fillStyle = "lightgray";
             c2.fillRect(0, 0, 65, 13);
             c2.fillStyle = "black";
-            c2.fillText(preys.length + "/" + predators.length, 2, 10);
+            c2.fillText(preys.length + "/" + predators.length, 2, 10);*/
 
             //chart
             //c2Chart.setFillStyle(backColor2);

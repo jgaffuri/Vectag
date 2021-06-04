@@ -1,4 +1,5 @@
 import { Grid } from '../base/grid';
+import { removeFromArrayS } from '../base/lib';
 
 export class Land {
 
@@ -69,12 +70,18 @@ export class Land {
 
         this.preys.push(...preysToBorn);
         this.predators.push(...predsToBorn);
+
         //this.preys.removeAll(preysToDie);
-        this.preys = this.preys.filter(x => !preysToDie.has(x));
-        for (let a of preysToDie) grid.remove(a, a.x, a.y);
+        //this.preys = this.preys.filter(x => !preysToDie.has(x));
+        removeFromArrayS(this.preys, preysToDie)
+
+        for (let a of preysToDie) this.grid.remove(a, a.x, a.y);
+
         //this.predators.removeAll(predsToDie);
-        this.predators = this.predators.filter(x => !predsToDie.has(x));
-        for (let a of predsToDie) grid.remove(a, a.x, a.y);
+        //this.predators = this.predators.filter(x => !predsToDie.has(x));
+        removeFromArrayS(this.predators, predsToDie)
+
+        for (let a of predsToDie) this.grid.remove(a, a.x, a.y);
 
         //move
         for (let a of this.preys)
