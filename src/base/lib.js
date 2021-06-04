@@ -16,16 +16,16 @@ export const objToArray = function (obj) {
  * @param {Array.<T>} arr
  * @param {T} obj
  */
-export const removeFromArray = function (arr, obj) {
+export const removeFromArray = function (arr, obj, msg = true) {
     /** @type {number} */
     var index = arr.indexOf(obj);
     if (index > -1)
         arr.splice(index, 1);
     else
-        console.log("Impossible to remove element not present in array.");
+        if (msg) console.log("Impossible to remove element not present in array.");
 };
 
-export const removeFromArrayS = function (arr, objs) {
+export const removeFromArrayS = function (arr, objs, msg = true) {
     for (let obj of objs)
-        removeFromArray(arr, obj)
+        removeFromArray(arr, obj, msg)
 };

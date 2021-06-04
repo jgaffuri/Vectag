@@ -77,17 +77,10 @@ export class Land {
         this.preys.push(...preysToBorn);
         this.predators.push(...predsToBorn);
 
-        //this.preys.removeAll(preysToDie);
-        //this.preys = this.preys.filter(x => !preysToDie.has(x));
-        removeFromArrayS(this.preys, preysToDie)
-
-        for (let a of preysToDie) this.grid.remove(a, a.x, a.y);
-
-        //this.predators.removeAll(predsToDie);
-        //this.predators = this.predators.filter(x => !predsToDie.has(x));
-        removeFromArrayS(this.predators, predsToDie)
-
-        for (let a of predsToDie) this.grid.remove(a, a.x, a.y);
+        removeFromArrayS(this.preys, preysToDie, false)
+        for (let a of preysToDie) this.grid.remove(a, a.x, a.y, false);
+        removeFromArrayS(this.predators, predsToDie, false)
+        for (let a of predsToDie) this.grid.remove(a, a.x, a.y, false);
 
         //move
         for (let a of this.preys)

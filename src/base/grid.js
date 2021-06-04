@@ -70,8 +70,8 @@ export class Grid {
      * @param {number} x
      * @param {number} y
      */
-    remove(obj, x, y) {
-        removeFromArray(this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)], obj);
+    remove(obj, x, y, msg=true) {
+        removeFromArray(this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)], obj, msg);
     }
 
 

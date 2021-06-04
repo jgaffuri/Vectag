@@ -81,4 +81,17 @@ export class Animal {
         return new Animal(this.type, this.l, this.x, this.y);
     }
 
+
+    /** display animal */
+    display(cp, fillStyle = "blue", size = 2) {
+        const s = size / cp.ps
+        cp.c2d.fillStyle = fillStyle;
+        cp.c2d.fillRect(cp.geoToPixX(this.x), cp.geoToPixY(this.y), s, s);
+        /*c2.beginPath();
+        c2.arc(a.x, a.y, 0.5, 0, 2*Math.PI);
+        c2.closePath();
+        c2.fill();*/
+    }
+
+
 }

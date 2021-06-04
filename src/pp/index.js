@@ -20,16 +20,6 @@ class PreyPredatorSimulation {
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
 
-        //display animal
-        const display = function (cp, a) {
-            cp.c2d.fillRect(a.x, a.y, 3, 3);
-            /*c2.beginPath();
-            c2.arc(a.x, a.y, 0.5, 0, 2*Math.PI);
-            c2.closePath();
-            c2.fill();*/
-        }
-
-
         const th = this;
         this.cplus.redraw = function () {
             const c2 = this.c2d
@@ -39,12 +29,10 @@ class PreyPredatorSimulation {
             c2.fillRect(0, 0, th.w, th.h);
 
             //display animals
-            c2.fillStyle = "blue";
             for (let a of th.land.preys)
-                display(this, a);
-            c2.fillStyle = "red";
+                a.display(this, "blue");
             for (let a of th.land.predators)
-                display(this, a);
+                a.display(this, "red");
 
             /*/label
             c2.fillStyle = "lightgray";
