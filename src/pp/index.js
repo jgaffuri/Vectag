@@ -3,8 +3,12 @@ import { Land } from './Land';
 import { Animal } from './Animal';
 import { CanvasPlus } from '../base/CanvasPlus';
 
+/** */
 class PreyPredatorSimulation {
 
+    /**
+     * @param {Object} opts 
+     */
     constructor(opts) {
         opts = opts || {};
         opts.divId = opts.divId || "vadiv";
@@ -86,6 +90,12 @@ class PreyPredatorSimulation {
     }
 
 
+    /**
+     * 
+     * @param {number} nbPrey 
+     * @param {number} nbPredator 
+     * @returns {this}
+     */
     initRandom(nbPrey = 200, nbPredator = 1000) {
         for (let i = 0; i < nbPrey; i++)
             this.land.preys.push(
@@ -99,7 +109,12 @@ class PreyPredatorSimulation {
     }
 
 
-    //start
+    /**
+     * 
+     * @param {number} timeStepMs 
+     * @param {number} nbIterations 
+     * @returns {this}
+     */
     start(timeStepMs = 10, nbIterations = -1) {
         let i = 0;
         const t = this;
@@ -117,6 +132,9 @@ class PreyPredatorSimulation {
 }
 
 
+/**
+ * @param {Object} opts 
+ */
 export const preyPredator = function (opts) {
     return new PreyPredatorSimulation(opts)
 }

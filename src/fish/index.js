@@ -4,6 +4,9 @@ import { CanvasPlus } from '../base/CanvasPlus';
 
 class FishSimulation {
 
+    /**
+     * @param {Object} opts 
+     */
     constructor(opts) {
         opts = opts || {};
         opts.divId = opts.divId || "vadiv";
@@ -16,7 +19,6 @@ class FishSimulation {
 
         //TODO
         //add eaten fish nb label
-
 
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus(opts.divId, "vacanvas");
@@ -114,12 +116,21 @@ class FishSimulation {
     }
 
 
+    /**
+     * @param {number} nb 
+     * @returns {this}
+     */
     initRandom(nb = 1500) {
         this.sea.addFish(nb);
         return this
     }
 
-
+    /**
+     * 
+     * @param {number} timeStepMs 
+     * @param {number} nbIterations 
+     * @returns {this}
+     */
     start(timeStepMs = 10, nbIterations = -1) {
         let i = 0;
         const t = this;
@@ -136,6 +147,9 @@ class FishSimulation {
 
 }
 
+/**
+ * @param {Object} opts 
+ */
 export const fish = function (opts) {
     return new FishSimulation(opts)
 }

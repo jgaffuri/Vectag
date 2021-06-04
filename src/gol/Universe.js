@@ -1,46 +1,53 @@
 //@ts-check
 import { objToArray } from '../base/lib';
+import { CanvasPlus } from '../base/CanvasPlus';
+import { Cell } from './Cell';
 
+/**
+ * 
+ */
 export class Universe {
 
     /**
      * @constructor
-     * @struct
      * @param {number} w
      * @param {number} h
      */
     constructor(w, h) {
+
         /** @type {number} */
         this.w = w;
         /** @type {number} */
         this.h = h;
+
         /** @type {Array.<Cell>} */
         this.population = [];
-        /** @type {Object.<string,Cell>}
-         * @dict */
+        /** @type {Object.<string,Cell>} */
         this.populationI = {};
     }
 
     /**
      * @param {number} x
      * @param {number} y
-     * @return {Cell}
+     * @returns {Cell|null}
      */
     add(x, y) {
-        //find agent at location
+
+        //find cell at location
         /**@type {string}*/
         const id = x + "_" + y;
         if (this.populationI[id]) return null;
+
         //create new cell
         /**@type {Cell} */
-        const cell = { x: x, y: y, nb: 0 };
-        this.population.push(cell);
-        this.populationI[id] = cell;
-        return cell;
+        const cell = new Cell(x, y, 0)
+        this.population.push(cell)
+        this.populationI[id] = cell
+        return cell
     }
 
     /**
-     * @return {Universe}
+     * @returns {this}
      */
     step() {
 
@@ -135,14 +142,14 @@ export class Universe {
         const y1 = cell.y === 0 ? uni.h - 1 : cell.y - 1;
         const y2 = cell.y === uni.h - 1 ? 0 : cell.y + 1;
         return [
-            { x: x1, y: y1 },
-            { x: x1, y: cell.y },
-            { x: x1, y: y2 },
-            { x: cell.x, y: y1 },
-            { x: cell.x, y: y2 },
-            { x: x2, y: y1 },
-            { x: x2, y: cell.y },
-            { x: x2, y: y2 }
+            new Cell(x1, y1),
+            new Cell(x1, cell.y),
+            new Cell(x1, y2),
+            new Cell(cell.x, y1),
+            new Cell(cell.x, y2),
+            new Cell(x2, y1),
+            new Cell(x2, cell.y),
+            new Cell(x2, y2),
         ];
     }
 
