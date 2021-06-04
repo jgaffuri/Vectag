@@ -1,20 +1,30 @@
+//@ts-check
+import { Sea } from "./Sea"
+import { CanvasPlus } from "../base/CanvasPlus"
 export class Sardin {
 
-    /*
-        Sea sea;
-        x,y position, in pix
-        vx,vy speed, in pix per ms
-        v, va speed angle (in -Pi,Pi) and norm
-        ax, ay acceleration, in pix per s2
-        */
+    /**
+     * @param {Sea} sea 
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} vx 
+     * @param {number} vy 
+     */
     constructor(sea, x = sea.w * Math.random(), y = sea.h * Math.random(), vx = undefined, vy = undefined) {
 
+        /** @type {Sea} */
         this.sea = sea;
 
         //position
+        /** @type {number} */
         this.x = x < 0 ? 0 : x > sea.w ? sea.w : x
+        /** @type {number} */
         this.y = y < 0 ? 0 : y > sea.h ? sea.h : y
 
+        /** @type {number} */
+        this.vx = 0;
+        /** @type {number} */
+        this.vy = 0;
 
         //speed
         if (!vx && !vy) {
@@ -27,21 +37,29 @@ export class Sardin {
         }
 
         //acceleration
+        /** @type {number} */
         this.ax = 0
+        /** @type {number} */
         this.ay = 0
 
         //add to spatial index
         this.sea.grid.add(this, this.x, this.y)
 
         //list of sardins in vision field
+        /** @type {Array.<Sardin>} */
         this.obs = []
         //list of sardins in collision field
+        /** @type {Array.<Sardin>} */
         this.col = []
-
     }
 
 
-    /** Set random speed */
+    /**
+     * Set random speed
+     * 
+     * @param {number} minSpeed 
+     * @param {number} maxSpeed 
+     */
     setRandomSpeed(minSpeed = 0, maxSpeed = this.sea.V_MAX) {
         this.va = 2 * Math.random() * Math.PI;
         this.v = minSpeed + Math.random() * (maxSpeed - minSpeed);
@@ -50,14 +68,19 @@ export class Sardin {
     }
 
 
-    /** */
+    /**
+     * 
+     */
     observe() {
 
         //initialise lists
+        /** @type {Array.<Sardin>} */
         this.obs = [];
+        /** @type {Array.<Sardin>} */
         this.col = [];
 
         //get sardins around using spatial index
+        /** @type {Array.<Sardin>} */
         const ss = this.sea.grid.get(this.x - this.sea.D_OBS, this.y - this.sea.D_OBS, this.x + this.sea.D_OBS, this.y + this.sea.D_OBS);
 
         //get sardins in observation and collision fields
@@ -135,8 +158,9 @@ export class Sardin {
     }
 
 
-
-    /** */
+    /**
+     * @param {number} timeStepMs 
+     */
     move(timeStepMs = 10) {
         this.sea.grid.remove(this, this.x, this.y);
 
@@ -166,13 +190,21 @@ export class Sardin {
     }
 
 
-    /** Distance to other sardin */
+    /**
+     * @param {Sardin} s 
+     * @returns {number} The distance to another sardin.
+     */
     d(s) {
         return Math.hypot((s.x - this.x), (s.y - this.y));
     }
 
 
-    /** Display a sardin body */
+    /**
+     * Display a sardin body
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {number} length 
+     */
     display(cp, length) {
         const c2 = cp.c2d
         const c = Math.floor(255 * Math.abs(this.va) / Math.PI);

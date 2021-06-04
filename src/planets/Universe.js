@@ -20,7 +20,7 @@ export class Universe {
         /** @type {Array.<Planet>} */
         this.ps = [];
 
-        /** @type {Grid} */
+        /** @type {Grid.<Planet>} */
         this.grid = new Grid(w, h, gres);
     }
 

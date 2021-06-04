@@ -1,3 +1,4 @@
+//@ts-check
 import { Sea } from './Sea';
 import { CanvasPlus } from '../base/CanvasPlus';
 

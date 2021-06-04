@@ -1,3 +1,4 @@
+//@ts-check
 import { Land } from './Land';
 import { Animal } from './Animal';
 import { CanvasPlus } from '../base/CanvasPlus';

@@ -1,3 +1,4 @@
+//@ts-check
 import { CanvasPlus } from '../base/CanvasPlus';
 
 class GridVizTest {
@@ -36,21 +37,21 @@ class GridVizTest {
 
 
 
-/*
-    start(timeStepMs = 10, nbIterations = -1) {
-        let i = 0;
-        const t = this;
-        const engine = function () {
-            t.sea.step(timeStepMs);
-            t.cplus.redraw();
-            if (nbIterations > 0 && i++ > nbIterations)
-                return;
-            setTimeout(engine, 0);
-        };
-        engine();
-        return this
-    }
-*/
+    /*
+        start(timeStepMs = 10, nbIterations = -1) {
+            let i = 0;
+            const t = this;
+            const engine = function () {
+                t.sea.step(timeStepMs);
+                t.cplus.redraw();
+                if (nbIterations > 0 && i++ > nbIterations)
+                    return;
+                setTimeout(engine, 0);
+            };
+            engine();
+            return this
+        }
+    */
 }
 
 export const gvt = function (opts) {

@@ -1,3 +1,4 @@
+//@ts-check
 import { Sardin } from './Sardin';
 import { Grid } from '../base/Grid';
 import { removeFromArray } from '../base/lib';
@@ -27,6 +28,7 @@ export class Sea {
 
         this.w = w;
         this.h = h;
+        /** @type {Grid.<Sardin>} */
         this.grid = new Grid(w, h, this.D_OBS);
 
         this.fish = []
@@ -68,7 +70,7 @@ export class Sea {
         }
         this.EATEN_SARDIN_NB += this.killed.length;
         //eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
-        return;
+        return this;
     }
 
     /** Add a number of fish */
