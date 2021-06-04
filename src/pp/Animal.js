@@ -71,6 +71,8 @@ export class Animal {
             else
                 this.predators.push(a);
         }
+
+        console.log(this.preys.length, this.predators.length)
     }
 
     makeChild() {
