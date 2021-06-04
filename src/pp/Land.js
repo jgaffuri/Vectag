@@ -6,13 +6,15 @@ export class Land {
     constructor(w, h) {
 
         //the max speed
-        this.V_MAX = 0.1;
+        this.V_MAX = 0.1
 
-        this.p = 0.02; //predator death probability
-        this.q = 0.1; //prey reproduction probability
-        this.r = 0.5; //eaten prey transformation probability
-        this.nb = 3; //neighbors number
+        this.p = 0.02 //predator death probability
+        this.q = 0.1 //prey reproduction probability
+        this.r = 0.5 //eaten prey transformation probability
+        this.nb = 3 //neighbors number
 
+        this.w = w
+        this.h = h
         this.predators = []
         this.preys = []
         this.d = 10
@@ -29,7 +31,6 @@ export class Land {
         for(int i=0;i<wChart;i++)
             histo[i]=new int[]{0,0};*/
 
-
     }
 
 
@@ -44,20 +45,24 @@ export class Land {
         const predsToBorn = []
         const predsToDie = []
 
-        //prey reproduction if no predator around
+        //prey
         for (let prey of this.preys) {
+            //reproduction if no predator around
             if (Math.random() > this.q) continue;
             if (prey.predators.length != 0) continue;
             if (prey.preys.length >= this.nb) continue;
             preysToBorn.push(prey.makeChild());
         }
 
+        //predator
         for (let pred of this.predators) {
+            //no prey around: predator dies with probability p
             if (pred.preys.length == 0) {
-                //no prey around: predator dies with probability p
                 if (Math.random() < this.p) predsToDie.push(pred);
-            } else {
-                //prey eaten
+            }
+            //prey around
+            else {
+                //eat prey
                 const preyToEat = pred.preys.get((int)(pred.preys.length * Math.random()));
                 preysToDie.push(preyToEat);
 

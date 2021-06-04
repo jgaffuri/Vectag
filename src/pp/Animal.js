@@ -24,45 +24,41 @@ export class Animal {
         l.grid.add(this, this.x, this.y);
     }
 
-
+    /** Distance to another animal */
     d(a) {
         return Math.hypot((a.x - this.x), (a.y - this.y));
     }
 
+    /** Move */
     move() {
         const l = this.l
         l.grid.remove(this, this.x, this.y);
 
-        const a = Math.random() * 2 * Math.PI;
+        const angle = Math.random() * 2 * Math.PI;
         const r = 0.01 * Math.random();
 
-        this.vx += r * Math.cos(a) * l.timeStepMs;
-        if (this.vx > l.V_MAX)
-            this.vx = l.V_MAX;
-        else if (this.vx < -l.V_MAX)
-            this.vx = -l.V_MAX;
+        this.vx += r * Math.cos(angle) * l.timeStepMs;
+        this.vx = this.vx > l.V_MAX ? l.V_MAX : this.vx < -l.V_MAX ? -l.V_MAX : this.vx
 
-        this.vy += r * Math.sin(a) * l.timeStepMs;
-        if (this.vy > l.V_MAX)
-            this.vy = l.V_MAX;
-        else if (this.vy < -l.V_MAX)
-            this.vy = -l.V_MAX;
+        this.vy += r * Math.sin(angle) * l.timeStepMs;
+        this.vy = this.vy > l.V_MAX ? l.V_MAX : this.vy < -l.V_MAX ? -l.V_MAX : this.vy
 
         this.x += this.vx * l.timeStepMs;
-        if (this.x < 0) this.x = l.w;
-        else if (this.x > l.w) this.x = 0;
+        this.x = this.x < 0 ? l.w : this.x > l.w ? 0 : this.x
 
         this.y += this.vy * l.timeStepMs;
-        if (this.y < 0) this.y = l.h;
-        else if (this.y > l.h) this.y = 0;
+        this.y = this.y < 0 ? l.h : this.y > l.h ? 0 : this.y
 
-        //TODO use grid.move instead ?
         l.grid.add(this, this.x, this.y);
     }
 
 
+    /** Observe */
     observe() {
-        const as = [];
+        const l = this.l
+
+        //get animals around
+        const as = l.grid.get(this.x-l.d, this.y-l.d, this.x+l.d, this.y+l.d);
 
         this.preys = [];
         this.predators = [];
