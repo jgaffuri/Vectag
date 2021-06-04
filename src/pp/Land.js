@@ -63,12 +63,13 @@ export class Land {
             //prey around
             else {
                 //eat prey
-                const preyToEat = pred.preys.get((int)(pred.preys.length * Math.random()));
+                //choose randomly
+                const preyToEat = pred.preys[Math.floor(pred.preys.length * Math.random())];
                 preysToDie.push(preyToEat);
 
                 //predator reproduction
-                if (Math.random() > r) continue;
-                if (pred.predators.length >= nb) continue;
+                if (Math.random() > this.r) continue;
+                if (pred.predators.length >= this.nb) continue;
                 predsToBorn.push(pred.makeChild());
             }
         }

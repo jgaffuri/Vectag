@@ -1,10 +1,13 @@
 
 export class Animal {
 
-    //Animal.PREY = 0;
-    //Animal.PREDATOR = 1;
 
     constructor(type, l, x = 0, y = 0) {
+
+        //TODO move?
+        Animal.PREY = 0
+        Animal.PREDATOR = 1
+
         this.type = type;
         this.l = l;
 
@@ -58,7 +61,7 @@ export class Animal {
         const l = this.l
 
         //get animals around
-        const as = l.grid.get(this.x-l.d, this.y-l.d, this.x+l.d, this.y+l.d);
+        const as = l.grid.get(this.x - l.d, this.y - l.d, this.x + l.d, this.y + l.d);
 
         this.preys = [];
         this.predators = [];
@@ -71,8 +74,6 @@ export class Animal {
             else
                 this.predators.push(a);
         }
-
-        console.log(this.preys.length, this.predators.length)
     }
 
     makeChild() {
