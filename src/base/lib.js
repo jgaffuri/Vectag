@@ -1,9 +1,8 @@
 //@ts-check
-
 /**
  * @template T
  * @param {Object.<?, T>} obj
- * @return {Array.<T>}
+ * @returns {Array.<T>}
  */
 export const objToArray = function (obj) {
     var out = [];

@@ -1,12 +1,13 @@
 //@ts-check
 import { removeFromArray } from './lib';
 
+/**
+ * @template T
+ */
 export class Grid {
 
     /**
      * @constructor
-     * @struct
-     * @template T
      * @param {number} w
      * @param {number} h
      * @param {number} res
