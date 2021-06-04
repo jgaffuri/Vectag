@@ -31,6 +31,8 @@ class GridVizTest {
             c2.beginPath();
             c2.rect(this.geoToPixX(0) - 3, this.geoToPixY(this.h) - 3, th.w / this.ps + 3, th.h / this.ps + 3);
             c2.stroke();
+
+            return this
         };
 
     }
