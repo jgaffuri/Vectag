@@ -3,9 +3,14 @@ import { Universe } from './Universe';
 import { Planet } from './Planet';
 import { CanvasPlus } from '../base/CanvasPlus';
 
-
+/**
+ * 
+ */
 class PlanetSimulation {
 
+    /**
+     * @param {Object} opts 
+     */
     constructor(opts) {
         opts = opts || {};
         opts.divId = opts.divId || "vadiv";
@@ -46,13 +51,23 @@ class PlanetSimulation {
             c2.beginPath();
             c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
             c2.stroke();
+
+            return this;
         };
 
         /** @type {Universe} */
         this.uni = new Universe(this.w, this.h)
     }
 
-    /** Initialise with random planets */
+    /**
+     * Initialise with random planets
+     * 
+     * @param {number} nb 
+     * @param {number} mi 
+     * @param {number} minSpeed 
+     * @param {number} maxSpeed 
+     * @returns {this}
+     */
     initRandom(nb = 1000, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
@@ -60,7 +75,16 @@ class PlanetSimulation {
         return this;
     }
 
-    /** Initialise with big bang setup */
+    /**
+     * Initialise with big bang setup
+     * 
+     * @param {number} nb 
+     * @param {number} mi 
+     * @param {number} minSpeed 
+     * @param {number} maxSpeed 
+     * @param {number} rad 
+     * @returns {this}
+     */
     initBigBang(nb = 1000, mi = 1, minSpeed = 0.35, maxSpeed = 0.7, rad = 100) {
         /** @type {Array.<Planet>} */
         this.uni.ps = [];
@@ -72,7 +96,16 @@ class PlanetSimulation {
         return this;
     }
 
-    /** Start simulation */
+    /**
+     * Start simulation
+     * 
+     * @param {boolean} bounce 
+     * @param {number} vmax 
+     * @param {number} collisionFactor 
+     * @param {number} timeStepMs 
+     * @param {number} nbIterations 
+     * @returns {this}
+     */
     start(bounce = false, vmax = 0.8, collisionFactor = 0.8, timeStepMs = 10, nbIterations = -1) {
         let i = 0;
         const t = this;
@@ -94,7 +127,9 @@ class PlanetSimulation {
 
 }
 
-
+/**
+ * @param {Object} opts 
+ */
 export const planets = function (opts) {
     return new PlanetSimulation(opts)
 }

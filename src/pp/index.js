@@ -75,6 +75,8 @@ class PreyPredatorSimulation {
             c2.beginPath();
             c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
             c2.stroke();
+
+            return this
         };
 
 

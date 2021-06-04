@@ -1,56 +1,76 @@
 //@ts-check
+import { Land } from "./Land"
+import { CanvasPlus } from "../base/CanvasPlus"
 
 export class Animal {
 
-
+    /**
+     * @param {number} type 
+     * @param {Land} l 
+     * @param {number} x 
+     * @param {number} y 
+     */
     constructor(type, l, x = 0, y = 0) {
 
-        //TODO move?
-        Animal.PREY = 0
-        Animal.PREDATOR = 1
-
+        /** @type {number} */
         this.type = type;
+        /** @type {Land} */
         this.l = l;
 
         //position
+        /** @type {number} */
         this.x = x < 0 ? 0 : x > l.w ? l.w : x
+        /** @type {number} */
         this.y = y < 0 ? 0 : y > l.h ? l.h : y
 
         //speed
+        /** @type {number} */
         this.vx = 0
+        /** @type {number} */
         this.vy = 0;
 
-        //? the ones around ?
+        //the other animals around
+        /** @type {Array.<Animal>} */
         this.predators = []
+        /** @type {Array.<Animal>} */
         this.preys = []
 
         //add to the spatial index
         l.grid.add(this, this.x, this.y);
     }
 
-    /** Distance to another animal */
+
+    /**
+     * Distance to another animal
+     * 
+     * @param {Animal} a 
+     * @returns {number}
+     */
     d(a) {
         return Math.hypot((a.x - this.x), (a.y - this.y));
     }
 
-    /** Move */
-    move() {
+
+    /**
+     * @param {*} timeStepMs 
+     */
+    move(timeStepMs = 10) {
         const l = this.l
         l.grid.remove(this, this.x, this.y);
 
         const angle = Math.random() * 2 * Math.PI;
         const r = 0.01 * Math.random();
 
-        this.vx += r * Math.cos(angle) * l.timeStepMs;
+        this.vx += r * Math.cos(angle) * timeStepMs;
         this.vx = this.vx > l.V_MAX ? l.V_MAX : this.vx < -l.V_MAX ? -l.V_MAX : this.vx
 
-        this.vy += r * Math.sin(angle) * l.timeStepMs;
+        this.vy += r * Math.sin(angle) * timeStepMs;
         this.vy = this.vy > l.V_MAX ? l.V_MAX : this.vy < -l.V_MAX ? -l.V_MAX : this.vy
 
-        this.x += this.vx * l.timeStepMs;
+        this.x += this.vx * timeStepMs;
         this.x = this.x < 0 ? l.w : this.x > l.w ? 0 : this.x
 
-        this.y += this.vy * l.timeStepMs;
+        this.y += this.vy * timeStepMs;
         this.y = this.y < 0 ? l.h : this.y > l.h ? 0 : this.y
 
         l.grid.add(this, this.x, this.y);
@@ -70,20 +90,28 @@ export class Animal {
         for (let a of as) {
             if (a == this) continue;
             if (this.d(a) > l.d) continue;
-            if (a.type == Animal.PREY)
+            if (a.type == 0)
                 this.preys.push(a);
             else
                 this.predators.push(a);
         }
     }
 
+    /** @returns {Animal} */
     makeChild() {
         //do better: make child around
         return new Animal(this.type, this.l, this.x, this.y);
     }
 
 
-    /** display animal */
+
+    /**
+     * Display animal
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {string} fillStyle 
+     * @param {number} size 
+     */
     display(cp, fillStyle = "blue", size = 2) {
         const s = size / cp.ps
         cp.c2d.fillStyle = fillStyle;
@@ -93,6 +121,5 @@ export class Animal {
         c2.closePath();
         c2.fill();*/
     }
-
 
 }

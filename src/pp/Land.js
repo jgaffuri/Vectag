@@ -1,28 +1,44 @@
 //@ts-check
 import { Grid } from '../base/Grid';
 import { removeFromArrayS } from '../base/lib';
+import {Animal} from "./Animal"
 
 export class Land {
 
+    /**
+     * 
+     * @param {number} w 
+     * @param {number} h 
+     */
     constructor(w, h) {
 
         //the max speed
+        /** @type {number} */
         this.V_MAX = 0.1
 
+        /** @type {number} */
         this.p = 0.02 //predator death probability
+        /** @type {number} */
         this.q = 0.1 //prey reproduction probability
+        /** @type {number} */
         this.r = 0.5 //eaten prey transformation probability
+        /** @type {number} */
         this.nb = 3 //neighbors number
 
+        /** @type {number} */
         this.w = w
+        /** @type {number} */
         this.h = h
+
+        /** @type {Array.<Animal>} */
         this.predators = []
+        /** @type {Array.<Animal>} */
         this.preys = []
+
+        /** @type {number} */
         this.d = 10
-        this.timeStepMs = 20
+        /** @type {Grid.<Animal>} */
         this.grid = new Grid(w, h, this.d);
-
-
 
         /*int[][] histo;
         int index=0;
@@ -34,8 +50,10 @@ export class Land {
 
     }
 
-
-    step(timeStepMs) {
+    /**
+     * @param {number} timeStepMs 
+     */
+    step(timeStepMs = 10) {
 
         //observe
         for (let a of this.preys) a.observe();
@@ -85,9 +103,9 @@ export class Land {
 
         //move
         for (let a of this.preys)
-            a.move();
+            a.move(timeStepMs);
         for (let a of this.predators)
-            a.move();
+            a.move(timeStepMs);
 
         /*/histo
         histo[index] = new int[]{ preys.size(), predators.size() };

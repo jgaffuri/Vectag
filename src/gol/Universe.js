@@ -1,3 +1,4 @@
+//@ts-check
 import { objToArray } from '../base/lib';
 
 export class Universe {
