@@ -95,7 +95,7 @@ class PreyPredatorSimulation {
     }
 
 
-    initRandom(nbPrey = 5, nbPredator = 150) {
+    initRandom(nbPrey = 200, nbPredator = 1000) {
         for (let i = 0; i < nbPrey; i++)
             this.land.preys.push(
                 new Animal(0, this.land, this.w * Math.random(), this.h * Math.random())
