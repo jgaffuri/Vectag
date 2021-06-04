@@ -1,4 +1,4 @@
-
+//@ts-check
 export class CanvasPlus {
 
     //check:
@@ -8,10 +8,10 @@ export class CanvasPlus {
 
     /**
      * @constructor
-     * @struct
      * @param {string} divId
-     * @param {number=} w
-     * @param {number=} h
+     * @param {string} canvasId
+     * @param {Object} center
+     * @param {number} ps
      */
     constructor(divId = "vadiv", canvasId = "vacanvas", center = undefined, ps = 1) {
 
@@ -53,21 +53,37 @@ export class CanvasPlus {
 
     }
 
-    /** @return {CanPl.CanvasPlus} */
+    /** @returns {this} */
     redraw() {
         console.log("Override redraw method");
         return this;
     }
 
     //conversion functions
+    /**
+     * @param {number} xGeo
+     * @returns {number}
+    */
     geoToPixX(xGeo) { return (xGeo - this.center.x) / this.ps + this.w * 0.5; }
+    /**
+     * @param {number} yGeo
+     * @returns {number}
+    */
     geoToPixY(yGeo) { return -(yGeo - this.center.y) / this.ps + this.h * 0.5; }
+    /**
+     * @param {number} x
+     * @returns {number}
+    */
     pixToGeoX(x) { return (x - this.w * 0.5) * this.ps + this.center.x; }
+    /**
+     * @param {number} y
+     * @returns {number}
+    */
     pixToGeoY(y) { return -(y - this.h * 0.5) * this.ps + this.center.y; }
 
     /**
-     * @param {number} x
-     * @param {number} y
+     * @param {number} dxGeo
+     * @param {number} dyGeo
      */
     pan(dxGeo, dyGeo) {
         this.center.x += dxGeo;
@@ -76,14 +92,14 @@ export class CanvasPlus {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
      * @param {number} f
+     * @param {number} xGeo
+     * @param {number} yGeo
      */
     zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
         this.ps *= f;
-        this.center.x += (xGeo-this.center.x)*(1-f)
-        this.center.y += (yGeo-this.center.y)*(1-f)
+        this.center.x += (xGeo - this.center.x) * (1 - f)
+        this.center.y += (yGeo - this.center.y) * (1 - f)
         this.redraw();
     }
 

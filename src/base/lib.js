@@ -1,3 +1,5 @@
+//@ts-check
+
 /**
  * @template T
  * @param {Object.<?, T>} obj

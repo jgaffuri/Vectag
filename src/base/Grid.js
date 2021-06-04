@@ -1,3 +1,4 @@
+//@ts-check
 import { removeFromArray } from './lib';
 
 export class Grid {
