@@ -5,7 +5,7 @@ import RBush from 'rbush';
 /**
  * @template T
  */
-export class Grid {
+export class SpatialIndex {
 
     /**
      * @constructor

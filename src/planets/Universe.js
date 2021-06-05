@@ -1,6 +1,6 @@
 //@ts-check
 import { removeFromArray } from '../base/lib';
-import { Grid } from '../base/Grid';
+import { SpatialIndex } from '../base/SpatialIndex';
 import { Planet } from './Planet';
 
 export class Universe {
@@ -20,8 +20,8 @@ export class Universe {
         /** @type {Array.<Planet>} */
         this.ps = [];
 
-        /** @type {Grid.<Planet>} */
-        this.grid = new Grid(w, h, gres);
+        /** @type {SpatialIndex.<Planet>} */
+        this.grid = new SpatialIndex(w, h, gres);
     }
 
     /**

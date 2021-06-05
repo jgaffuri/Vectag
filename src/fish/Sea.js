@@ -1,6 +1,6 @@
 //@ts-check
 import { Sardin } from './Sardin';
-import { Grid } from '../base/Grid';
+import { SpatialIndex } from '../base/SpatialIndex';
 import { removeFromArray } from '../base/lib';
 
 export class Sea {
@@ -28,8 +28,8 @@ export class Sea {
 
         this.w = w;
         this.h = h;
-        /** @type {Grid.<Sardin>} */
-        this.grid = new Grid(w, h, this.D_OBS);
+        /** @type {SpatialIndex.<Sardin>} */
+        this.grid = new SpatialIndex(w, h, this.D_OBS);
 
         this.fish = []
 

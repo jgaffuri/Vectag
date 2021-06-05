@@ -90,6 +90,9 @@ class PreyPredatorSimulation {
     }
 
 
+
+    //TODO test init in a bubble ?
+
     /**
      * 
      * @param {number} nbPrey 

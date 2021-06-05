@@ -1,5 +1,5 @@
 //@ts-check
-import { Grid } from '../base/Grid';
+import { SpatialIndex } from '../base/SpatialIndex';
 import { removeFromArrayS } from '../base/lib';
 import {Animal} from "./Animal"
 
@@ -37,8 +37,8 @@ export class Land {
 
         /** @type {number} */
         this.d = 10
-        /** @type {Grid.<Animal>} */
-        this.grid = new Grid(w, h, this.d);
+        /** @type {SpatialIndex.<Animal>} */
+        this.grid = new SpatialIndex(w, h, this.d);
 
         /*int[][] histo;
         int index=0;
