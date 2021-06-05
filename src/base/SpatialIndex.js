@@ -68,6 +68,16 @@ export class SpatialIndex {
      * @returns {number}
      */
     add(obj, x, y) {
+
+        const item = {
+            minX: x,
+            minY: y,
+            maxX: x,
+            maxY: y,
+            obj: obj
+        };
+        this.tree.insert(item);
+
         return this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)].push(obj);
     }
 
@@ -76,18 +86,30 @@ export class SpatialIndex {
      * @param {number} x
      * @param {number} y
      */
-    remove(obj, x, y, msg=true) {
+    remove(obj, x, y, msg = true) {
+
+        const item = {
+            minX: x,
+            minY: y,
+            maxX: x,
+            maxY: y,
+            obj: obj
+        };
+        this.tree.remove(item, (a, b) => {
+            return a.obj === b.obj;
+        });
+
         removeFromArray(this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)], obj, msg);
     }
 
 
-     /**
-     * @param {T} obj
-     * @param {number} xIni
-     * @param {number} yIni
-     * @param {number} xFin
-     * @param {number} yFin
-     */
+    /**
+    * @param {T} obj
+    * @param {number} xIni
+    * @param {number} yIni
+    * @param {number} xFin
+    * @param {number} yFin
+    */
     move(obj, xIni, yIni, xFin, yFin) {
         const iIni = Math.floor(xIni / this.res);
         const jIni = Math.floor(yIni / this.res);
@@ -95,7 +117,7 @@ export class SpatialIndex {
         const jFin = Math.floor(yFin / this.res);
 
         //no change, still same cell
-        if(iIni==iFin && jIni==jFin) return;
+        if (iIni == iFin && jIni == jFin) return;
 
         //change cell
         removeFromArray(this.cells[iIni][jIni], obj);

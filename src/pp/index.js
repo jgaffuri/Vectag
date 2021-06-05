@@ -92,6 +92,7 @@ class PreyPredatorSimulation {
 
 
     //TODO test init in a bubble ?
+    //TODO use density as input parameters instead of nb
 
     /**
      * 
@@ -99,7 +100,7 @@ class PreyPredatorSimulation {
      * @param {number} nbPredator 
      * @returns {this}
      */
-    initRandom(nbPrey = 200, nbPredator = 1000) {
+    initRandom(nbPrey = 5000, nbPredator = 5000) {
         for (let i = 0; i < nbPrey; i++)
             this.land.preys.push(
                 new Animal(0, this.land, this.w * Math.random(), this.h * Math.random())
