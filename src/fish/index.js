@@ -41,22 +41,26 @@ class FishSimulation {
             //show vision field
             if (th.showFishVisionField)
                 for (let sa of s.fish)
-                    sa.displayVisionField(this, "rgba(200,200,200,0.15)", 1)
+                    if (this.toDraw(sa))
+                        sa.displayVisionField(this, "rgba(200,200,200,0.15)", 1)
             //show vision links
             if (th.showFishVisionLinks)
                 for (let sa of s.fish)
-                    sa.displayVisionLinks(this, "rgba(255,100,100,0.3)", 1)
+                    if (this.toDraw(sa))
+                        sa.displayVisionLinks(this, "rgba(255,100,100,0.3)", 1)
             //show collision field
             if (th.showFishCollisionField)
                 for (let sa of s.fish)
-                    sa.displayCollisionField(this, "purple", 1)
+                    if (this.toDraw(sa))
+                        sa.displayCollisionField(this, "purple", 1)
 
 
             //display sardins
             c2.lineWidth = 2 / this.ps
             const sardinLength = 7
             for (let sa of s.fish)
-                sa.display(this, sardinLength)
+                if (this.toDraw(sa))
+                    sa.display(this, sardinLength)
 
 
             //display shark

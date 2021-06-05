@@ -8,8 +8,6 @@ import RBush from 'rbush';
  */
 export class SpatialIndex {
 
-    //TODO bulk add and remove ?
-
     /**
      * @constructor
      */
@@ -32,6 +30,8 @@ export class SpatialIndex {
         /** @type {MyRBush} */
         this.tree = new MyRBush();
     }
+
+    //TODO bulk insert and remove ?
 
     /**
      * @param {number} xmin

@@ -23,10 +23,10 @@ export class CanvasPlus {
 
         //make canvas within div
         this.canvas = document.createElement("canvas");
+        div.appendChild(this.canvas)
         this.canvas.id = canvasId;
         this.canvas.width = this.w;
         this.canvas.height = this.h;
-        div.appendChild(this.canvas)
 
         /**@type {Object} */
         this.c2d = this.canvas.getContext("2d");
@@ -35,6 +35,11 @@ export class CanvasPlus {
         this.center = center || { x: this.w * 0.5, y: this.h * 0.5 }
         // zoom factor: pixel size, in m/pix
         this.ps = ps;
+
+        //extent
+        /** @type {{xMin:number,xMax:number,yMin:number,yMax:number}} */
+        this.extGeo = undefined;
+        this.updateExtentGeo()
 
         //mouse click - pan
         let mpan = false
@@ -88,6 +93,7 @@ export class CanvasPlus {
     pan(dxGeo, dyGeo) {
         this.center.x += dxGeo;
         this.center.y += dyGeo;
+        this.updateExtentGeo()
         this.redraw();
     }
 
@@ -100,7 +106,32 @@ export class CanvasPlus {
         this.ps *= f;
         this.center.x += (xGeo - this.center.x) * (1 - f)
         this.center.y += (yGeo - this.center.y) * (1 - f)
+        this.updateExtentGeo()
         this.redraw();
     }
 
+    /**
+     * @param {number} marginPx 
+     */
+    updateExtentGeo(marginPx = 20) {
+        this.extGeo = {
+            xMin: this.pixToGeoX(-marginPx),
+            xMax: this.pixToGeoX(this.w + marginPx),
+            yMin: this.pixToGeoY(this.h + marginPx),
+            yMax: this.pixToGeoY(-marginPx)
+        }
+    }
+
+    /**
+     * Check if the object has to be drawn
+     * 
+     * @param {{x:number,y:number}} obj 
+     */
+    toDraw(obj) {
+        if(obj.x < this.extGeo.xMin) return false;
+        if(obj.x > this.extGeo.xMax) return false;
+        if(obj.y < this.extGeo.yMin) return false;
+        if(obj.y > this.extGeo.yMax) return false;
+        return true
+    }
 }
