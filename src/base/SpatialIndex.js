@@ -1,5 +1,4 @@
 //@ts-check
-import { removeFromArray } from './lib';
 import RBush from 'rbush';
 
 /**
@@ -9,11 +8,12 @@ export class SpatialIndex {
 
     /**
      * @constructor
-     * @param {number} w
-     * @param {number} h
-     * @param {number} res
      */
-    constructor(w, h, res) {
+    constructor() {
+
+        //TODO make private
+        //TODO simplify for points?
+
         /** @type {RBush} */
         this.tree = new RBush();
     }
@@ -37,6 +37,9 @@ export class SpatialIndex {
         return result
     }
 
+
+    //TODO bulk add
+
     /**
      * @param {T} obj
      * @param {number} x
@@ -53,6 +56,9 @@ export class SpatialIndex {
         };
         this.tree.insert(item);
     }
+
+
+    //TODO bulk remove
 
     /**
      * @param {T} obj
@@ -74,6 +80,8 @@ export class SpatialIndex {
 
     }
 
+
+    //TODO keep that?
 
     /**
     * @param {T} obj

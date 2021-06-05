@@ -9,9 +9,8 @@ export class Universe {
      * @constructor
      * @param {number} w
      * @param {number} h
-     * @param {number} gres
      */
-    constructor(w, h, gres = Math.min(w, h) / 100.0) {
+    constructor(w, h) {
         /** @type {number} */
         this.w = w;
         /** @type {number} */
@@ -21,7 +20,7 @@ export class Universe {
         this.ps = [];
 
         /** @type {SpatialIndex.<Planet>} */
-        this.grid = new SpatialIndex(w, h, gres);
+        this.grid = new SpatialIndex();
     }
 
     /**

@@ -38,7 +38,7 @@ export class Land {
         /** @type {number} */
         this.d = 10
         /** @type {SpatialIndex.<Animal>} */
-        this.grid = new SpatialIndex(w, h, this.d);
+        this.grid = new SpatialIndex();
 
         /*int[][] histo;
         int index=0;

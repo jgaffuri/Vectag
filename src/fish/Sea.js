@@ -29,7 +29,7 @@ export class Sea {
         this.w = w;
         this.h = h;
         /** @type {SpatialIndex.<Sardin>} */
-        this.grid = new SpatialIndex(w, h, this.D_OBS);
+        this.grid = new SpatialIndex();
 
         this.fish = []
 
