@@ -36,7 +36,7 @@ export class Animal {
         this.preys = []
 
         //add to the spatial index
-        l.grid.add(this, this.x, this.y);
+        l.grid.insert(this);
     }
 
 
@@ -56,7 +56,7 @@ export class Animal {
      */
     move(timeStepMs = 10) {
         const l = this.l
-        l.grid.remove(this, this.x, this.y);
+        l.grid.remove(this);
 
         const angle = Math.random() * 2 * Math.PI;
         const r = 0.01 * Math.random();
@@ -73,7 +73,7 @@ export class Animal {
         this.y += this.vy * timeStepMs;
         this.y = this.y < 0 ? l.h : this.y > l.h ? 0 : this.y
 
-        l.grid.add(this, this.x, this.y);
+        l.grid.insert(this);
     }
 
 

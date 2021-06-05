@@ -1,4 +1,6 @@
 //@ts-check
+
+//see https://github.com/mourner/rbush
 import RBush from 'rbush';
 
 /**
@@ -6,16 +8,29 @@ import RBush from 'rbush';
  */
 export class SpatialIndex {
 
+    //TODO bulk add and remove ?
+
     /**
      * @constructor
      */
     constructor() {
+        class MyRBush extends RBush {
+            /** @param {{x:number,y:number}} obj  */
+            toBBox(obj) { return { minX: obj.x, minY: obj.y, maxX: obj.x, maxY: obj.y }; }
+            /**
+             * @param {{x:number,y:number}} a 
+             * @param {{x:number,y:number}} b 
+             */
+            compareMinX(a, b) { return a.x - b.x; }
+            /**
+             * @param {{x:number,y:number}} a 
+             * @param {{x:number,y:number}} b 
+             */
+            compareMinY(a, b) { return a.y - b.y; }
+        }
 
-        //TODO make private
-        //TODO simplify for points?
-
-        /** @type {RBush} */
-        this.tree = new RBush();
+        /** @type {MyRBush} */
+        this.tree = new MyRBush();
     }
 
     /**
@@ -26,73 +41,26 @@ export class SpatialIndex {
      * @return {Array.<T>}
      */
     get(xmin, ymin, xmax, ymax) {
-
-        let result = this.tree.search({
+        return this.tree.search({
             minX: xmin,
             minY: ymin,
             maxX: xmax,
             maxY: ymax
         });
-        result = result.map(v => v.obj);
-        return result
     }
-
-
-    //TODO bulk add
 
     /**
      * @param {T} obj
-     * @param {number} x
-     * @param {number} y
      */
-    add(obj, x, y) {
-
-        const item = {
-            minX: x,
-            minY: y,
-            maxX: x,
-            maxY: y,
-            obj: obj
-        };
-        this.tree.insert(item);
+    insert(obj) {
+        this.tree.insert(obj);
     }
-
-
-    //TODO bulk remove
 
     /**
      * @param {T} obj
-     * @param {number} x
-     * @param {number} y
      */
-    remove(obj, x, y, msg = true) {
-
-        const item = {
-            minX: x,
-            minY: y,
-            maxX: x,
-            maxY: y,
-            obj: obj
-        };
-        this.tree.remove(item, (a, b) => {
-            return a.obj === b.obj;
-        });
-
-    }
-
-
-    //TODO keep that?
-
-    /**
-    * @param {T} obj
-    * @param {number} xIni
-    * @param {number} yIni
-    * @param {number} xFin
-    * @param {number} yFin
-    */
-    move(obj, xIni, yIni, xFin, yFin) {
-        this.remove(obj, xIni, yIni)
-        this.add(obj, xFin, yFin)
+    remove(obj) {
+        this.tree.remove(obj)
     }
 
 }

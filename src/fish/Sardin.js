@@ -45,7 +45,7 @@ export class Sardin {
         this.ay = 0
 
         //add to spatial index
-        this.sea.grid.add(this, this.x, this.y)
+        this.sea.grid.insert(this)
 
         //list of sardins in vision field
         /** @type {Array.<Sardin>} */
@@ -164,7 +164,7 @@ export class Sardin {
      * @param {number} timeStepMs 
      */
     move(timeStepMs = 10) {
-        this.sea.grid.remove(this, this.x, this.y);
+        this.sea.grid.remove(this);
 
         //compute new speed
         this.vx += this.ax * timeStepMs + (1 - 2 * Math.random()) * 0.02;
@@ -187,8 +187,8 @@ export class Sardin {
         if (this.x > this.sea.w) this.x = 0;
         if (this.y > this.sea.h) this.y = 0;
 
-        //TODO use move?
-        this.sea.grid.add(this, this.x, this.y);
+        //
+        this.sea.grid.insert(this);
     }
 
 

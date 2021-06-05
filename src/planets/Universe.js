@@ -58,7 +58,7 @@ export class Universe {
     add(p) {
         p.u = this;
         this.ps.push(p);
-        this.grid.add(p, p.x, p.y);
+        this.grid.insert(p);
     }
 
     /**
@@ -69,7 +69,7 @@ export class Universe {
     remove(p) {
         p.u = null;
         removeFromArray(this.ps, p);
-        this.grid.remove(p, p.x, p.y);
+        this.grid.remove(p);
     }
 
     /**
@@ -80,8 +80,9 @@ export class Universe {
      * @param {number} ny
      */
     move(p, nx, ny) {
-        this.grid.move(p, p.x, p.y, nx, ny);
+        this.grid.remove(p);
         p.x = nx; p.y = ny;
+        this.grid.insert(p);
     }
 
     /**
