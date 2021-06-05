@@ -1,5 +1,6 @@
 //@ts-check
 import { removeFromArray } from './lib';
+import RBush from 'rbush';
 
 /**
  * @template T
@@ -34,6 +35,9 @@ export class Grid {
                 this.cells[i][j] = [];
             }
         }
+
+        /** @type {RBush} */
+        this.tree = new RBush();
     }
 
     /**
@@ -61,7 +65,7 @@ export class Grid {
      * @param {T} obj
      * @param {number} x
      * @param {number} y
-     * @return {number}
+     * @returns {number}
      */
     add(obj, x, y) {
         return this.cells[Math.floor(x / this.res)][Math.floor(y / this.res)].push(obj);
