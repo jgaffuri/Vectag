@@ -66,7 +66,7 @@ export class Sea {
             if (d > this.D_SHARK_EAT) continue;
             this.killed.push(s);
             removeFromArray(this.fish, s)
-            this.grid.remove(s, s.x, s.y);
+            this.grid.remove(s);
         }
         this.EATEN_SARDIN_NB += this.killed.length;
         //eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
