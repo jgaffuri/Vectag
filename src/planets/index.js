@@ -34,6 +34,7 @@ class PlanetSimulation {
 
             //display planets
             for (let p of th.uni.ps) {
+                if (!this.toDraw(p)) continue
                 const t = p.m / th.uni.m();
                 p.display(this, "rgb(255,255," + Math.floor(255 * (1 - t)) + ")")
             }

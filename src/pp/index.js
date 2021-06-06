@@ -35,9 +35,11 @@ class PreyPredatorSimulation {
 
             //display animals
             for (let a of th.land.preys)
-                a.display(this, "blue");
+                if (this.toDraw(a))
+                    a.display(this, "blue");
             for (let a of th.land.predators)
-                a.display(this, "red");
+                if (this.toDraw(a))
+                    a.display(this, "red");
 
             /*/label
             c2.fillStyle = "lightgray";
