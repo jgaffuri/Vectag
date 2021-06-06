@@ -98,18 +98,19 @@ class PreyPredatorSimulation {
 
     /**
      * 
-     * @param {number} nbPrey 
-     * @param {number} nbPredator 
+     * @param {number} preyDensity 
+     * @param {number} predatorDensity 
      * @returns {this}
      */
-    initRandom(nbPrey = 5000, nbPredator = 5000) {
-        for (let i = 0; i < nbPrey; i++)
-            this.land.preys.push(
-                new Animal(0, this.land, this.w * Math.random(), this.h * Math.random())
+    initRandom(preyDensity = 0.003, predatorDensity = 0.003) {
+        const l = this.land
+        for (let i = 0; i < preyDensity * l.w * l.h; i++)
+            l.preys.push(
+                new Animal(0, l, l.w * Math.random(), l.h * Math.random())
             );
-        for (let i = 0; i < nbPredator; i++)
-            this.land.predators.push(
-                new Animal(1, this.land, this.w * Math.random(), this.h * Math.random())
+        for (let i = 0; i < predatorDensity * l.w * l.h; i++)
+            l.predators.push(
+                new Animal(1, l, l.w * Math.random(), l.h * Math.random())
             );
         return this;
     }
