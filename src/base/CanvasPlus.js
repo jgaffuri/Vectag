@@ -15,16 +15,14 @@ export class CanvasPlus {
      */
     constructor(divId = "vadiv", canvasId = "vacanvas", center = undefined, ps = 1) {
 
-        const div = document.getElementById(divId);
-        /** @type {number} */
-        this.w = div.offsetWidth;
-        /** @type {number} */
-        this.h = div.offsetHeight;
+        /** @type {*} */
+        this.canvas = document.getElementById(canvasId);
 
-        //make canvas within div
-        this.canvas = document.createElement("canvas");
-        div.appendChild(this.canvas)
-        this.canvas.id = canvasId;
+        /** @type {number} */
+        this.w = this.canvas.offsetWidth;
+        /** @type {number} */
+        this.h = this.canvas.offsetHeight;
+
         this.canvas.width = this.w;
         this.canvas.height = this.h;
 
@@ -32,8 +30,11 @@ export class CanvasPlus {
         this.c2d = this.canvas.getContext("2d");
 
         // geo coordinates of the center
+        /** @type {{x:number,y:number}} */
         this.center = center || { x: this.w * 0.5, y: this.h * 0.5 }
+
         // zoom factor: pixel size, in m/pix
+        /** @type {number} */
         this.ps = ps;
 
         //extent
@@ -128,10 +129,10 @@ export class CanvasPlus {
      * @param {{x:number,y:number}} obj 
      */
     toDraw(obj) {
-        if(obj.x < this.extGeo.xMin) return false;
-        if(obj.x > this.extGeo.xMax) return false;
-        if(obj.y < this.extGeo.yMin) return false;
-        if(obj.y > this.extGeo.yMax) return false;
+        if (obj.x < this.extGeo.xMin) return false;
+        if (obj.x > this.extGeo.xMax) return false;
+        if (obj.y < this.extGeo.yMin) return false;
+        if (obj.y > this.extGeo.yMax) return false;
         return true
     }
 }

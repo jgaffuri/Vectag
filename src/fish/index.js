@@ -9,13 +9,14 @@ class FishSimulation {
      */
     constructor(opts) {
         opts = opts || {};
-        opts.divId = opts.divId || "vadiv";
 
-        const div = document.getElementById(opts.divId);
+        opts.canvasId = opts.canvasId || "vacanvas";
+        const canvas = document.getElementById(opts.canvasId);
+
         /** @type {number} */
-        this.w = div.offsetWidth;
+        this.w = opts.w || canvas.offsetWidth;
         /** @type {number} */
-        this.h = div.offsetHeight;
+        this.h = opts.h || canvas.offsetHeight;
 
         //TODO
         //add eaten fish nb label
