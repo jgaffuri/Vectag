@@ -122,11 +122,11 @@ class FishSimulation {
 
 
     /**
-     * @param {number} nb 
+     * @param {number} density 
      * @returns {this}
      */
-    initRandom(nb = 1500) {
-        this.sea.addFish(nb);
+    initRandom(density = 0.001) {
+        this.sea.addFish(density * this.sea.w * this.sea.h);
         return this
     }
 
