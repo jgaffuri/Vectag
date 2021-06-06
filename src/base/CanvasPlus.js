@@ -8,12 +8,11 @@ export class CanvasPlus {
 
     /**
      * @constructor
-     * @param {string} divId
      * @param {string} canvasId
      * @param {Object} center
      * @param {number} ps
      */
-    constructor(divId = "vadiv", canvasId = "vacanvas", center = undefined, ps = 1) {
+    constructor(canvasId = "vacanvas", center = undefined, ps = 1) {
 
         /** @type {*} */
         this.canvas = document.getElementById(canvasId);

@@ -1,6 +1,7 @@
 //@ts-check
 import { CanvasPlus } from '../base/CanvasPlus';
 import { Universe } from './Universe';
+import { Cell } from './Cell';
 
 //TODO zoom/pan, with canvas transform: better universe limits
 //TODO buttons (play, stop, speed, draw, pan)
@@ -21,7 +22,7 @@ class GoLSimulation {
         this.h = opts.h || canvas.offsetHeight;
 
         /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus(opts.divId, "vacanvas");
+        this.cplus = new CanvasPlus();
 
         const th = this;
         this.cplus.redraw = function () {

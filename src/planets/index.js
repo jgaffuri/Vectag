@@ -21,7 +21,7 @@ class PlanetSimulation {
         this.h = opts.h || canvas.offsetHeight;
 
         /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus(opts.divId, "vacanvas");
+        this.cplus = new CanvasPlus();
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
