@@ -97,9 +97,9 @@ export class Land {
         this.predators.push(...predsToBorn);
 
         removeFromArrayS(this.preys, preysToDie, false)
-        for (let a of preysToDie) this.grid.remove(a, a.x, a.y, false);
+        for (let a of preysToDie) this.grid.remove(a);
         removeFromArrayS(this.predators, predsToDie, false)
-        for (let a of predsToDie) this.grid.remove(a, a.x, a.y, false);
+        for (let a of predsToDie) this.grid.remove(a);
 
         //move
         for (let a of this.preys)
