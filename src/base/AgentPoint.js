@@ -1,6 +1,5 @@
 //@ts-check
 
-
 /** */
 export class AgentPoint {
 
@@ -44,6 +43,7 @@ export class AgentPoint {
      * 
      * @param {number} x 
      * @param {number} y 
+     * @returns {number} The distance to a position.
      */
     dP(x, y) {
         return Math.hypot((x - this.x), (y - this.y));
