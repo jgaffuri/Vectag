@@ -20,6 +20,10 @@ class PlanetSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
+        /** @type {boolean} */
+        this.showGravityField = false
+
+
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus();
         this.cplus.c2d.fillStyle = "black";
@@ -45,6 +49,15 @@ class PlanetSimulation {
             c2.fillRect(0, 0, 65, 13);
             c2.fillStyle = "rgb(0,0,0)";
             c2.fillText(th.uni.ps.length + " planets", 2, 10);*/
+
+
+            if (th.showGravityField) {
+                //TODO show gravity field
+                //make grid
+                //extract function to compute gravity field at (x,y)
+                //for each cell, compute gravity field of center
+                //at each point, draw segment with orientation/thickness(or length) depending on field
+            }
 
             //frame
             c2.strokeStyle = "darkgray";

@@ -31,7 +31,7 @@ export class SpatialIndex {
         this.tree = new MyRBush();
     }
 
-    //TODO bulk insert and remove ?
+    //TODO bulk remove ?
 
     /**
      * @param {number} xmin
@@ -57,10 +57,25 @@ export class SpatialIndex {
     }
 
     /**
+     * Bulk insert
+     * 
+     * @param {Array.<T>} objs
+     */
+    load(objs) {
+        this.tree.load(objs);
+    }
+
+    /**
      * @param {T} obj
      */
     remove(obj) {
         this.tree.remove(obj)
+    }
+
+    /**
+     */
+    clear() {
+        this.tree.clear()
     }
 
 }

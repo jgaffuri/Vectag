@@ -1,8 +1,9 @@
 //@ts-check
 import { Universe } from "./Universe";
-import {CanvasPlus} from "../base/CanvasPlus"
+import { CanvasPlus } from "../base/CanvasPlus"
+import { AgentPoint } from "../base/AgentPoint";
 
-export class Planet {
+export class Planet extends AgentPoint {
 
     /**
      * @constructor
@@ -10,10 +11,14 @@ export class Planet {
      * @param {number} m The mass
      * @param {number} x The x position
      * @param {number} y The y position
-     * @param {number} vx The speed x
-     * @param {number} vy The speed y
+     * @param {number} sx The speed x
+     * @param {number} sy The speed y
      */
-    constructor(u, m, x, y, vx, vy) {
+    constructor(u, m, x, y, sx, sy) {
+
+        //
+        super(x, y, sx, sy)
+
         /** @type {Universe} */
         this.u = u;
         /** @type {number} */
@@ -28,12 +33,6 @@ export class Planet {
         this.x = x < r ? r : x > u.w - r ? u.w - r : x;
         /** @type {number} */
         this.y = y < r ? r : y > u.h - r ? u.h - r : y;
-
-        //set speed
-        /** @type {number} */
-        this.vx = vx;
-        /** @type {number} */
-        this.vy = vy;
 
         //set force
         /** @type {number} */
@@ -67,17 +66,6 @@ export class Planet {
         }
     }
 
-    /**
-     * @param {Planet} p
-     * @return {number} The distance to the planet p.
-     */
-    d(p) {
-        /** @type {number} */
-        const dx = p.x - this.x;
-        /** @type {number} */
-        const dy = p.y - this.y;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
 
     /**
      * @return {number} The radius of the planet, depending on its mass.
@@ -85,6 +73,7 @@ export class Planet {
     r() {
         return Math.pow(this.m / Math.PI, 0.5);
     }
+
 
     /**
      * 
@@ -101,33 +90,33 @@ export class Planet {
         const ay = this.fy / this.m;
 
         //compute new speed
-        this.vx += ax * timeStepMs;
-        this.vy += ay * timeStepMs;
+        this.sx += ax * timeStepMs;
+        this.sy += ay * timeStepMs;
 
         //check vmax
         if (vmax > 0) {
             /** @type {number} */
-            const v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            const v = Math.sqrt(this.sx * this.sx + this.sy * this.sy);
             if (v > vmax) {
-                this.vx = vmax * this.vx / v;
-                this.vy = vmax * this.vy / v;
+                this.sx = vmax * this.sx / v;
+                this.sy = vmax * this.sy / v;
             }
         }
 
         //compute new position
         /** @type {number} */
-        let nx = this.x + this.vx * timeStepMs;
+        let nx = this.x + this.sx * timeStepMs;
         /** @type {number} */
-        let ny = this.y + this.vy * timeStepMs;
+        let ny = this.y + this.sy * timeStepMs;
 
         //handle position limit
         if (bounce) {
             const r = this.r();
             const e = 1;
-            if (nx < r) { nx = r; this.vx = -this.vx * e; }
-            if (ny < r) { ny = r; this.vy = -this.vy * e; }
-            if (nx > this.u.w - r) { nx = this.u.w - r; this.vx = -this.vx * e; }
-            if (ny > this.u.h - r) { ny = this.u.h - r; this.vy = -this.vy * e; }
+            if (nx < r) { nx = r; this.sx = -this.sx * e; }
+            if (ny < r) { ny = r; this.sy = -this.sy * e; }
+            if (nx > this.u.w - r) { nx = this.u.w - r; this.sx = -this.sx * e; }
+            if (ny > this.u.h - r) { ny = this.u.h - r; this.sy = -this.sy * e; }
         } else {
             if (nx < 0) { nx = this.u.w; }
             if (ny < 0) { ny = this.u.h; }
@@ -139,18 +128,6 @@ export class Planet {
         this.u.move(this, nx, ny)
     }
 
-
-    /** 
-    * Set random speed
-    * @param {number} minSpeed
-    * @param {number} maxSpeed
-    */
-    setRandomSpeed(minSpeed = 0, maxSpeed = 0.1) {
-        const angle = 2 * Math.random() * Math.PI;
-        const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
-        this.vx = speed * Math.cos(angle)
-        this.vy = speed * Math.sin(angle)
-    }
 
     /**
      * Display planet

@@ -98,8 +98,8 @@ export class Universe {
             m,
             (p1.x * p1.m + p2.x * p2.m) / m,
             (p1.y * p1.m + p2.y * p2.m) / m,
-            (p1.vx * p1.m + p2.vx * p2.m) / m,
-            (p1.vy * p1.m + p2.vy * p2.m) / m
+            (p1.sx * p1.m + p2.sx * p2.m) / m,
+            (p1.sy * p1.m + p2.sy * p2.m) / m
         );
         this.remove(p1);
         this.remove(p2);
@@ -243,7 +243,7 @@ export class Universe {
             const aS = a + 2 * (Math.random() - 0.5) * 2 * Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
 
-            this.createPlanet(p.m / nb, p.x + x, p.y + y, p.vx + sx, p.vy + sy)
+            this.createPlanet(p.m / nb, p.x + x, p.y + y, p.sx + sx, p.sy + sy)
         }
         //remove p from universe
         this.remove(p)

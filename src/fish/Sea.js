@@ -46,9 +46,6 @@ export class Sea {
         /** @type {Array.<Sardin>} */
         this.fish = []
 
-        /** @type {SpatialIndex.<Sardin>} */
-        this.grid = new SpatialIndex();
-
         //TODO
         this.shark = null;
 
@@ -61,36 +58,50 @@ export class Sea {
      */
     step(timeStepMs = 10) {
 
-        //observe
-        for (let sa of this.fish)
-            sa.observe();
+        //ini
+        for (let f of this.fish) {
+            f.computeSpeed()
+            f.computeSpeedAngle()
+        }
 
-        //move
-        for (let sa of this.fish)
-            sa.move(timeStepMs);
+        //male spatial index
+        /** @type {SpatialIndex.<Sardin>} */
+        const sindex = new SpatialIndex();
+        sindex.load(this.fish)
+
+        //observe
+        for (let f of this.fish)
+            f.observe(sindex);
 
         //shark eat fish
-        this.sharkEat();
+        this.sharkEat(sindex);
+
+        //dispose spatial index
+        //sindex.clear()
+
+        //move
+        for (let f of this.fish)
+            f.move(timeStepMs);
     }
 
 
     /**
-     * 
+     * @param {SpatialIndex.<Sardin>} sindex 
      */
-    sharkEat() {
+    sharkEat(sindex) {
         if (this.shark == null) return;
 
         /** @type {Array.<Sardin>} */
         this.killed = [];
 
         const x = this.shark.x, y = this.shark.y;
-        const ss = this.grid.get(x - this.D_SHARK_EAT, y - this.D_SHARK_EAT, x + this.D_SHARK_EAT, y + this.D_SHARK_EAT);
+        const ss = sindex.get(x - this.D_SHARK_EAT, y - this.D_SHARK_EAT, x + this.D_SHARK_EAT, y + this.D_SHARK_EAT);
         for (let s of ss) {
             const d = Math.hypot((x - s.x), (y - s.y));
             if (d > this.D_SHARK_EAT) continue;
             this.killed.push(s);
             removeFromArray(this.fish, s)
-            this.grid.remove(s);
+            //sindex.remove(s);
         }
         this.EATEN_SARDIN_NB += this.killed.length;
         //eatenFishNb.setText("Eaten fish: " + EATEN_SARDIN_NB);
