@@ -36,11 +36,11 @@ export class Planet extends AgentPoint {
         /** @type {number} */
         this.y = y < r ? r : y > u.h - r ? u.h - r : y;
 
-        //set force
+        //acceleration
         /** @type {number} */
-        this.fx = 0;
+        this.ax = 0;
         /** @type {number} */
-        this.fy = 0;
+        this.ay = 0;
     }
 
     /**
@@ -51,10 +51,11 @@ export class Planet extends AgentPoint {
         //compute gravity field at planet location
         const g = this.u.getGravityField(this.x, this.y, this);
 
-        //set force
-        this.fx = this.m * g.gx;
-        this.fy = this.m * g.gy;
-
+        //set acceleration
+        /** @type {number} */
+        this.ax = g.gx;
+        /** @type {number} */
+        this.ay = g.gy;
     }
 
 
@@ -69,28 +70,22 @@ export class Planet extends AgentPoint {
     /**
      * 
      * @param {boolean} bounce 
-     * @param {number} vmax 
+     * @param {number} maxSpeed 
      * @param {number} timeStepMs 
      */
-    change(bounce = false, vmax = 0.8, timeStepMs = 10) {
-
-        //compute acceleration
-        /** @type {number} */
-        const ax = this.fx / this.m;
-        /** @type {number} */
-        const ay = this.fy / this.m;
+    change(bounce = false, maxSpeed = 0.8, timeStepMs = 10) {
 
         //compute new speed
-        this.sx += ax * timeStepMs;
-        this.sy += ay * timeStepMs;
+        this.sx += this.ax * timeStepMs;
+        this.sy += this.ay * timeStepMs;
 
         //check vmax
-        if (vmax > 0) {
+        if (maxSpeed > 0) {
             /** @type {number} */
             const v = Math.sqrt(this.sx * this.sx + this.sy * this.sy);
-            if (v > vmax) {
-                this.sx = vmax * this.sx / v;
-                this.sy = vmax * this.sy / v;
+            if (v > maxSpeed) {
+                this.sx = maxSpeed * this.sx / v;
+                this.sy = maxSpeed * this.sy / v;
             }
         }
 

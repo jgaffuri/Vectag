@@ -54,7 +54,6 @@ class PlanetSimulation {
             if (th.showGravityField) {
                 //TODO show gravity field
                 //make grid
-                //extract function to compute gravity field at (x,y)
                 //for each cell, compute gravity field of center
                 //at each point, draw segment with orientation/thickness(or length) depending on field
             }
