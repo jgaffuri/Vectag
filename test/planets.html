@@ -14,8 +14,14 @@
         <button type="button" onclick="app.uni.explodeLargestPlanet()">Explode sun</button><br />
         <input type="checkbox" id="acc" name="acc" value="false" onclick="app.showPlanetAcceleration=this.checked">
         <label for="acc">Show acceleration</label><br />
-        <input type="checkbox" id="gravF" name="gravF" value="false" onclick="app.showGravityField=this.checked">
-        <label for="gravF">Show gravity field</label><br />
+
+        <input type="radio" id="n" name="field" value="n" checked="checked" onchange="app.showField=undefined")">
+        <label for="n">None</label><br>
+        <input type="radio" id="f" name="field" value="f" onchange="app.showField='f'")">
+        <label for="f">Gravity field</label><br>
+        <input type="radio" id="i" name="field" value="i" onchange="app.showField='i'")">
+        <label for="i">Isopotential lines</label>
+
     </div>
     <div
         style="background-color:rgba(255, 255, 255, 0.5) ; border-radius:5px; padding:5px; margin:10px; position: absolute; bottom:0px; ">

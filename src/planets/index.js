@@ -119,7 +119,7 @@ class PlanetSimulation {
                     c2.moveTo(x - dx, y + dy);
                     c2.lineTo(x + dx, y - dy);
                 } else {
-                    //iso potential lines
+                    //isopotential lines
                     c2.moveTo(x + dy, y + dx);
                     c2.lineTo(x - dy, y - dx);
                 }
