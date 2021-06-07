@@ -237,7 +237,9 @@ export class Sardin {
         c2.beginPath();
         c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
         c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.ps,
-            Math.PI - this.va + this.sea.A_OBS * 0.5, Math.PI - this.va - this.sea.A_OBS * 0.5);
+            -this.va - this.sea.A_OBS * 0.5,
+            -this.va + this.sea.A_OBS * 0.5
+        );
         c2.closePath();
         c2.fill();
     }
