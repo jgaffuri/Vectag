@@ -25,8 +25,11 @@ class PlanetSimulation {
 
         /** @type {string} */
         this.showField = undefined
+        /** @type {number} */
         this.fieldRes = 20
+        /** @type {number} */
         this.fieldFactor = 1000
+        /** @type {string} */
         this.fieldStrokeStyle = "#99bbff";
 
 
