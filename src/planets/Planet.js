@@ -136,11 +136,13 @@ export class Planet extends AgentPoint {
      * 
      * @param {CanvasPlus} cp 
      * @param {String} strokeStyle 
+     * @param {number} lineWidth 
      * @param {number} factor 
      */
-    displayAcceleration(cp, strokeStyle, factor = 5000) {
+    displayAcceleration(cp, strokeStyle = "cyan", lineWidth = 1, factor = 5000) {
         const c2 = cp.c2d
         c2.strokeStyle = strokeStyle;
+        c2.lineWidth = lineWidth;
 
         c2.beginPath();
         c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));

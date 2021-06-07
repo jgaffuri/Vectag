@@ -40,7 +40,7 @@ export class Universe {
      * @param {Planet} pIgnore A planet to ignore
      * @returns {{gx:number,gy:number}}
      */
-    getGravityField(x, y, pIgnore) {
+    getGravityField(x, y, pIgnore = undefined) {
 
         /** @type {number} */
         let gx = 0

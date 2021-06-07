@@ -23,8 +23,12 @@ class PlanetSimulation {
         /** @type {boolean} */
         this.showPlanetAcceleration = false
 
-        /** @type {boolean} */
-        this.showGravityField = false
+        /** @type {string} */
+        this.showField = undefined
+        this.fieldRes = 20
+        this.fieldFactor = 1000
+        this.fieldStrokeStyle = "#99bbff";
+
 
         /** @type {number} */
         this.tailings = opts.tailings || 0.1;
@@ -42,11 +46,25 @@ class PlanetSimulation {
             c2.fillStyle = "rgba(0,0,0," + th.tailings + ")";
             c2.fillRect(0, 0, th.w, th.h);
 
+            //display gravity field
+            if (th.showField === "f")
+                th.displayGravityField(this, true)
+            else if (th.showField === "i")
+                th.displayGravityField(this, false)
+
             //display planets
             for (let p of th.uni.ps) {
                 if (!this.toDraw(p)) continue
                 const t = p.m / th.uni.m();
                 p.display(this, "rgb(255,255," + Math.floor(255 * (1 - t)) + ")")
+            }
+
+            //display planets acceleration
+            if (th.showPlanetAcceleration) {
+                for (let p of th.uni.ps) {
+                    if (!this.toDraw(p)) continue
+                    p.displayAcceleration(this)
+                }
             }
 
             //label
@@ -55,22 +73,9 @@ class PlanetSimulation {
             c2.fillStyle = "rgb(0,0,0)";
             c2.fillText(th.uni.ps.length + " planets", 2, 10);*/
 
-            if (th.showPlanetAcceleration) {
-                for (let p of th.uni.ps) {
-                    if (!this.toDraw(p)) continue
-                    p.displayAcceleration(this, "cyan")
-                }
-            }
-
-            if (th.showGravityField) {
-                //TODO show gravity field
-                //make grid
-                //for each cell, compute gravity field of center
-                //at each point, draw segment with orientation/thickness(or length) depending on field
-            }
-
             //frame
             c2.strokeStyle = "darkgray";
+            c2.lineWidth = 1;
             c2.beginPath();
             c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
             c2.stroke();
@@ -81,6 +86,46 @@ class PlanetSimulation {
         /** @type {Universe} */
         this.uni = new Universe(this.w, this.h)
     }
+
+
+    /**
+     * @param {CanvasPlus} cp 
+     * @param {boolean} field 
+     */
+    displayGravityField(cp, field = true) {
+        const c2 = cp.c2d
+        const res = this.fieldRes
+        const f = this.fieldFactor
+        const f_ = field ? 0.3 * res : 0.5 * res;
+        c2.strokeStyle = this.fieldStrokeStyle
+        for (let x = res * 0.5; x < this.w; x += res) {
+            const xG = cp.pixToGeoX(x);
+            for (let y = res / 2; y < this.h; y += res) {
+                const yG = cp.pixToGeoY(y);
+                //get gravity field
+                const g = this.uni.getGravityField(xG, yG);
+                const g_ = Math.hypot(g.gx, g.gy)
+
+                c2.lineWidth = Math.min(f * g_, 0.3 * res);
+                const dx = f_ * g.gx / g_, dy = f_ * g.gy / g_
+
+                //draw
+                c2.beginPath();
+                if (field) {
+                    //gravity field
+                    c2.moveTo(x - dx, y + dy);
+                    c2.lineTo(x + dx, y - dy);
+                } else {
+                    //iso potential lines
+                    c2.moveTo(x + dy, y + dx);
+                    c2.lineTo(x - dy, y - dx);
+                }
+                c2.closePath();
+                c2.stroke();
+            }
+        }
+    }
+
 
     /**
      * Initialise with random planets
