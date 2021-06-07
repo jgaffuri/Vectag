@@ -18,9 +18,6 @@ export class Universe {
 
         /** @type {Array.<Planet>} */
         this.ps = [];
-
-        /** @type {SpatialIndex.<Planet>} */
-        this.grid = new SpatialIndex();
     }
 
     /**
@@ -58,7 +55,6 @@ export class Universe {
     add(p) {
         p.u = this;
         this.ps.push(p);
-        this.grid.insert(p);
     }
 
     /**
@@ -69,9 +65,10 @@ export class Universe {
     remove(p) {
         p.u = null;
         removeFromArray(this.ps, p);
-        this.grid.remove(p);
     }
 
+
+    //TODO remove
     /**
      * Move a planet
      * 
@@ -80,10 +77,44 @@ export class Universe {
      * @param {number} ny
      */
     move(p, nx, ny) {
-        this.grid.remove(p);
         p.x = nx; p.y = ny;
-        this.grid.insert(p);
     }
+
+    /**
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     * @param {Planet} pIgnore A planet to ignore
+     * @returns {{gx:number,gy:number}}
+     */
+    getGravityField(x, y, pIgnore) {
+
+        /** @type {number} */
+        let gx = 0
+        /** @type {number} */
+        let gy = 0
+
+        //gothrough all planets in the universe
+        for (let p of this.ps) {
+
+            //ignore planet
+            if (pIgnore && p == pIgnore)
+                continue;
+
+            //compute distance
+            let d = p.dP(x, y);
+            if (d === 0)
+                continue;
+
+            //compute and add contribution
+            d = d * d * d;
+            //console.log(d)
+            gx += 0.01 * (p.x - x) * p.m / d;
+            gy += 0.01 * (p.y - y) * p.m / d;
+        }
+        return { gx: gx, gy: gy }
+    }
+
 
     /**
      * Aggregate two planets
@@ -107,15 +138,17 @@ export class Universe {
     }
 
 
+
     /**
+     * @param {SpatialIndex.<Planet>} sindex
      * @param {number} collisionFactor
      * @returns {Array.<Planet>}
      */
-    findCollision(collisionFactor = 1) {
+    findCollision(sindex, collisionFactor = 1) {
         for (let pi of this.ps) {
 
             const w = 2 * pi.r();
-            const cand = this.grid.get(pi.x - w, pi.y - w, pi.x + w, pi.y + w);
+            const cand = sindex.get(pi.x - w, pi.y - w, pi.x + w, pi.y + w);
 
             for (let pj of cand) {
 
@@ -172,16 +205,24 @@ export class Universe {
         for (let p of this.ps)
             p.change(bounce, vmax, timeStepMs);
 
+
         //collision detection
+        /** @type {SpatialIndex.<Planet>} */
+        const sindex = new SpatialIndex();
+        sindex.load(this.ps)
         //find first collision
         /** @type {Array.<Planet>} */
-        let pair = this.findCollision(collisionFactor);
+        let pair = this.findCollision(sindex, collisionFactor);
         while (pair !== null) {
             //aggregate
-            this.aggregate(pair[0], pair[1])
+            const p = this.aggregate(pair[0], pair[1])
+            sindex.remove(pair[0])
+            sindex.remove(pair[1])
+            sindex.insert(p)
             //find next collision
-            pair = this.findCollision(collisionFactor);
+            pair = this.findCollision(sindex, collisionFactor);
         }
+
         return this;
     }
 

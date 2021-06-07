@@ -37,9 +37,17 @@ export class AgentPoint {
      * @returns {number} The distance to another agent.
      */
     d(a) {
-        return Math.hypot((a.x - this.x), (a.y - this.y));
+        return this.dP(a.x, a.y);
     }
 
+    /**
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     */
+    dP(x, y) {
+        return Math.hypot((x - this.x), (y - this.y));
+    }
 
     /** 
     * Set random speed

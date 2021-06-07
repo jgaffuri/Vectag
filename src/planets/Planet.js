@@ -46,24 +46,13 @@ export class Planet extends AgentPoint {
      */
     observe() {
 
-        this.fx = 0;
-        this.fy = 0;
+        //compute gravity field at planet location
+        const g = this.u.getGravityField(this.x, this.y, this);
 
-        //check all other planets in the universe
-        for (let p of this.u.ps) {
-            if (this == p)
-                continue;
+        //set force
+        this.fx = this.m * g.gx;
+        this.fy = this.m * g.gy;
 
-            //compute and add gravity force
-            /** @type {number} */
-            let d = this.d(p);
-            if (d === 0)
-                continue;
-
-            d = d * d * d;
-            this.fx += 0.01 * (p.x - this.x) * this.m * p.m / d;
-            this.fy += 0.01 * (p.y - this.y) * this.m * p.m / d;
-        }
     }
 
 
