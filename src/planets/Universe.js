@@ -121,9 +121,10 @@ export class Universe {
      * 
      * @param {Planet} p1
      * @param {Planet} p2
+     * @param {SpatialIndex.<Planet>} sindex
      * @returns {Planet}
      */
-    aggregate(p1, p2) {
+    aggregate(p1, p2, sindex) {
         const m = p1.m + p2.m;
         const p = this.createPlanet(
             m,
@@ -134,6 +135,13 @@ export class Universe {
         );
         this.remove(p1);
         this.remove(p2);
+
+        if (sindex) {
+            sindex.remove(p1)
+            sindex.remove(p2)
+            sindex.insert(p)
+        }
+
         return p;
     }
 
@@ -207,24 +215,36 @@ export class Universe {
 
 
         //collision detection
+        this.detectCollisions(collisionFactor)
+
+        return this;
+    }
+
+    /**
+     * @param {number} collisionFactor 
+     * @returns {this}
+     */
+    detectCollisions(collisionFactor = 1) {
+
         /** @type {SpatialIndex.<Planet>} */
         const sindex = new SpatialIndex();
         sindex.load(this.ps)
+
         //find first collision
         /** @type {Array.<Planet>} */
         let pair = this.findCollision(sindex, collisionFactor);
         while (pair !== null) {
+
             //aggregate
-            const p = this.aggregate(pair[0], pair[1])
-            sindex.remove(pair[0])
-            sindex.remove(pair[1])
-            sindex.insert(p)
+            const p = this.aggregate(pair[0], pair[1], sindex)
+
             //find next collision
             pair = this.findCollision(sindex, collisionFactor);
         }
 
         return this;
     }
+
 
     /**
      * Assign random speed to all planets
