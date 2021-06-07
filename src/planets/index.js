@@ -26,6 +26,8 @@ class PlanetSimulation {
         /** @type {boolean} */
         this.showGravityField = false
 
+        /** @type {number} */
+        this.tailings = opts.tailings || 0.1;
 
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus();
@@ -37,7 +39,7 @@ class PlanetSimulation {
             const c2 = this.c2d
 
             //clear, with transparency
-            c2.fillStyle = "rgba(0,0,0,0.05)";
+            c2.fillStyle = "rgba(0,0,0," + th.tailings + ")";
             c2.fillRect(0, 0, th.w, th.h);
 
             //display planets
