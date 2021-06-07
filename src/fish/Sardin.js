@@ -222,21 +222,33 @@ export class Sardin {
         c2.stroke();
     }
 
-    /** Display sardin vision field */
+    /**
+     * Display sardin vision field
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {string} fillStyle 
+     * @param {number} lineWidth 
+     */
     displayVisionField(cp, fillStyle, lineWidth) {
         const c2 = cp.c2d
         c2.fillStyle = fillStyle;
         c2.lineWidth = lineWidth;
+
         c2.beginPath();
         c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
-        //TODO correct that !
         c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.ps,
             Math.PI - this.va + this.sea.A_OBS * 0.5, Math.PI - this.va - this.sea.A_OBS * 0.5);
         c2.closePath();
         c2.fill();
     }
 
-    /** Display sardin vision links */
+    /**
+     * Display sardin vision links
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {string} strokeStyle 
+     * @param {number} lineWidth 
+     */
     displayVisionLinks(cp, strokeStyle, lineWidth) {
         const c2 = cp.c2d
         c2.strokeStyle = strokeStyle;
@@ -250,7 +262,13 @@ export class Sardin {
         }
     }
 
-    /** Display sardin collision field */
+    /**
+     * Display sardin collision field
+     * 
+     * @param {CanvasPlus} cp 
+     * @param {string} strokeStyle 
+     * @param {number} lineWidth 
+     */
     displayCollisionField(cp, strokeStyle, lineWidth) {
         const c2 = cp.c2d
         c2.strokeStyle = strokeStyle;

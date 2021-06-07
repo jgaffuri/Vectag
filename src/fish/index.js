@@ -26,8 +26,11 @@ class FishSimulation {
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
+        /** @type {boolean} */
         this.showFishVisionField = false
+        /** @type {boolean} */
         this.showFishVisionLinks = false
+        /** @type {boolean} */
         this.showFishCollisionField = false
 
         const th = this;

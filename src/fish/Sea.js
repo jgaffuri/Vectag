@@ -3,41 +3,62 @@ import { Sardin } from './Sardin';
 import { SpatialIndex } from '../base/SpatialIndex';
 import { removeFromArray } from '../base/lib';
 
+/** */
 export class Sea {
 
+    /**
+     * 
+     * @param {number} w 
+     * @param {number} h 
+     */
     constructor(w, h) {
 
         //TODO should become static attributes of Sardin class
 
         //observation
+        /** @type {number} */
         this.D_OBS = 50
+        /** @type {number} */
         this.A_OBS = 200 * Math.PI / 180
 
         //collision
+        /** @type {number} */
         this.D_COL = 10
 
         //speed
+        /** @type {number} */
         this.V_TARGET = 0.3
+        /** @type {number} */
         this.V_MAX = 0.6
 
-
         //shark
+        /** @type {number} */
         this.D_SHARK_EAT = 12
+        /** @type {number} */
         this.EATEN_SARDIN_NB = 0
 
 
+        /** @type {number} */
         this.w = w;
+        /** @type {number} */
         this.h = h;
+
+        /** @type {Array.<Sardin>} */
+        this.fish = []
+
         /** @type {SpatialIndex.<Sardin>} */
         this.grid = new SpatialIndex();
 
-        this.fish = []
-
+        //TODO
         this.shark = null;
+
+        /** @type {Array.<Sardin>} */
         this.killed = [];
     }
 
-
+    /**
+     * @param {number} timeStepMs 
+     */
     step(timeStepMs = 10) {
 
         //observe
@@ -46,17 +67,20 @@ export class Sea {
 
         //move
         for (let sa of this.fish)
-            sa.move();
+            sa.move(timeStepMs);
 
         //shark eat fish
         this.sharkEat();
     }
 
 
-
+    /**
+     * 
+     */
     sharkEat() {
         if (this.shark == null) return;
 
+        /** @type {Array.<Sardin>} */
         this.killed = [];
 
         const x = this.shark.x, y = this.shark.y;
@@ -73,14 +97,22 @@ export class Sea {
         return this;
     }
 
-    /** Add a number of fish */
+    /**
+     * Add fish
+     * 
+     * @param {number} nb 
+     * @returns {this}
+     */
     addFish(nb = 1) {
         for (let i = 0; i < nb; i++)
             this.fish.push(new Sardin(this));
         return this
     }
 
-    /** Set random speed for all fish */
+    /**
+     * Set random speed for all fish
+     * @returns {this}
+     */
     setRandomSpeed() {
         for (let f of this.fish)
             f.setRandomSpeed()
