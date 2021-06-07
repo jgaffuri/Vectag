@@ -19,9 +19,6 @@ export class Universe {
 
         /** @type {Array.<Planet>} */
         this.ps = [];
-
-        /** @type {boolean} */
-        this.withCollision = true
     }
 
     /**
@@ -172,8 +169,7 @@ export class Universe {
 
 
         //collision detection
-        if (this.withCollision)
-            this.detectCollisions(collisionFactor)
+        this.detectCollisions(collisionFactor)
 
         return this;
     }
