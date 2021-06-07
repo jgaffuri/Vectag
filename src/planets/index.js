@@ -99,7 +99,7 @@ class PlanetSimulation {
         const c2 = cp.c2d
         const res = this.fieldRes
         const f = this.fieldFactor
-        const f_ = field ? 0.3 * res : 0.5 * res;
+        const f_ = field ? 0.3 * res : 0.6 * res;
         c2.strokeStyle = this.fieldStrokeStyle
         for (let x = res * 0.5; x < this.w; x += res) {
             const xG = cp.pixToGeoX(x);
