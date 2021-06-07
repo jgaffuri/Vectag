@@ -14,13 +14,15 @@ export class Planet extends AgentPoint {
      * @param {number} sx The speed x
      * @param {number} sy The speed y
      */
-    constructor(u, m, x, y, sx, sy) {
+    constructor(u, m, x, y, sx = 0, sy = 0) {
 
         //
         super(x, y, sx, sy)
 
         /** @type {Universe} */
         this.u = u;
+        u.ps.push(this)
+
         /** @type {number} */
         this.m = m;
 
@@ -113,8 +115,9 @@ export class Planet extends AgentPoint {
             if (ny > this.u.h) { ny = 0; }
         }
 
-        //move planet
-        this.u.move(this, nx, ny)
+        //move
+        this.x = nx;
+        this.y = ny;
     }
 
 

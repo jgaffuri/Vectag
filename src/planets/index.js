@@ -103,7 +103,7 @@ class PlanetSimulation {
         this.uni.ps = [];
         //create big planet in the middle
         const cx = this.w * 0.5, cy = this.h * 0.5;
-        const p = this.uni.createPlanet(nb * mi, cx, cy, 0, 0);
+        const p = new Planet(this.uni, nb * mi, cx, cy, 0, 0);
         //explode it
         this.uni.explode(p, nb, minSpeed, maxSpeed, rad)
         return this;

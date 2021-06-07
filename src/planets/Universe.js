@@ -35,54 +35,6 @@ export class Universe {
         return m;
     }
 
-    /**
-     * Create a planet
-     * 
-     * @param {number} m 
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} sx 
-     * @param {number} sy 
-     * @returns {Planet}
-     */
-    createPlanet(m, x, y, sx = 0, sy = 0) {
-        const p = new Planet(this, m, x, y, sx, sy);
-        this.add(p);
-        return p;
-    }
-
-    /**
-     * Add a planet
-     * 
-     * @param {Planet} p 
-     */
-    add(p) {
-        p.u = this;
-        this.ps.push(p);
-    }
-
-    /**
-     * Remove a planet
-     * 
-     * @param {Planet} p 
-     */
-    remove(p) {
-        p.u = null;
-        removeFromArray(this.ps, p);
-    }
-
-
-    //TODO remove
-    /**
-     * Move a planet
-     * 
-     * @param {Planet} p
-     * @param {number} nx
-     * @param {number} ny
-     */
-    move(p, nx, ny) {
-        p.x = nx; p.y = ny;
-    }
 
     /**
      * 
@@ -130,15 +82,16 @@ export class Universe {
      */
     aggregate(p1, p2, sindex) {
         const m = p1.m + p2.m;
-        const p = this.createPlanet(
+        const p = new Planet(
+            this,
             m,
             (p1.x * p1.m + p2.x * p2.m) / m,
             (p1.y * p1.m + p2.y * p2.m) / m,
             (p1.sx * p1.m + p2.sx * p2.m) / m,
             (p1.sy * p1.m + p2.sy * p2.m) / m
         );
-        this.remove(p1);
-        this.remove(p2);
+        removeFromArray(this.ps, p1);
+        removeFromArray(this.ps, p2);
 
         if (sindex) {
             sindex.remove(p1)
@@ -191,7 +144,7 @@ export class Universe {
      */
     addPlanets(nb = 1, mi = 0.5, minSpeed = 0, maxSpeed = 0.1) {
         for (let i = 0; i < nb; i++) {
-            const p = this.createPlanet(mi, this.w * Math.random(), this.h * Math.random());
+            const p = new Planet(this, mi, this.w * Math.random(), this.h * Math.random());
             p.setRandomSpeed(minSpeed, maxSpeed);
         }
         return this;
@@ -309,10 +262,10 @@ export class Universe {
             const aS = a + 2 * (Math.random() - 0.5) * 2 * Math.PI / 3;
             const sx = speed * Math.cos(aS), sy = speed * Math.sin(aS);
 
-            this.createPlanet(p.m / nb, p.x + x, p.y + y, p.sx + sx, p.sy + sy)
+            new Planet(this, p.m / nb, p.x + x, p.y + y, p.sx + sx, p.sy + sy)
         }
         //remove p from universe
-        this.remove(p)
+        removeFromArray(this.ps, p);
     }
 
 }
