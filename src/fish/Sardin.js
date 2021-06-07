@@ -74,6 +74,10 @@ export class Sardin {
      * 
      */
     observe() {
+        /** @type {Sea} */
+        const s = this.sea
+        /** @type {number} */
+        const dO = s.D_OBS
 
         //initialise lists
         /** @type {Array.<Sardin>} */
@@ -83,20 +87,21 @@ export class Sardin {
 
         //get sardins around using spatial index
         /** @type {Array.<Sardin>} */
-        const ss = this.sea.grid.get(this.x - this.sea.D_OBS, this.y - this.sea.D_OBS, this.x + this.sea.D_OBS, this.y + this.sea.D_OBS);
+        const ss = s.grid.get(this.x - dO, this.y - dO, this.x + dO, this.y + dO);
 
         //get sardins in observation and collision fields
-        for (let s of ss) {
-            if (s == this) continue;
-            if (this.d(s) <= this.sea.D_COL) this.col.push(s);
-            if (this.d(s) <= this.sea.D_OBS) {
+        for (let f of ss) {
+            if (f == this) continue;
+            if (this.d(f) <= s.D_COL)
+                this.col.push(f);
+            if (this.d(f) <= dO) {
                 //check angle
-                let da = Math.atan2(s.y - this.y, s.x - this.x) - this.va;
+                let da = Math.atan2(f.y - this.y, f.x - this.x) - this.va;
                 if (da > Math.PI) da -= 2 * Math.PI;
                 else if (da <= -Math.PI) da += 2 * Math.PI;
                 da = Math.abs(da);
-                if (da > this.sea.A_OBS * 0.5) continue;
-                this.obs.push(s);
+                if (da > s.A_OBS * 0.5) continue;
+                this.obs.push(f);
             }
         }
 
@@ -104,15 +109,15 @@ export class Sardin {
         this.ax = 0; this.ay = 0;
 
         //collision: repulsion
-        for (let s of this.col) {
-            const d = this.d(s);
-            const a = 1.0 * (1 / (d * d) - 1 / (this.sea.D_COL * this.sea.D_COL));
-            this.ax += a * (this.x - s.x) / d;
-            this.ay += a * (this.y - s.y) / d;
+        for (let f of this.col) {
+            const d = this.d(f);
+            const a = 1.0 * (1 / (d * d) - 1 / (s.D_COL * s.D_COL));
+            this.ax += a * (this.x - f.x) / d;
+            this.ay += a * (this.y - f.y) / d;
         }
 
         // toward v target
-        const dv = (this.sea.V_TARGET - this.v) * 0.01;
+        const dv = (s.V_TARGET - this.v) * 0.01;
         this.ax += dv * this.vx / this.v;
         this.ay += dv * this.vy / this.v;
 
@@ -147,13 +152,13 @@ export class Sardin {
         }
 
         //avoid shark
-        if (this.sea.shark != null) {
-            const s = this.sea.shark;
-            const d = Math.hypot((s.x - this.x), (s.y - this.y));
-            if (d <= this.sea.D_OBS) {
-                const a = 5.0 * (1 / (d * d) - 1 / (this.sea.D_OBS * this.sea.D_OBS));
-                this.ax += a * (this.x - s.x) / d;
-                this.ay += a * (this.y - s.y) / d;
+        const sh = s.shark;
+        if (sh != null) {
+            const d = Math.hypot((sh.x - this.x), (sh.y - this.y));
+            if (d <= s.D_OBS) {
+                const a = 5.0 * (1 / (d * d) - 1 / (dO * dO));
+                this.ax += a * (this.x - sh.x) / d;
+                this.ay += a * (this.y - sh.y) / d;
             }
         }
 
