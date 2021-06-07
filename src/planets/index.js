@@ -21,6 +21,9 @@ class PlanetSimulation {
         this.h = opts.h || canvas.offsetHeight;
 
         /** @type {boolean} */
+        this.showPlanetAcceleration = false
+
+        /** @type {boolean} */
         this.showGravityField = false
 
 
@@ -50,6 +53,12 @@ class PlanetSimulation {
             c2.fillStyle = "rgb(0,0,0)";
             c2.fillText(th.uni.ps.length + " planets", 2, 10);*/
 
+            if (th.showPlanetAcceleration) {
+                for (let p of th.uni.ps) {
+                    if (!this.toDraw(p)) continue
+                    p.displayAcceleration(this, "cyan")
+                }
+            }
 
             if (th.showGravityField) {
                 //TODO show gravity field
