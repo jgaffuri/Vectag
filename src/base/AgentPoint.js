@@ -9,7 +9,7 @@ export class AgentPoint {
      * @param {number} sx 
      * @param {number} sy 
      */
-    constructor(x, y, sx, sy) {
+    constructor(x, y, sx=0, sy=0) {
 
         //position
 

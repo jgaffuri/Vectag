@@ -1,8 +1,10 @@
 //@ts-check
 import { Land } from "./Land"
 import { CanvasPlus } from "../base/CanvasPlus"
+import { AgentPoint } from "../base/AgentPoint"
 
-export class Animal {
+/** */
+export class Animal extends AgentPoint {
 
     /**
      * @param {number} type 
@@ -11,6 +13,8 @@ export class Animal {
      * @param {number} y 
      */
     constructor(type, l, x = 0, y = 0) {
+
+        super(x, y)
 
         /** @type {number} */
         this.type = type;
@@ -22,12 +26,6 @@ export class Animal {
         this.x = x < 0 ? 0 : x > l.w ? l.w : x
         /** @type {number} */
         this.y = y < 0 ? 0 : y > l.h ? l.h : y
-
-        //speed
-        /** @type {number} */
-        this.vx = 0
-        /** @type {number} */
-        this.vy = 0;
 
         //the other animals around
         /** @type {Array.<Animal>} */
@@ -41,17 +39,6 @@ export class Animal {
 
 
     /**
-     * Distance to another animal
-     * 
-     * @param {Animal} a 
-     * @returns {number}
-     */
-    d(a) {
-        return Math.hypot((a.x - this.x), (a.y - this.y));
-    }
-
-
-    /**
      * @param {*} timeStepMs 
      */
     move(timeStepMs = 10) {
@@ -61,16 +48,16 @@ export class Animal {
         const angle = Math.random() * 2 * Math.PI;
         const r = 0.01 * Math.random();
 
-        this.vx += r * Math.cos(angle) * timeStepMs;
-        this.vx = this.vx > l.V_MAX ? l.V_MAX : this.vx < -l.V_MAX ? -l.V_MAX : this.vx
+        this.sx += r * Math.cos(angle) * timeStepMs;
+        this.sx = this.sx > l.V_MAX ? l.V_MAX : this.sx < -l.V_MAX ? -l.V_MAX : this.sx
 
-        this.vy += r * Math.sin(angle) * timeStepMs;
-        this.vy = this.vy > l.V_MAX ? l.V_MAX : this.vy < -l.V_MAX ? -l.V_MAX : this.vy
+        this.sy += r * Math.sin(angle) * timeStepMs;
+        this.sy = this.sy > l.V_MAX ? l.V_MAX : this.sy < -l.V_MAX ? -l.V_MAX : this.sy
 
-        this.x += this.vx * timeStepMs;
+        this.x += this.sx * timeStepMs;
         this.x = this.x < 0 ? l.w : this.x > l.w ? 0 : this.x
 
-        this.y += this.vy * timeStepMs;
+        this.y += this.sy * timeStepMs;
         this.y = this.y < 0 ? l.h : this.y > l.h ? 0 : this.y
 
         l.grid.insert(this);
