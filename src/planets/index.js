@@ -112,8 +112,10 @@ class PlanetSimulation {
         c2.strokeStyle = this.fieldStrokeStyle
         for (let x = res * 0.5; x < this.w; x += res) {
             const xG = cp.pixToGeoX(x);
+            if (xG > this.uni.w || xG < 0) continue
             for (let y = res / 2; y < this.h; y += res) {
                 const yG = cp.pixToGeoY(y);
+                if (yG > this.uni.h || yG < 0) continue
                 //get gravity field
                 const g = this.uni.getGravityField(xG, yG, undefined, this.exponent);
                 const g_ = Math.hypot(g.gx, g.gy)
