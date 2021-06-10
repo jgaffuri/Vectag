@@ -45,7 +45,7 @@ export class Planet extends AgentPoint {
 
     /**
      * Update the force, based on the gravity of other planets.
-     * @param {number} [exponent]
+     * @param {number} exponent
      */
     observe(exponent) {
 
