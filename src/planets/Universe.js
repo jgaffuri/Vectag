@@ -22,7 +22,7 @@ export class Universe {
     }
 
     /**
-     * Compute the mass of the universe
+     * Compute the mass of the universe, as the sum of the mass of its planets.
      * @returns {number}
      */
     m() {
@@ -38,9 +38,10 @@ export class Universe {
      * @param {number} x 
      * @param {number} y 
      * @param {Planet} pIgnore A planet to ignore
+     * @param {number} exponent
      * @returns {{gx:number,gy:number}}
      */
-    getGravityField(x, y, pIgnore = undefined) {
+    getGravityField(x, y, pIgnore = undefined, exponent = 2) {
 
         /** @type {number} */
         let gx = 0
@@ -55,13 +56,13 @@ export class Universe {
                 continue;
 
             //compute distance
+            /** @type {number} */
             let d = p.dP(x, y);
             if (d === 0)
                 continue;
 
             //compute and add contribution
-            d = d * d * d;
-            //console.log(d)
+            d = d * Math.pow(d, exponent);
             gx += 0.01 * (p.x - x) * p.m / d;
             gy += 0.01 * (p.y - y) * p.m / d;
         }
