@@ -45,11 +45,12 @@ export class Planet extends AgentPoint {
 
     /**
      * Update the force, based on the gravity of other planets.
+     * @param {number} [exponent]
      */
-    observe() {
+    observe(exponent) {
 
         //compute gravity field at planet location
-        const g = this.u.getGravityField(this.x, this.y, this);
+        const g = this.u.getGravityField(this.x, this.y, this, exponent);
 
         //set acceleration
         /** @type {number} */

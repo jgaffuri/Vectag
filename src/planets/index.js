@@ -20,6 +20,15 @@ class PlanetSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
+        /** @type {number} */
+        this.maxSpeed = opts.maxSpeed || 0.8;
+        /** @type {boolean} */
+        this.bounce = opts.bounce || false
+        /** @type {number} */
+        this.exponent = opts.exponent || 2;
+        /** @type {number} */
+        this.collisionFactor = opts.collisionFactor || 1;
+
         /** @type {boolean} */
         this.showPlanetAcceleration = false
 
@@ -32,9 +41,9 @@ class PlanetSimulation {
         /** @type {string} */
         this.fieldStrokeStyle = "#99bbff";
 
-
         /** @type {number} */
         this.tailings = opts.tailings || 0.1;
+
 
         /** @type {CanvasPlus} */
         this.cplus = new CanvasPlus();
@@ -106,7 +115,7 @@ class PlanetSimulation {
             for (let y = res / 2; y < this.h; y += res) {
                 const yG = cp.pixToGeoY(y);
                 //get gravity field
-                const g = this.uni.getGravityField(xG, yG);
+                const g = this.uni.getGravityField(xG, yG, undefined, this.exponent);
                 const g_ = Math.hypot(g.gx, g.gy)
 
                 c2.lineWidth = Math.min(f * g_, 0.3 * res);
@@ -170,18 +179,15 @@ class PlanetSimulation {
     /**
      * Start simulation
      * 
-     * @param {boolean} bounce 
-     * @param {number} vmax 
-     * @param {number} collisionFactor 
      * @param {number} timeStepMs 
      * @param {number} nbIterations 
      * @returns {this}
      */
-    start(bounce = false, vmax = 0.8, collisionFactor = 0.8, timeStepMs = 10, nbIterations = -1) {
+    start(timeStepMs = 10, nbIterations = -1) {
         let i = 0;
         const t = this;
         const engine = function () {
-            t.uni.step(bounce, vmax, collisionFactor, timeStepMs);
+            t.uni.step(t.bounce, t.maxSpeed, t.exponent, t.collisionFactor, timeStepMs);
             t.cplus.redraw();
             if (nbIterations > 0 && i++ > nbIterations)
                 return;

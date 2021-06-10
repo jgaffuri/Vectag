@@ -154,15 +154,16 @@ export class Universe {
      * 
      * @param {boolean} bounce 
      * @param {number} vmax 
+     * @param {number} exponent 
      * @param {number} collisionFactor 
      * @param {number} timeStepMs 
      * @returns {this}
      */
-    step(bounce = false, vmax = 0.8, collisionFactor = 1, timeStepMs = 10) {
+    step(bounce = false, vmax = 0.8, exponent = 2, collisionFactor = 1, timeStepMs = 10) {
 
         //observation
         for (let p of this.ps)
-            p.observe();
+            p.observe(exponent);
 
         //action
         for (let p of this.ps)
