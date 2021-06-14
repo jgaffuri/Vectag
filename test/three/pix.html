@@ -26,18 +26,43 @@
 		document.body.appendChild(renderer.domElement);
 
 
-		//plane
-		//https://threejs.org/docs/index.html#api/en/geometries/PlaneGeometry
-		{
-			const geometry = new THREE.PlaneGeometry(100, 100);
-			//console.log(geometry)
-			const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-			const plane = new THREE.Mesh(geometry, material);
-			scene.add(plane);
+		//make group
+		const group = new THREE.Group();
+		scene.add(group)
+
+
+		function makePixel(x = 0, y = 0, res = 1, color = Oxff0000) {
+			//plane
+			//https://threejs.org/docs/index.html#api/en/geometries/PlaneGeometry
+			const geometry = new THREE.PlaneGeometry(res, res);
+			geometry.translate(x + res / 2, y + res / 2, 0);
+			const material = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
+			return new THREE.Mesh(geometry, material);
 		}
 
+		function makePixel2(x = 0, y = 0, res = 1, color = Oxff0000) {
+			//shape
+			//https://threejs.org/docs/index.html#api/en/geometries/ShapeGeometry
+			const g = new THREE.Shape();
+			g.moveTo(x, y);
+			g.lineTo(x + res, y);
+			g.lineTo(x + res, y + res);
+			g.lineTo(x, y + res);
+			const geometry = new THREE.ShapeGeometry(g);
+			const material = new THREE.MeshBasicMaterial({ color: color });
+			return new THREE.Mesh(geometry, material);
+		}
+
+		group.add(makePixel(0, 0, 10, 0xff0000))
+		group.add(makePixel(20, 0, 10, 0x00ff00))
+		group.add(makePixel(0, 20, 10, 0x0000ff))
+
+		group.add(makePixel2(0, 0, 10, 0xff0000))
+		group.add(makePixel2(20, 0, 10, 0x00ff00))
+		group.add(makePixel2(0, 20, 10, 0x0000ff))
+
 		//line
-		{
+		/*{
 			//create a blue LineBasicMaterial
 			const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
 			const points = [];
@@ -47,28 +72,12 @@
 			const geometry = new THREE.BufferGeometry().setFromPoints(points);
 			const line = new THREE.Line(geometry, material);
 			scene.add(line);
-		}
-
+		}*/
 
 		//use that to make pie charts?
 		//https://threejs.org/docs/index.html#api/en/geometries/CircleGeometry
 
 
-		//shape
-		//https://threejs.org/docs/index.html#api/en/geometries/ShapeGeometry
-		{
-			const x = 35, y = -10, res = 2;
-			const g = new THREE.Shape();
-			g.moveTo(x + res, y + res);
-			g.lineTo(x - res, y + res);
-			g.lineTo(x - res, y - res);
-			g.lineTo(x + res, y - res);
-			const geometry = new THREE.ShapeGeometry(g);
-			const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-			const mesh = new THREE.Mesh(geometry, material);
-			scene.add(mesh);
-
-		}
 
 		camera.position.set(0, 0, 100);
 		camera.lookAt(0, 0, 0);
