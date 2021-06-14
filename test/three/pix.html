@@ -16,6 +16,7 @@
 		// Find the latest version by visiting https://cdn.skypack.dev/three.
 
 		import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
+		import { interpolateRainbow } from "https://cdn.skypack.dev/d3-scale-chromatic@3";
 
 		const scene = new THREE.Scene();
 		//const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -24,11 +25,6 @@
 		const renderer = new THREE.WebGLRenderer();
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(renderer.domElement);
-
-
-		//make group
-		const group = new THREE.Group();
-		scene.add(group)
 
 
 		function makePixel(x = 0, y = 0, res = 1, color = Oxff0000) {
@@ -53,13 +49,32 @@
 			return new THREE.Mesh(geometry, material);
 		}
 
-		group.add(makePixel(0, 0, 10, 0xff0000))
-		group.add(makePixel(20, 0, 10, 0x00ff00))
-		group.add(makePixel(0, 20, 10, 0x0000ff))
+		//group.add(makePixel(0, 0, 10, 0xff0000))
+		//group.add(makePixel(20, 0, 10, 0x00ff00))
+		//group.add(makePixel(0, 20, 10, 0x0000ff))
+		//group.add(makePixel2(0, 0, 10, 0xff0000))
+		//group.add(makePixel2(20, 0, 10, 0x00ff00))
+		//group.add(makePixel2(0, 20, 10, 0x0000ff))
 
-		group.add(makePixel2(0, 0, 10, 0xff0000))
-		group.add(makePixel2(20, 0, 10, 0x00ff00))
-		group.add(makePixel2(0, 20, 10, 0x0000ff))
+
+		console.log("start")
+
+		//make group
+		const group = new THREE.Group();
+		scene.add(group)
+
+
+
+		const nb = 10, res = 1
+		for (let i = 0; i < nb; i++) {
+			for (let j = 0; j < nb; j++) {
+				const col = interpolateRainbow(Math.random())
+				const pix = makePixel(i * res, j * res, res, col)
+				group.add(pix)
+			}
+		}
+
+		console.log("end")
 
 		//line
 		/*{
@@ -79,7 +94,7 @@
 
 
 
-		camera.position.set(0, 0, 100);
+		//camera.position.set(0, 0, 0);
 		camera.lookAt(0, 0, 0);
 		renderer.render(scene, camera);
 
@@ -88,7 +103,7 @@
 		//zoom
 		//https://stackoverflow.com/questions/45353282/how-to-zoom-a-three-js-scene-with-the-mouse-wheel
 		function onDocumentMouseWheel(event) {
-			const zf = 1.1
+			const zf = 1.2
 			camera.zoom *= event.deltaY > 0 ? zf : 1 / zf
 			camera.scale.set(camera.zoom, camera.zoom, 1);
 			renderer.render(scene, camera);
