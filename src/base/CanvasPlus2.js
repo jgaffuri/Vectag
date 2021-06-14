@@ -1,5 +1,5 @@
 //@ts-check
-export class CanvasPlus {
+export class CanvasPlus2 {
 
     /**
      * @constructor

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<style>
+		body {
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="module">
+
+		// Find the latest version by visiting https://cdn.skypack.dev/three.
+
+		import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
+
+		const scene = new THREE.Scene();
+		//const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		const camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 0, 1000);
+
+		const renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+
+
+		//plane
+		//https://threejs.org/docs/index.html#api/en/geometries/PlaneGeometry
+		{
+			const geometry = new THREE.PlaneGeometry(100, 100);
+			//console.log(geometry)
+			const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+			const plane = new THREE.Mesh(geometry, material);
+			scene.add(plane);
+		}
+
+		//line
+		{
+			//create a blue LineBasicMaterial
+			const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+			const points = [];
+			points.push(new THREE.Vector2(- 10, 0, 0));
+			points.push(new THREE.Vector2(0, 10, 0));
+			points.push(new THREE.Vector2(10, 0, 0));
+			const geometry = new THREE.BufferGeometry().setFromPoints(points);
+			const line = new THREE.Line(geometry, material);
+			scene.add(line);
+		}
+
+
+		//use that to make pie charts?
+		//https://threejs.org/docs/index.html#api/en/geometries/CircleGeometry
+
+
+		//shape
+		//https://threejs.org/docs/index.html#api/en/geometries/ShapeGeometry
+		{
+			const x = 35, y = -10, res = 2;
+			const g = new THREE.Shape();
+			g.moveTo(x + res, y + res);
+			g.lineTo(x - res, y + res);
+			g.lineTo(x - res, y - res);
+			g.lineTo(x + res, y - res);
+			const geometry = new THREE.ShapeGeometry(g);
+			const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+			const mesh = new THREE.Mesh(geometry, material);
+			scene.add(mesh);
+
+		}
+
+		camera.position.set(0, 0, 100);
+		camera.lookAt(0, 0, 0);
+		renderer.render(scene, camera);
+
+
+
+		//zoom
+		//https://stackoverflow.com/questions/45353282/how-to-zoom-a-three-js-scene-with-the-mouse-wheel
+		function onDocumentMouseWheel(event) {
+			const zf = 1.1
+			camera.zoom *= event.deltaY > 0 ? zf : 1 / zf
+			camera.scale.set(camera.zoom, camera.zoom, 1);
+			renderer.render(scene, camera);
+		}
+		document.addEventListener('mousewheel', onDocumentMouseWheel, false);
+
+		//pan
+
+
+
+	</script>
+</body>
+
+</html>
