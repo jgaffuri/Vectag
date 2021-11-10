@@ -5,16 +5,17 @@ class GridViz {
 
     constructor(opts) {
         opts = opts || {};
-        opts.divId = opts.divId || "vadiv";
 
-        const div = document.getElementById(opts.divId);
+        opts.canvasId = opts.canvasId || "vacanvas";
+        const canvas = document.getElementById(opts.canvasId);
+
         /** @type {number} */
-        this.w = div.offsetWidth;
+        this.w = opts.w || canvas.offsetWidth;
         /** @type {number} */
-        this.h = div.offsetHeight;
+        this.h = opts.h || canvas.offsetHeight;
 
         /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus(opts.divId, "vacanvas");
+        this.cplus = new CanvasPlus();
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
@@ -23,11 +24,11 @@ class GridViz {
             const c2 = this.c2d
 
             //clear
-            c2.fillStyle = "rgba(120,120,255,0.6)";
+            c2.fillStyle = "black";
             c2.fillRect(0, 0, th.w, th.h);
 
             //frame
-            c2.strokeStyle = "darkgray";
+            c2.strokeStyle = "red";
             c2.beginPath();
             c2.rect(this.geoToPixX(0) - 3, this.geoToPixY(this.h) - 3, th.w / this.ps + 3, th.h / this.ps + 3);
             c2.stroke();
@@ -35,25 +36,10 @@ class GridViz {
             return this
         };
 
+        //first redraw
+        this.cplus.redraw()
     }
 
-
-
-    /*
-        start(timeStepMs = 10, nbIterations = -1) {
-            let i = 0;
-            const t = this;
-            const engine = function () {
-                t.sea.step(timeStepMs);
-                t.cplus.redraw();
-                if (nbIterations > 0 && i++ > nbIterations)
-                    return;
-                setTimeout(engine, 0);
-            };
-            engine();
-            return this
-        }
-    */
 }
 
 export const gridvizApp = function (opts) {
