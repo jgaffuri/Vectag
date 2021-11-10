@@ -101,8 +101,10 @@
 		//zoom
 		//https://stackoverflow.com/questions/45353282/how-to-zoom-a-three-js-scene-with-the-mouse-wheel
 		function onDocumentMouseWheel(event) {
-			const zf = 1.2
 
+			//camera.position.z += event.deltaY / 3
+
+			const zf = 1.2
 			camera.zoom *= event.deltaY < 0 ? zf : 1 / zf
 			camera.updateProjectionMatrix()
 			//camera.scale.set(camera.zoom, camera.zoom, 1);
