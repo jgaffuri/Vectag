@@ -21,6 +21,9 @@ class GridViz {
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
+        this.cplus.center = {x:64,y:64}
+
+
         /** @type {Array} */
         let cells = null;
 
@@ -39,8 +42,7 @@ class GridViz {
                 /** @type {{x:number,y:number}} */
                 const cell = cells[i];
                 c2.fillStyle = getColor(cell[2011]);
-                c2.fillRect(cell.x, cell.y, 1, 1);
-                //console.log(cell)
+                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1/this.ps, 1/this.ps);
             }
 
             return this
