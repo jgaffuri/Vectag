@@ -1,6 +1,6 @@
 //@ts-check
 import { CanvasPlus } from '../base/CanvasPlus';
-import { csv } from "d3-fetch";
+import { csv, json } from "d3-fetch";
 import { interpolateReds } from "d3-scale-chromatic"
 
 class GridViz {
@@ -21,11 +21,17 @@ class GridViz {
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
-        this.cplus.center = {x:64,y:64}
+        this.cplus.center = {x:64000,y:64000}
+        this.cplus.ps = 1000
 
+
+        /** @type {Object} */
+        let gridInfo = null;
 
         /** @type {Array} */
         let cells = null;
+
+
 
         const th = this;
         this.cplus.redraw = function () {
@@ -37,12 +43,15 @@ class GridViz {
 
             //frame
             if(!cells) return;
+            if(!gridInfo) return;
+
+            const r = gridInfo.resolutionGeo
 
             for(let i=0; i<cells.length; i++) {
                 /** @type {{x:number,y:number}} */
                 const cell = cells[i];
                 c2.fillStyle = getColor(cell[2011]);
-                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1/this.ps, 1/this.ps);
+                c2.fillRect(this.geoToPixX(r*cell.x), this.geoToPixY(r*cell.y), r/this.ps, r/this.ps);
             }
 
             return this
@@ -51,6 +60,11 @@ class GridViz {
         //load data
         csv("https://raw.githubusercontent.com/eurostat/gridviz/master/assets/csv/Europe/grid_pop_tiled/1km/40/27.csv").then((data) => {
             cells = data;
+            th.cplus.redraw()
+        });
+
+        json("https://raw.githubusercontent.com/eurostat/gridviz/master/assets/csv/Europe/grid_pop_tiled/1km/info.json").then((data) => {
+            gridInfo = data;
             th.cplus.redraw()
         });
 
