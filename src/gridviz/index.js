@@ -85,8 +85,8 @@ class GridVizCanvas {
 
                     //get cells
                     csv( tiledGridURL+xT+"/"+yT+".csv" ).then((data) => {
-                        geoTile(data, gridInfo, 40, 27)
-                        cells.push(data);
+                        geoTile(data, gridInfo, xT, yT)
+                        cells = cells.concat(data)
                         redrawCells(this)
                     });
 
@@ -114,14 +114,13 @@ class GridVizCanvas {
             c2.fillStyle = "black";
             c2.fillRect(0, 0, th.w, th.h);
 
-            //frame
-            if(!cells) return;
-            if(!gridInfo) return;
-
             /** @type {number} */
             const r = gridInfo.resolutionGeo
 
+            console.log(cells.length)
+
             for(let i=0; i<cells.length; i++) {
+
                 /** @type {{x:number,y:number}} */
                 const cell = cells[i];
                 c2.fillStyle = getColor(cell[2011]);
