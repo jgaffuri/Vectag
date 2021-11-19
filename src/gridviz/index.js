@@ -3,7 +3,7 @@ import { CanvasPlus } from '../base/CanvasPlus';
 import { csv, json } from "d3-fetch";
 import { interpolateReds } from "d3-scale-chromatic"
 
-class GridViz {
+class GridVizCanvas {
 
     constructor(opts) {
         opts = opts || {};
@@ -21,9 +21,12 @@ class GridViz {
         this.cplus.c2d.fillStyle = "black";
         this.cplus.c2d.fillRect(0, 0, this.w, this.h);
 
-        this.cplus.center = {x:64000,y:64000}
-        this.cplus.ps = 1000
+        this.cplus.center = {x: 5184500, y: 3517000}
+        this.cplus.ps = 200
 
+        
+        /** @type {string} */
+        const tiledGridURL = "https://raw.githubusercontent.com/eurostat/gridviz/master/assets/csv/Europe/grid_pop_tiled/1km/"
 
         /** @type {Object} */
         let gridInfo = null;
@@ -32,10 +35,80 @@ class GridViz {
         let cells = null;
 
 
+        //convert cell position from tile position into geo position
+        const geoTile = (cells, gridInfo, xT, yT) => {
+
+            /** @type {number} */
+            const r = gridInfo.resolutionGeo;
+            /** @type {number} */
+            const s = gridInfo.tileSizeCell;
+            /** @type {number} */
+            const xMin = gridInfo.originPoint.x + r*s*xT
+            /** @type {number} */
+            const yMin = gridInfo.originPoint.y + r*s*yT
+
+            for(let i=0; i<cells.length; i++) {
+                const cell = cells[i];
+                /** @type {number} */
+                cell.x = xMin + cell.x * r;
+                /** @type {number} */
+                cell.y = yMin + cell.y * r;
+            }
+        }
+
 
         const th = this;
-        this.cplus.redraw = function () {
-            const c2 = this.c2d
+        this.cplus.redraw = function() {
+
+            //geo extent
+            this.updateExtentGeo(); //TODO choose margin parameter
+            const e = this.extGeo
+            const po = gridInfo.originPoint
+            /** @type {number} */
+            const r = gridInfo.resolutionGeo
+            /** @type {number} */
+            const s = gridInfo.tileSizeCell;
+
+            const xTMin = Math.floor( (e.xMin-po.x)/(r*s) )
+            const xTMax = Math.floor( (e.xMax-po.x)/(r*s) )
+            const yTMin = Math.floor( (e.yMin-po.y)/(r*s) )
+            const yTMax = Math.floor( (e.yMax-po.y)/(r*s) )
+    
+            //console.log(xTMin, xTMax, yTMin, yTMax)
+
+
+            cells = [];
+
+            //TODO use also min/max from gridinfo
+            for(let xT=xTMin; xT<xTMax; xT++) {
+                for(let yT=yTMin; yT<yTMax; yT++) {
+
+                    //get cells
+                    csv( tiledGridURL+xT+"/"+yT+".csv" ).then((data) => {
+                        geoTile(data, gridInfo, 40, 27)
+                        cells.push(data);
+                        redrawCells(this)
+                    });
+
+                }
+            }
+
+            return this
+        };
+
+        //get grid info
+        json(tiledGridURL+"/info.json").then((data) => {
+            gridInfo = data;
+            th.cplus.redraw()
+        });
+
+
+
+
+
+
+        const redrawCells = function(cp) {
+            const c2 = cp.c2d
 
             //clear
             c2.fillStyle = "black";
@@ -45,28 +118,16 @@ class GridViz {
             if(!cells) return;
             if(!gridInfo) return;
 
+            /** @type {number} */
             const r = gridInfo.resolutionGeo
 
             for(let i=0; i<cells.length; i++) {
                 /** @type {{x:number,y:number}} */
                 const cell = cells[i];
                 c2.fillStyle = getColor(cell[2011]);
-                c2.fillRect(this.geoToPixX(r*cell.x), this.geoToPixY(r*cell.y), r/this.ps, r/this.ps);
+                c2.fillRect(cp.geoToPixX(cell.x), cp.geoToPixY(cell.y), r/cp.ps, r/cp.ps);
             }
-
-            return this
-        };
-
-        //load data
-        csv("https://raw.githubusercontent.com/eurostat/gridviz/master/assets/csv/Europe/grid_pop_tiled/1km/40/27.csv").then((data) => {
-            cells = data;
-            th.cplus.redraw()
-        });
-
-        json("https://raw.githubusercontent.com/eurostat/gridviz/master/assets/csv/Europe/grid_pop_tiled/1km/info.json").then((data) => {
-            gridInfo = data;
-            th.cplus.redraw()
-        });
+        }
 
         const getColor = (v) => {
             //TODO better
@@ -79,5 +140,5 @@ class GridViz {
 }
 
 export const gridvizApp = function (opts) {
-    return new GridViz(opts)
+    return new GridVizCanvas(opts)
 }
