@@ -5,6 +5,10 @@ import { interpolateReds } from "d3-scale-chromatic"
 
 class GridVizCanvas {
 
+    //TODO improve structure - use typing
+    //TODO implement mouse over
+    //TODO use spatial index
+
     constructor(opts) {
         opts = opts || {};
 
@@ -73,8 +77,8 @@ class GridVizCanvas {
             const xTMax = Math.floor( (e.xMax-po.x)/(r*s) )
             const yTMin = Math.floor( (e.yMin-po.y)/(r*s) )
             const yTMax = Math.floor( (e.yMax-po.y)/(r*s) )
-    
-            //console.log(xTMin, xTMax, yTMin, yTMax)
+
+            //TODO use cache
 
 
             cells = [];
@@ -117,8 +121,6 @@ class GridVizCanvas {
             /** @type {number} */
             const r = gridInfo.resolutionGeo
 
-            console.log(cells.length)
-
             for(let i=0; i<cells.length; i++) {
 
                 /** @type {{x:number,y:number}} */
@@ -132,7 +134,6 @@ class GridVizCanvas {
             //TODO better
             return interpolateReds(v/200)
         }
-
 
     }
 
