@@ -31,50 +31,49 @@ export class GeoViewer {
         /**@type {object} */
         this.ctx = this.canvas.getContext("2d");
 
-
-
         //make zoom
         const zoom = d3zoom();
         zoom.on("zoom", (e) => zoomed(e.transform));
 
-        //create initial transform
-        const t0 = zoomIdentity
-            .translate(this.w / 2, this.h / 2)
-            .scale(k0)
-            .translate(-x0, y0);
+
+
+        /**
+                //create initial transform
+                const t0 = zoomIdentity
+                    .translate(this.w / 2, this.h / 2)
+                    .scale(k0)
+                    .translate(-x0, y0);
+        
+                // set geo coordinates of the center
+                this.setCenter({ x: this.w * 0.5, y: this.h * 0.5 })
+        
+                // set zoom factor: pixel size, in m/pix
+                this.setZf(1);
+        **/
+
 
         //get selection
         select(this.canvas)
             .call(zoom) //attach zoom
-            .call(zoom.transform, t0); //set initial position and zoom
+        //.call(zoom.transform, t0); //set initial position and zoom
 
         function zoomed(t) {
-            console.log(t);
-            //console.log(d3.zoomTransform(sel.node()));
+            //console.log(t);
 
             //?
-            context.save();
+            this.ctx.save();
 
-            context.clearRect(0, 0, width, height);
-            context.scale(1, -1);
-            context.translate(t.x, -t.y);
-            context.scale(t.k, t.k);
+            this.ctx.clearRect(0, 0, this.w, this.h);
+            this.ctx.scale(1, -1);
+            this.ctx.translate(t.x, -t.y);
+            this.ctx.scale(t.k, t.k);
 
-            redraw(context, t.k);
+            this.redraw();
 
             //?
-            context.restore();
+            this.ctx.restore();
         }
 
-
-
-
-
-        // set geo coordinates of the center
-        this.setCenter({ x: this.w * 0.5, y: this.h * 0.5 })
-
-        // set zoom factor: pixel size, in m/pix
-        this.setZf(1);
 
         //extent
         /** @type {Envelope} */
