@@ -1,7 +1,7 @@
 //@ts-check
 import { Universe } from './Universe';
 import { Planet } from './Planet';
-import { CanvasPlus } from '../base/CanvasPlus';
+import { GeoViewer } from '../base/GeoViewer';
 
 /**  */
 class PlanetSimulation {
@@ -45,14 +45,14 @@ class PlanetSimulation {
         this.tailings = opts.tailings || 0.1;
 
 
-        /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus();
-        this.cplus.c2d.fillStyle = "black";
-        this.cplus.c2d.fillRect(0, 0, this.w, this.h);
+        /** @type {GeoViewer} */
+        this.cplus = new GeoViewer();
+        this.cplus.ctx.fillStyle = "black";
+        this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
         const th = this;
         this.cplus.redraw = function () {
-            const c2 = this.c2d
+            const c2 = this.ctx
 
             //clear, with transparency
             c2.fillStyle = "rgba(0,0,0," + th.tailings + ")";
@@ -89,7 +89,7 @@ class PlanetSimulation {
             c2.strokeStyle = "darkgray";
             c2.lineWidth = 1;
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.zf, th.h / this.zf);
             c2.stroke();
 
             return this;
@@ -101,11 +101,11 @@ class PlanetSimulation {
 
 
     /**
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {boolean} field 
      */
     displayGravityField(cp, field = true) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         const res = this.fieldRes
         const f = this.fieldFactor
         const f_ = field ? 0.3 * res : 0.6 * res;

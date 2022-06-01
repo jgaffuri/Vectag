@@ -1,6 +1,6 @@
 //@ts-check
 import { objToArray } from '../base/lib';
-import { CanvasPlus } from '../base/CanvasPlus';
+import { GeoViewer } from '../base/GeoViewer';
 import { Cell } from './Cell';
 
 /**
@@ -114,7 +114,7 @@ export class Universe {
     /**
      * @param {number} nb
      * @param {number} timeoutMS
-     * @param {CanvasPlus} cplus
+     * @param {GeoViewer} cplus
      * @return {Universe}
      */
     start(nb, timeoutMS, cplus) {

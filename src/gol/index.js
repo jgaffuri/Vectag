@@ -1,5 +1,5 @@
 //@ts-check
-import { CanvasPlus } from '../base/CanvasPlus';
+import { GeoViewer } from '../base/GeoViewer';
 import { Universe } from './Universe';
 import { Cell } from './Cell';
 
@@ -21,12 +21,12 @@ class GoLSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
-        /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus();
+        /** @type {GeoViewer} */
+        this.cplus = new GeoViewer();
 
         const th = this;
         this.cplus.redraw = function () {
-            const c2 = this.c2d
+            const c2 = this.ctx
 
             //clear
             c2.fillStyle = "white";
@@ -35,12 +35,12 @@ class GoLSimulation {
             //draw cells
             c2.fillStyle = "blue";
             for (let cell of th.uni.population)
-                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1 / this.ps, 1 / this.ps);
+                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1 / this.zf, 1 / this.zf);
 
             //frame
             c2.strokeStyle = "lightgray";
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.zf, th.h / this.zf);
             c2.stroke();
 
             return this

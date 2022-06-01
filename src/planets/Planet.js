@@ -1,6 +1,6 @@
 //@ts-check
 import { Universe } from "./Universe";
-import { CanvasPlus } from "../base/CanvasPlus"
+import { GeoViewer } from "../base/GeoViewer"
 import { AgentPoint } from "../base/AgentPoint";
 
 export class Planet extends AgentPoint {
@@ -120,14 +120,14 @@ export class Planet extends AgentPoint {
     /**
      * Display planet
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {String} fillStyle 
      */
     display(cp, fillStyle) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         c2.fillStyle = fillStyle;
         c2.beginPath();
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.r() / cp.ps, 0, 2 * Math.PI);
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.r() / cp.zf, 0, 2 * Math.PI);
         c2.closePath();
         c2.fill();
     }
@@ -135,13 +135,13 @@ export class Planet extends AgentPoint {
     /**
      * Display planet acceleration
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {String} strokeStyle 
      * @param {number} lineWidth 
      * @param {number} factor 
      */
     displayAcceleration(cp, strokeStyle = "cyan", lineWidth = 1, factor = 5000) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         c2.strokeStyle = strokeStyle;
         c2.lineWidth = lineWidth;
 

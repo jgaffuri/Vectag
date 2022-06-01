@@ -1,6 +1,6 @@
 //@ts-check
 import { Sea } from './Sea';
-import { CanvasPlus } from '../base/CanvasPlus';
+import { GeoViewer } from '../base/GeoViewer';
 
 class FishSimulation {
 
@@ -21,10 +21,10 @@ class FishSimulation {
         //TODO
         //add eaten fish nb label
 
-        /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus();
-        this.cplus.c2d.fillStyle = "black";
-        this.cplus.c2d.fillRect(0, 0, this.w, this.h);
+        /** @type {GeoViewer} */
+        this.cplus = new GeoViewer();
+        this.cplus.ctx.fillStyle = "black";
+        this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
         /** @type {boolean} */
         this.showFishVisionField = false
@@ -35,7 +35,7 @@ class FishSimulation {
 
         const th = this;
         this.cplus.redraw = function () {
-            const c2 = this.c2d
+            const c2 = this.ctx
             const s = th.sea
 
             //clear
@@ -60,7 +60,7 @@ class FishSimulation {
 
 
             //display sardins
-            c2.lineWidth = 2 / this.ps
+            c2.lineWidth = 2 / this.zf
             const sardinLength = 7
             for (let sa of s.fish)
                 if (this.toDraw(sa))
@@ -70,10 +70,10 @@ class FishSimulation {
             //display shark
             if (s.shark != null) {
 
-                c2.lineWidth = 4 / this.ps
+                c2.lineWidth = 4 / this.zf
                 c2.strokeStyle = "black"
 
-                const sharkLength = 12 / this.ps
+                const sharkLength = 12 / this.zf
                 const dx = sharkLength * Math.cos(s.shark.angle);
                 const dy = sharkLength * Math.sin(s.shark.angle);
 
@@ -98,7 +98,7 @@ class FishSimulation {
             //frame
             c2.strokeStyle = "darkgray";
             c2.beginPath();
-            c2.rect(this.geoToPixX(0) - 3, this.geoToPixY(this.h) - 3, th.w / this.ps + 3, th.h / this.ps + 3);
+            c2.rect(this.geoToPixX(0) - 3, this.geoToPixY(this.h) - 3, th.w / this.zf + 3, th.h / this.zf + 3);
             c2.stroke();
 
             return this;

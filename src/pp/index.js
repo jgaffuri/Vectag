@@ -1,7 +1,7 @@
 //@ts-check
 import { Land } from './Land';
 import { Animal } from './Animal';
-import { CanvasPlus } from '../base/CanvasPlus';
+import { GeoViewer } from '../base/GeoViewer';
 
 /** */
 class PreyPredatorSimulation {
@@ -20,15 +20,15 @@ class PreyPredatorSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
-        /** @type {CanvasPlus} */
-        this.cplus = new CanvasPlus();
-        this.cplus.c2d.fillStyle = "white";
-        this.cplus.c2d.fillRect(0, 0, this.w, this.h);
+        /** @type {GeoViewer} */
+        this.cplus = new GeoViewer();
+        this.cplus.ctx.fillStyle = "white";
+        this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
 
         const th = this;
         this.cplus.redraw = function () {
-            const c2 = this.c2d
+            const c2 = this.ctx
 
             //transparency
             c2.fillStyle = "rgba(255,255,255,0.5)";
@@ -80,7 +80,7 @@ class PreyPredatorSimulation {
             //frame
             c2.strokeStyle = "darkgray";
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.ps, th.h / this.ps);
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.zf, th.h / this.zf);
             c2.stroke();
 
             return this

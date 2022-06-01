@@ -1,6 +1,6 @@
 //@ts-check
 import { Sea } from "./Sea"
-import { CanvasPlus } from "../base/CanvasPlus"
+import { GeoViewer } from "../base/GeoViewer"
 import { AgentPoint } from "../base/AgentPoint";
 import { SpatialIndex } from '../base/SpatialIndex';
 
@@ -174,11 +174,11 @@ export class Sardin extends AgentPoint {
     /**
      * Display a sardin body
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {number} length 
      */
     display(cp, length) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         const c = Math.floor(255 * Math.abs(this.sa) / Math.PI);
         c2.strokeStyle = "rgb(255, 255, " + c + ")"
         const a = length / this.s;
@@ -195,18 +195,18 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin vision field
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {string} fillStyle 
      * @param {number} lineWidth 
      */
     displayVisionField(cp, fillStyle, lineWidth) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         c2.fillStyle = fillStyle;
         c2.lineWidth = lineWidth;
 
         c2.beginPath();
         c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.ps,
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.zf,
             -this.sa - this.sea.A_OBS * 0.5,
             -this.sa + this.sea.A_OBS * 0.5
         );
@@ -217,12 +217,12 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin vision links
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {string} strokeStyle 
      * @param {number} lineWidth 
      */
     displayVisionLinks(cp, strokeStyle, lineWidth) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         c2.strokeStyle = strokeStyle;
         c2.lineWidth = lineWidth;
         for (let sa2 of this.obs) {
@@ -237,16 +237,16 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin collision field
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {string} strokeStyle 
      * @param {number} lineWidth 
      */
     displayCollisionField(cp, strokeStyle, lineWidth) {
-        const c2 = cp.c2d
+        const c2 = cp.ctx
         c2.strokeStyle = strokeStyle;
         c2.lineWidth = lineWidth;
         c2.beginPath();
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_COL * 0.5 / cp.ps, 0, 2 * Math.PI);
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_COL * 0.5 / cp.zf, 0, 2 * Math.PI);
         c2.closePath();
         c2.stroke();
     }

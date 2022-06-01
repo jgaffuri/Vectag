@@ -1,6 +1,6 @@
 //@ts-check
 import { Land } from "./Land"
-import { CanvasPlus } from "../base/CanvasPlus"
+import { GeoViewer } from "../base/GeoViewer"
 import { AgentPoint } from "../base/AgentPoint"
 
 /** */
@@ -95,14 +95,14 @@ export class Animal extends AgentPoint {
     /**
      * Display animal
      * 
-     * @param {CanvasPlus} cp 
+     * @param {GeoViewer} cp 
      * @param {string} fillStyle 
      * @param {number} size 
      */
     display(cp, fillStyle = "blue", size = 2) {
-        const s = size / cp.ps
-        cp.c2d.fillStyle = fillStyle;
-        cp.c2d.fillRect(cp.geoToPixX(this.x), cp.geoToPixY(this.y), s, s);
+        const s = size / cp.zf
+        cp.ctx.fillStyle = fillStyle;
+        cp.ctx.fillRect(cp.geoToPixX(this.x), cp.geoToPixY(this.y), s, s);
         /*c2.beginPath();
         c2.arc(a.x, a.y, 0.5, 0, 2*Math.PI);
         c2.closePath();
