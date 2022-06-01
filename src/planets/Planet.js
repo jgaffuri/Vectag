@@ -127,7 +127,7 @@ export class Planet extends AgentPoint {
         const c2 = cp.ctx
         c2.fillStyle = fillStyle;
         c2.beginPath();
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.r() / cp.zf, 0, 2 * Math.PI);
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.r() / cp.getZf(), 0, 2 * Math.PI);
         c2.closePath();
         c2.fill();
     }

@@ -30,13 +30,11 @@ export class GeoViewer {
         /**@type {object} */
         this.ctx = this.canvas.getContext("2d");
 
-        // geo coordinates of the center
-        /** @type {{x:number,y:number}} */
-        this.center = center || { x: this.w * 0.5, y: this.h * 0.5 }
+        // set geo coordinates of the center
+        this.setCenter( center || { x: this.w * 0.5, y: this.h * 0.5 } )
 
-        // zoom factor: pixel size, in m/pix
-        /** @type {number} */
-        this.zf = zf;
+        // set zoom factor: pixel size, in m/pix
+        this.setZf(zf);
 
         //extent
         /** @type {Envelope} */
@@ -47,7 +45,7 @@ export class GeoViewer {
         let mpan = false
         this.canvas.addEventListener("mousedown", e => { mpan = true });
         this.canvas.addEventListener("mousemove", e => {
-            if (mpan) this.pan(-e.movementX * this.zf, e.movementY * this.zf)
+            if (mpan) this.pan(-e.movementX * this.getZf(), e.movementY * this.getZf())
         });
         this.canvas.addEventListener("mouseup", e => { mpan = false });
 
@@ -60,6 +58,19 @@ export class GeoViewer {
 
     }
 
+
+    /** @param {{x:number,y:number}} v */
+    setCenter(v) { this.center = v; }
+    /** @returns {{x:number,y:number}} */
+    getCenter() { return this.center; }
+
+    /** @param {number} v */
+    setZf(v) { this.zf = v; }
+    /** @returns {number} */
+    getZf() { return this.zf; }
+
+
+
     /**
      */
     redraw() {
@@ -71,7 +82,7 @@ export class GeoViewer {
      * To be used before a redraw for example.
      * @param {*} color 
      */
-    clear(color="white") {
+    clear(color = "white") {
         this.ctx.fillStyle = color;
         this.ctx.fillRect(0, 0, this.w, this.h);
     }
@@ -81,22 +92,22 @@ export class GeoViewer {
      * @param {number} xGeo
      * @returns {number}
     */
-    geoToPixX(xGeo) { return (xGeo - this.center.x) / this.zf + this.w * 0.5; }
+    geoToPixX(xGeo) { return (xGeo - this.center.x) / this.getZf() + this.w * 0.5; }
     /**
      * @param {number} yGeo
      * @returns {number}
     */
-    geoToPixY(yGeo) { return -(yGeo - this.center.y) / this.zf + this.h * 0.5; }
+    geoToPixY(yGeo) { return -(yGeo - this.center.y) / this.getZf() + this.h * 0.5; }
     /**
      * @param {number} x
      * @returns {number}
     */
-    pixToGeoX(x) { return (x - this.w * 0.5) * this.zf + this.center.x; }
+    pixToGeoX(x) { return (x - this.w * 0.5) * this.getZf() + this.center.x; }
     /**
      * @param {number} y
      * @returns {number}
     */
-    pixToGeoY(y) { return -(y - this.h * 0.5) * this.zf + this.center.y; }
+    pixToGeoY(y) { return -(y - this.h * 0.5) * this.getZf() + this.center.y; }
 
     /**
      * @param {number} dxGeo
@@ -115,7 +126,7 @@ export class GeoViewer {
      * @param {number} yGeo
      */
     zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
-        this.zf *= f;
+        this.setZf( f * this.getZf() );
         this.center.x += (xGeo - this.center.x) * (1 - f)
         this.center.y += (yGeo - this.center.y) * (1 - f)
         this.updateExtentGeo()

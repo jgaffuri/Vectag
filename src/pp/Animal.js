@@ -100,7 +100,7 @@ export class Animal extends AgentPoint {
      * @param {number} size 
      */
     display(cp, fillStyle = "blue", size = 2) {
-        const s = size / cp.zf
+        const s = size / cp.getZf()
         cp.ctx.fillStyle = fillStyle;
         cp.ctx.fillRect(cp.geoToPixX(this.x), cp.geoToPixY(this.y), s, s);
         /*c2.beginPath();

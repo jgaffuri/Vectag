@@ -89,7 +89,7 @@ class PlanetSimulation {
             c2.strokeStyle = "darkgray";
             c2.lineWidth = 1;
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.zf, th.h / this.zf);
+            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.getZf(), th.h / this.getZf());
             c2.stroke();
 
             return this;

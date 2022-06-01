@@ -206,7 +206,7 @@ export class Sardin extends AgentPoint {
 
         c2.beginPath();
         c2.moveTo(cp.geoToPixX(this.x), cp.geoToPixY(this.y));
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.zf,
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_OBS / cp.getZf(),
             -this.sa - this.sea.A_OBS * 0.5,
             -this.sa + this.sea.A_OBS * 0.5
         );
@@ -246,7 +246,7 @@ export class Sardin extends AgentPoint {
         c2.strokeStyle = strokeStyle;
         c2.lineWidth = lineWidth;
         c2.beginPath();
-        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_COL * 0.5 / cp.zf, 0, 2 * Math.PI);
+        c2.arc(cp.geoToPixX(this.x), cp.geoToPixY(this.y), this.sea.D_COL * 0.5 / cp.getZf(), 0, 2 * Math.PI);
         c2.closePath();
         c2.stroke();
     }
