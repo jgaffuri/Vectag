@@ -31,10 +31,12 @@ class PreyPredatorSimulation {
             const c2 = this.ctx
 
             //transparency
+            this.initCanvasTransform()
             c2.fillStyle = "rgba(255,255,255,0.5)";
             c2.fillRect(0, 0, th.w, th.h);
 
             //display animals
+            this.setCanvasTransform()
             for (let a of th.land.preys)
                 if (this.toDraw(a))
                     a.display(this, "blue");
@@ -79,8 +81,9 @@ class PreyPredatorSimulation {
 
             //frame
             c2.strokeStyle = "darkgray";
+            c2.lineWidth = 1 * th.cplus.getZf();
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.getZf(), th.h / this.getZf());
+            c2.rect(0, 0, th.w, th.h);
             c2.stroke();
 
             return this
