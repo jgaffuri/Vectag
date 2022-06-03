@@ -79,9 +79,9 @@ export class GeoViewer {
 
     /** */
     setCanvasTransform() {
-        const k = 1/this.getZf();
-        const tx = -this.center.x/this.getZf() + this.w*0.5;
-        const ty = this.center.y/this.getZf() + this.h*0.5;
+        const k = 1 / this.getZf();
+        const tx = -this.center.x / this.getZf() + this.w * 0.5;
+        const ty = this.center.y / this.getZf() + this.h * 0.5;
         this.ctx.setTransform(k, 0, 0, -k, tx, ty);
     }
 
@@ -129,6 +129,7 @@ export class GeoViewer {
      * @param {number} dyGeo
      */
     pan(dxGeo, dyGeo) {
+        //TODO force extend to remain
         this.center.x += dxGeo;
         this.center.y += dyGeo;
         this.updateExtentGeo()
@@ -141,6 +142,7 @@ export class GeoViewer {
      * @param {number} yGeo
      */
     zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
+        //TODO force extend to remain
         this.setZf(f * this.getZf());
         this.center.x += (xGeo - this.center.x) * (1 - f)
         this.center.y += (yGeo - this.center.y) * (1 - f)

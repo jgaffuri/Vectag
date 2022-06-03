@@ -29,18 +29,21 @@ class GoLSimulation {
             const c2 = this.ctx
 
             //clear
+            this.initCanvasTransform()
             c2.fillStyle = "white";
             c2.fillRect(0, 0, th.w, th.h);
 
             //draw cells
+            this.setCanvasTransform()
             c2.fillStyle = "blue";
             for (let cell of th.uni.population)
-                c2.fillRect(this.geoToPixX(cell.x), this.geoToPixY(cell.y), 1 / this.getZf(), 1 / this.getZf());
+                c2.fillRect((cell.x), (cell.y), 1, 1);
 
             //frame
-            c2.strokeStyle = "lightgray";
+            c2.strokeStyle = "darkgray";
+            c2.lineWidth = 1 * th.cplus.getZf();
             c2.beginPath();
-            c2.rect(this.geoToPixX(0), this.geoToPixY(this.h), th.w / this.getZf(), th.h / this.getZf());
+            c2.rect(0, 0, th.w, th.h);
             c2.stroke();
 
             return this
