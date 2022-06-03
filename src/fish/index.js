@@ -64,7 +64,7 @@ class FishSimulation {
 
 
             //display sardins
-            c2.lineWidth = 2 / this.getZf()
+            c2.lineWidth = 2
             const sardinLength = 7
             for (let sa of s.fish)
                 if (this.toDraw(sa))
@@ -74,7 +74,7 @@ class FishSimulation {
             //display shark
             if (s.shark != null) {
 
-                c2.lineWidth = 4 / this.getZf()
+                c2.lineWidth = 4
                 c2.strokeStyle = "black"
 
                 const sharkLength = 12 / this.getZf()
@@ -83,7 +83,7 @@ class FishSimulation {
 
                 c2.beginPath();
                 c2.moveTo(s.shark.x, s.shark.y);
-                c2.lineTo(s.shark.x - dx, s.shark.y - dy);
+                c2.lineTo(s.shark.x - dx, s.shark.y + dy);
                 c2.closePath();
                 c2.stroke();
             }
@@ -99,12 +99,11 @@ class FishSimulation {
                 c2.fill();
             }
 
-            this.initCanvasTransform()
-
             //frame
             c2.strokeStyle = "darkgray";
+            c2.lineWidth = 1 * th.cplus.getZf();
             c2.beginPath();
-            c2.rect(0 - 3, this.h - 3, th.w / this.getZf() + 3, th.h / this.getZf() + 3);
+            c2.rect(0, 0, th.w, th.h);
             c2.stroke();
 
             return this;
