@@ -38,9 +38,13 @@ class FishSimulation {
             const c2 = this.ctx
             const s = th.sea
 
+            this.initCanvasTransform()
+
             //clear
             c2.fillStyle = "rgba(120,120,255,0.6)";
             c2.fillRect(0, 0, th.w, th.h);
+
+            this.setCanvasTransform()
 
             //show vision field
             if (th.showFishVisionField)
@@ -78,8 +82,8 @@ class FishSimulation {
                 const dy = sharkLength * Math.sin(s.shark.angle);
 
                 c2.beginPath();
-                c2.moveTo(this.geoToPixX(s.shark.x), this.geoToPixY(s.shark.y));
-                c2.lineTo(this.geoToPixX(s.shark.x) - dx, this.geoToPixY(s.shark.y) - dy);
+                c2.moveTo(s.shark.x, s.shark.y);
+                c2.lineTo(s.shark.x - dx, s.shark.y - dy);
                 c2.closePath();
                 c2.stroke();
             }
@@ -89,16 +93,18 @@ class FishSimulation {
             c2.lineWidth = 1
             for (let sa of s.killed) {
                 c2.beginPath();
-                c2.moveTo(this.geoToPixX(sa.x), this.geoToPixY(sa.y));
-                c2.arc(this.geoToPixX(sa.x), this.geoToPixY(sa.y), 4, 0, 2 * Math.PI);
+                c2.moveTo(sa.x, sa.y);
+                c2.arc(sa.x, sa.y, 4, 0, 2 * Math.PI);
                 c2.closePath();
                 c2.fill();
             }
 
+            this.initCanvasTransform()
+
             //frame
             c2.strokeStyle = "darkgray";
             c2.beginPath();
-            c2.rect(this.geoToPixX(0) - 3, this.geoToPixY(this.h) - 3, th.w / this.getZf() + 3, th.h / this.getZf() + 3);
+            c2.rect(0 - 3, this.h - 3, th.w / this.getZf() + 3, th.h / this.getZf() + 3);
             c2.stroke();
 
             return this;
