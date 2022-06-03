@@ -1,6 +1,9 @@
 //@ts-check
 /** @typedef { {xMin: number, xMax: number, yMin: number, yMax: number} } Envelope */
 
+import { zoom as d3zoom, zoomIdentity } from "d3-zoom";
+import { select as d3select } from "d3-selection";
+
 /**
  * A HTML canvas for geo data display, enhanced with zoom and pan capabilities.
  * 
@@ -41,7 +44,7 @@ export class GeoViewer {
         this.extGeo = undefined;
         this.updateExtentGeo()
 
-        //mouse click - pan
+        /*/mouse click - pan
         let mpan = false
         this.canvas.addEventListener("mousedown", e => { mpan = true });
         this.canvas.addEventListener("mousemove", e => {
@@ -54,7 +57,31 @@ export class GeoViewer {
         this.canvas.addEventListener("wheel", e => {
             const f_ = e.deltaY > 0 ? f : 1 / f;
             this.zoom(f_, this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY))
+        });*/
+
+
+        //d3 zoom
+        const zoom = d3zoom();
+        let t_ = zoomIdentity
+        zoom.on("zoom", (e) => {
+            //console.log(e)
+            const t = e.transform
+            const f = t_.k / t.k
+            const dx = t_.x - t.x
+            const dy = t_.y - t.y
+            console.log(f, dx, dy)
+            //TODO
+            const c = this.getCenter()
+            console.log(c)
+            console.log(c.x + dx * this.getZf(), c.y - dy * this.getZf())
+            this.zoom(f, c.x, c.y)
+            //this.zoom(f)
+            //this.pan(dx*this.getZf(), -dy*this.getZf())
+            t_ = t
         });
+        //attach zoom
+        d3select(this.canvas).call(zoom);
+
 
     }
 
