@@ -62,22 +62,22 @@ export class GeoViewer {
 
         //d3 zoom
         const zoom = d3zoom();
-        let t_ = zoomIdentity
+        let tP = zoomIdentity
         zoom.on("zoom", (e) => {
             //console.log(e)
             const t = e.transform
-            const f = t_.k / t.k
-            const dx = t_.x - t.x
-            const dy = t_.y - t.y
+            const f = tP.k / t.k
+            const dx = tP.x - t.x
+            const dy = tP.y - t.y
             console.log(f, dx, dy)
             //TODO
             const c = this.getCenter()
             console.log(c)
             console.log(c.x + dx * this.getZf(), c.y - dy * this.getZf())
-            this.zoom(f, c.x, c.y)
+            //this.zoom(f, c.x, c.y)
             //this.zoom(f)
             //this.pan(dx*this.getZf(), -dy*this.getZf())
-            t_ = t
+            tP = t
         });
         //attach zoom
         d3select(this.canvas).call(zoom);
