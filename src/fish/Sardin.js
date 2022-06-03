@@ -207,8 +207,8 @@ export class Sardin extends AgentPoint {
         c2.beginPath();
         c2.moveTo(this.x, this.y);
         c2.arc(this.x, this.y, this.sea.D_OBS / cp.getZf(),
-            -this.sa - this.sea.A_OBS * 0.5,
-            -this.sa + this.sea.A_OBS * 0.5
+            this.sa - this.sea.A_OBS * 0.5,
+            this.sa + this.sea.A_OBS * 0.5
         );
         c2.closePath();
         c2.fill();

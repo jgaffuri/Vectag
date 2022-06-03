@@ -77,7 +77,7 @@ class FishSimulation {
                 c2.lineWidth = 4
                 c2.strokeStyle = "black"
 
-                const sharkLength = 12 / this.getZf()
+                const sharkLength = 12
                 const dx = sharkLength * Math.cos(s.shark.angle);
                 const dy = sharkLength * Math.sin(s.shark.angle);
 
