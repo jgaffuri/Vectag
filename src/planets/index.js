@@ -54,15 +54,21 @@ class PlanetSimulation {
         this.cplus.redraw = function () {
             const c2 = this.ctx
 
+            this.initCanvasTransform();
+
             //clear, with transparency
             c2.fillStyle = "rgba(0,0,0," + th.tailings + ")";
             c2.fillRect(0, 0, th.w, th.h);
+            //c2.fillRect(-1e20, -1e20, 2e20, 2e20); //todo
 
             //display gravity field
             if (th.showField === "f")
                 th.displayGravityField(this, true)
             else if (th.showField === "i")
                 th.displayGravityField(this, false)
+
+
+            this.setCanvasTransform()
 
             //display planets
             for (let p of th.uni.ps) {
@@ -79,8 +85,10 @@ class PlanetSimulation {
                 }
             }
 
-            //label
-            /*c2.fillStyle = "rgb(200,200,200)";
+            this.initCanvasTransform();
+
+            /*/label
+            c2.fillStyle = "rgb(200,200,200)";
             c2.fillRect(0, 0, 65, 13);
             c2.fillStyle = "rgb(0,0,0)";
             c2.fillText(th.uni.ps.length + " planets", 2, 10);*/

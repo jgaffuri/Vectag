@@ -31,7 +31,7 @@ export class GeoViewer {
         this.ctx = this.canvas.getContext("2d");
 
         // set geo coordinates of the center
-        this.setCenter( center || { x: this.w * 0.5, y: this.h * 0.5 } )
+        this.setCenter(center || { x: this.w * 0.5, y: this.h * 0.5 })
 
         // set zoom factor: pixel size, in m/pix
         this.setZf(zf);
@@ -69,6 +69,21 @@ export class GeoViewer {
     /** @returns {number} */
     getZf() { return this.zf; }
 
+
+
+
+    /** */
+    initCanvasTransform() {
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    /** */
+    setCanvasTransform() {
+        const k = 1/this.getZf();
+        const tx = -this.center.x/this.getZf() + this.w*0.5;
+        const ty = this.center.y/this.getZf() + this.h*0.5;
+        this.ctx.setTransform(k, 0, 0, -k, tx, ty);
+    }
 
 
     /**
@@ -126,7 +141,7 @@ export class GeoViewer {
      * @param {number} yGeo
      */
     zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
-        this.setZf( f * this.getZf() );
+        this.setZf(f * this.getZf());
         this.center.x += (xGeo - this.center.x) * (1 - f)
         this.center.y += (yGeo - this.center.y) * (1 - f)
         this.updateExtentGeo()
