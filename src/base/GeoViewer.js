@@ -2,7 +2,7 @@
 /** @typedef { {xMin: number, xMax: number, yMin: number, yMax: number} } Envelope */
 
 /**
- * A HTML canvas, enhanced with zoom and pan capabilities.
+ * A HTML canvas for geo data display, enhanced with zoom and pan capabilities.
  * 
  * @author Julien Gaffuri
  */
@@ -11,8 +11,8 @@ export class GeoViewer {
     /**
      * @constructor
      * @param {string} canvasId
-     * @param {object} center
-     * @param {number} zf
+     * @param {object} center Geographical coordinates of the center
+     * @param {number} zf The zoom factor (pixel size, in ground m)
      */
     constructor(canvasId = "vacanvas", center = undefined, zf = 1) {
 
@@ -59,25 +59,25 @@ export class GeoViewer {
     }
 
 
-    /** @param {{x:number,y:number}} v */
+    /** @param {{x:number,y:number}} v Geographical coordinates of the center */
     setCenter(v) { this.center = v; }
-    /** @returns {{x:number,y:number}} */
+    /** @returns {{x:number,y:number}} Geographical coordinates of the center */
     getCenter() { return this.center; }
 
-    /** @param {number} v */
+    /** @param {number} v The zoom factor (pixel size, in ground m) */
     setZf(v) { this.zf = v; }
-    /** @returns {number} */
+    /** @returns {number} The zoom factor (pixel size, in ground m) */
     getZf() { return this.zf; }
 
 
 
 
-    /** */
+    /** Initialise canvas transform with identity transformation. */
     initCanvasTransform() {
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    /** */
+    /** Initialise canvas transform with geo to screen transformation, so that geo objects can be drawn directly in geo coordinates. */
     setCanvasTransform() {
         const k = 1 / this.getZf();
         const tx = -this.center.x / this.getZf() + this.w * 0.5;
@@ -86,16 +86,14 @@ export class GeoViewer {
     }
 
 
-    /**
-     */
+    /** The function specifying how to draw the map. */
     redraw() {
         throw new Error('Method redraw not implemented.');
     }
 
     /**
-     * Clear the app screen.
-     * To be used before a redraw for example.
-     * @param {*} color 
+     * Clear the app screen. To be used before a redraw for example.
+     * @param {string} color 
      */
     clear(color = "white") {
         this.ctx.fillStyle = color;
@@ -104,23 +102,23 @@ export class GeoViewer {
 
     //conversion functions
     /**
-     * @param {number} xGeo
-     * @returns {number}
+     * @param {number} xGeo Geo x coordinate, in m.
+     * @returns {number} Screen x coordinate, in pix.
     */
     geoToPixX(xGeo) { return (xGeo - this.center.x) / this.getZf() + this.w * 0.5; }
     /**
-     * @param {number} yGeo
-     * @returns {number}
+     * @param {number} yGeo Geo y coordinate, in m.
+     * @returns {number} Screen y coordinate, in pix.
     */
     geoToPixY(yGeo) { return -(yGeo - this.center.y) / this.getZf() + this.h * 0.5; }
     /**
-     * @param {number} x
-     * @returns {number}
+     * @param {number} x Screen x coordinate, in pix.
+     * @returns {number} Geo x coordinate, in m.
     */
     pixToGeoX(x) { return (x - this.w * 0.5) * this.getZf() + this.center.x; }
     /**
-     * @param {number} y
-     * @returns {number}
+     * @param {number} y Screen y coordinate, in pix.
+     * @returns {number} Geo y coordinate, in m.
     */
     pixToGeoY(y) { return -(y - this.h * 0.5) * this.getZf() + this.center.y; }
 
@@ -137,9 +135,10 @@ export class GeoViewer {
     }
 
     /**
-     * @param {number} f
-     * @param {number} xGeo
-     * @param {number} yGeo
+     * Zoom.
+     * @param {number} f The zoom factor, within ]0, Infinity]. 1 is for no change. <1 to zoom-in, >1 to zoom-out.
+     * @param {number} xGeo The x geo position fixed in the screen.
+     * @param {number} yGeo The y geo position fixed in the screen.
      */
     zoom(f = 1, xGeo = this.center.x, yGeo = this.center.y) {
         //TODO force extend to remain
@@ -152,7 +151,7 @@ export class GeoViewer {
 
     /**
      * @param {number} marginPx 
-     * @returns {Envelope}
+     * @returns {Envelope} The envelope of the view, in geo coordinates.
      */
     updateExtentGeo(marginPx = 20) {
         this.extGeo = {
