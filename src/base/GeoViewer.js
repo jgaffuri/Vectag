@@ -64,18 +64,20 @@ export class GeoViewer {
         const zoom = d3zoom();
         let tP = zoomIdentity
         zoom.on("zoom", (e) => {
-            //console.log(e)
             const t = e.transform
             const f = tP.k / t.k
             const dx = tP.x - t.x
             const dy = tP.y - t.y
-            console.log(f, dx, dy)
-            //TODO
-            const c = this.getCenter()
-            //console.log(c)
-            //this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
-            this.zoom(f)
-            //this.pan(dx*this.getZf(), -dy*this.getZf())
+            if (f == 1) {
+                this.pan(dx * this.getZf(), -dy * this.getZf())
+            } else {
+                console.log(e)
+                //TODO
+                //get center of action
+                //this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY)
+                this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
+                //this.zoom(f)
+            }
             tP = t
         });
         //attach zoom
@@ -92,17 +94,20 @@ export class GeoViewer {
      * @param {number} dxGeo
      * @param {number} dyGeo
      */
-    /*zoompan(f = 1, xGeo = this.center.x, yGeo = this.center.y, dxGeo = 0, dyGeo = 0) {
+    zoompan(f = 1, xGeo = this.center.x, yGeo = this.center.y, dxGeo = 0, dyGeo = 0) {
         //TODO force extend to remain
 
-        this.center.x += (xGeo - this.center.x) * (1 - f)
+        /*this.center.x += (xGeo - this.center.x) * (1 - f)
         this.center.y += (yGeo - this.center.y) * (1 - f)
+        this.center.x += dxGeo;
+        this.center.y += dyGeo;*/
         this.setZf(f * this.getZf());
         this.center.x += dxGeo;
         this.center.y += dyGeo;
+
         this.updateExtentGeo()
         this.redraw();
-    }*/
+    }
 
 
 
