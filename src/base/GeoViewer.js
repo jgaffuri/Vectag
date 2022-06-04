@@ -72,10 +72,9 @@ export class GeoViewer {
             console.log(f, dx, dy)
             //TODO
             const c = this.getCenter()
-            console.log(c)
-            console.log(c.x + dx * this.getZf(), c.y - dy * this.getZf())
-            //this.zoom(f, c.x, c.y)
-            //this.zoom(f)
+            //console.log(c)
+            //this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
+            this.zoom(f)
             //this.pan(dx*this.getZf(), -dy*this.getZf())
             tP = t
         });
@@ -84,6 +83,28 @@ export class GeoViewer {
 
 
     }
+
+    /**
+     * Zoom and pan.
+     * @param {number} f The zoom factor, within ]0, Infinity]. 1 is for no change. <1 to zoom-in, >1 to zoom-out.
+     * @param {number} xGeo The x geo position fixed in the screen.
+     * @param {number} yGeo The y geo position fixed in the screen.
+     * @param {number} dxGeo
+     * @param {number} dyGeo
+     */
+    /*zoompan(f = 1, xGeo = this.center.x, yGeo = this.center.y, dxGeo = 0, dyGeo = 0) {
+        //TODO force extend to remain
+
+        this.center.x += (xGeo - this.center.x) * (1 - f)
+        this.center.y += (yGeo - this.center.y) * (1 - f)
+        this.setZf(f * this.getZf());
+        this.center.x += dxGeo;
+        this.center.y += dyGeo;
+        this.updateExtentGeo()
+        this.redraw();
+    }*/
+
+
 
 
     /** @param {{x:number,y:number}} v Geographical coordinates of the center */
