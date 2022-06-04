@@ -71,12 +71,13 @@ export class GeoViewer {
             if (f == 1) {
                 this.pan(dx * this.getZf(), -dy * this.getZf())
             } else {
-                console.log(e)
+                console.log(e.sourceEvent)
+                //console.log(f, dx, dy)
+                this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
                 //TODO
                 //get center of action
                 //this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY)
-                this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
-                //this.zoom(f)
+                //this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
             }
             tP = t
         });
