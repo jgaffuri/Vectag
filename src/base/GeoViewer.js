@@ -44,48 +44,33 @@ export class GeoViewer {
         this.extGeo = undefined;
         this.updateExtentGeo()
 
-        /*/mouse click - pan
-        let mpan = false
-        this.canvas.addEventListener("mousedown", e => { mpan = true });
-        this.canvas.addEventListener("mousemove", e => {
-            if (mpan) this.pan(-e.movementX * this.getZf(), e.movementY * this.getZf())
-        });
-        this.canvas.addEventListener("mouseup", e => { mpan = false });
-
-        //mouse wheel - zoom
-        const f = 1.5
-        this.canvas.addEventListener("wheel", e => {
-            const f_ = e.deltaY > 0 ? f : 1 / f;
-            this.zoom(f_, this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY))
-        });*/
-
-
-        //d3 zoom
-        const zoom = d3zoom();
+        //rely on d3 zoom for pan/zoom
         let tP = zoomIdentity
-        zoom.on("zoom", (e) => {
-            const t = e.transform
-            const f = tP.k / t.k
-            const dx = tP.x - t.x
-            const dy = tP.y - t.y
-            if (f == 1) {
-                this.pan(dx * this.getZf(), -dy * this.getZf())
-            } else {
-                const se = e.sourceEvent;
-                if (se instanceof WheelEvent) {
-                    this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
-                } else if (se instanceof TouchEvent) {
-                    let tx = 0, ty = 0
-                    for (let tt of se.targetTouches) { tx += tt.clientX; ty += tt.clientY }
-                    tx /= se.targetTouches.length; ty /= se.targetTouches.length
-                    this.zoom(f, this.pixToGeoX(tx), this.pixToGeoY(ty))
+        d3select(this.canvas).call(
+            d3zoom().on("zoom", (e) => {
+                const t = e.transform
+                const f = tP.k / t.k
+                if (f == 1) {
+                    //pan
+                    const dx = tP.x - t.x
+                    const dy = tP.y - t.y
+                    this.pan(dx * this.getZf(), -dy * this.getZf())
+                } else {
+                    const se = e.sourceEvent;
+                    if (se instanceof WheelEvent) {
+                        //zoom at the mouse position
+                        this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
+                    } else if (se instanceof TouchEvent) {
+                        //compute average position of the touches
+                        let tx = 0, ty = 0
+                        for (let tt of se.targetTouches) { tx += tt.clientX; ty += tt.clientY }
+                        tx /= se.targetTouches.length; ty /= se.targetTouches.length
+                        //zoom at this average position
+                        this.zoom(f, this.pixToGeoX(tx), this.pixToGeoY(ty))
+                    }
                 }
-            }
-            tP = t
-        });
-        //attach zoom
-        d3select(this.canvas).call(zoom);
-
+                tP = t
+            }));
     }
 
     /**
