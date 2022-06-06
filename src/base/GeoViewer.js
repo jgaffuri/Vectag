@@ -73,15 +73,12 @@ export class GeoViewer {
             } else {
                 const se = e.sourceEvent;
                 if (se instanceof WheelEvent) {
-                    //console.log(se)
                     this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
                 } else if (se instanceof TouchEvent) {
-                    console.log(se)
                     let tx = 0, ty = 0
-                    for (let tt of se.targetTouches) {
-                        tx += tt.clientX; ty += tt.clientY
-                    }
-
+                    for (let tt of se.targetTouches) { tx += tt.clientX; ty += tt.clientY }
+                    tx /= se.targetTouches.length; ty /= se.targetTouches.length
+                    this.zoom(f, this.pixToGeoX(tx), this.pixToGeoY(ty))
                 }
             }
             tP = t
