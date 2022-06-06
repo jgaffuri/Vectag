@@ -71,19 +71,23 @@ export class GeoViewer {
             if (f == 1) {
                 this.pan(dx * this.getZf(), -dy * this.getZf())
             } else {
-                console.log(e.sourceEvent)
-                //console.log(f, dx, dy)
-                this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
-                //TODO
-                //get center of action
-                //this.pixToGeoX(e.offsetX), this.pixToGeoY(e.offsetY)
-                //this.zoompan(f, c.x, c.y, dx * this.getZf(), -dy * this.getZf())
+                const se = e.sourceEvent;
+                if (se instanceof WheelEvent) {
+                    //console.log(se)
+                    this.zoom(f, this.pixToGeoX(e.sourceEvent.offsetX), this.pixToGeoY(e.sourceEvent.offsetY))
+                } else if (se instanceof TouchEvent) {
+                    console.log(se)
+                    let tx = 0, ty = 0
+                    for (let tt of se.targetTouches) {
+                        tx += tt.clientX; ty += tt.clientY
+                    }
+
+                }
             }
             tP = t
         });
         //attach zoom
         d3select(this.canvas).call(zoom);
-
 
     }
 
