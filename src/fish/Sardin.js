@@ -1,6 +1,6 @@
 //@ts-check
 import { Sea } from "./Sea"
-import { GeoViewer } from "../base/GeoViewer"
+import { GeoCanvas } from "../base/GeoCanvas"
 import { AgentPoint } from "../base/AgentPoint";
 import { SpatialIndex } from '../base/SpatialIndex';
 
@@ -174,7 +174,7 @@ export class Sardin extends AgentPoint {
     /**
      * Display a sardin body
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {number} length 
      */
     display(cp, length) {
@@ -195,7 +195,7 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin vision field
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {string} fillStyle 
      * @param {number} lineWidth 
      */
@@ -217,7 +217,7 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin vision links
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {string} strokeStyle 
      * @param {number} lineWidth 
      */
@@ -237,7 +237,7 @@ export class Sardin extends AgentPoint {
     /**
      * Display sardin collision field
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {string} strokeStyle 
      * @param {number} lineWidth 
      */

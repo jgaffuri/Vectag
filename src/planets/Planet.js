@@ -1,6 +1,6 @@
 //@ts-check
 import { Universe } from "./Universe";
-import { GeoViewer } from "../base/GeoViewer"
+import { GeoCanvas } from "../base/GeoCanvas"
 import { AgentPoint } from "../base/AgentPoint";
 
 export class Planet extends AgentPoint {
@@ -120,7 +120,7 @@ export class Planet extends AgentPoint {
     /**
      * Display planet
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {String} fillStyle 
      */
     display(cp, fillStyle) {
@@ -135,7 +135,7 @@ export class Planet extends AgentPoint {
     /**
      * Display planet acceleration
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {String} strokeStyle 
      * @param {number} lineWidth 
      * @param {number} factor 

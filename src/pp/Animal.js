@@ -1,6 +1,6 @@
 //@ts-check
 import { Land } from "./Land"
-import { GeoViewer } from "../base/GeoViewer"
+import { GeoCanvas } from "../base/GeoCanvas"
 import { AgentPoint } from "../base/AgentPoint"
 
 /** */
@@ -95,7 +95,7 @@ export class Animal extends AgentPoint {
     /**
      * Display animal
      * 
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {string} fillStyle 
      * @param {number} size 
      */

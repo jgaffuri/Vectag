@@ -9,7 +9,7 @@ import { select as d3select } from "d3-selection";
  * 
  * @author Julien Gaffuri
  */
-export class GeoViewer {
+export class GeoCanvas {
 
     /**
      * @constructor
@@ -72,32 +72,6 @@ export class GeoViewer {
                 tP = t
             }));
     }
-
-    /**
-     * Zoom and pan.
-     * @param {number} f The zoom factor, within ]0, Infinity]. 1 is for no change. <1 to zoom-in, >1 to zoom-out.
-     * @param {number} xGeo The x geo position fixed in the screen.
-     * @param {number} yGeo The y geo position fixed in the screen.
-     * @param {number} dxGeo
-     * @param {number} dyGeo
-     */
-    zoompan(f = 1, xGeo = this.center.x, yGeo = this.center.y, dxGeo = 0, dyGeo = 0) {
-        //TODO force extend to remain
-
-        /*this.center.x += (xGeo - this.center.x) * (1 - f)
-        this.center.y += (yGeo - this.center.y) * (1 - f)
-        this.center.x += dxGeo;
-        this.center.y += dyGeo;*/
-        this.setZf(f * this.getZf());
-        this.center.x += dxGeo;
-        this.center.y += dyGeo;
-
-        this.updateExtentGeo()
-        this.redraw();
-    }
-
-
-
 
     /** @param {{x:number,y:number}} v Geographical coordinates of the center */
     setCenter(v) { this.center = v; }

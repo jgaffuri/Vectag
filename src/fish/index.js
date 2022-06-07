@@ -1,6 +1,6 @@
 //@ts-check
 import { Sea } from './Sea';
-import { GeoViewer } from '../base/GeoViewer';
+import { GeoCanvas } from '../base/GeoCanvas';
 
 class FishSimulation {
 
@@ -21,8 +21,8 @@ class FishSimulation {
         //TODO
         //add eaten fish nb label
 
-        /** @type {GeoViewer} */
-        this.cplus = new GeoViewer();
+        /** @type {GeoCanvas} */
+        this.cplus = new GeoCanvas();
         this.cplus.ctx.fillStyle = "black";
         this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 

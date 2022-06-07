@@ -1,7 +1,7 @@
 //@ts-check
 import { Land } from './Land';
 import { Animal } from './Animal';
-import { GeoViewer } from '../base/GeoViewer';
+import { GeoCanvas } from '../base/GeoCanvas';
 
 /** */
 class PreyPredatorSimulation {
@@ -20,8 +20,8 @@ class PreyPredatorSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
-        /** @type {GeoViewer} */
-        this.cplus = new GeoViewer();
+        /** @type {GeoCanvas} */
+        this.cplus = new GeoCanvas();
         this.cplus.ctx.fillStyle = "white";
         this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 

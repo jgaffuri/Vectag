@@ -1,5 +1,5 @@
 //@ts-check
-import { GeoViewer } from '../base/GeoViewer';
+import { GeoCanvas } from '../base/GeoCanvas';
 import { Universe } from './Universe';
 import { Cell } from './Cell';
 
@@ -21,8 +21,8 @@ class GoLSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
-        /** @type {GeoViewer} */
-        this.cplus = new GeoViewer();
+        /** @type {GeoCanvas} */
+        this.cplus = new GeoCanvas();
 
         const th = this;
         this.cplus.redraw = function () {

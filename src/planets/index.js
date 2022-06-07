@@ -1,7 +1,7 @@
 //@ts-check
 import { Universe } from './Universe';
 import { Planet } from './Planet';
-import { GeoViewer } from '../base/GeoViewer';
+import { GeoCanvas } from '../base/GeoCanvas';
 
 /**  */
 class PlanetSimulation {
@@ -45,8 +45,8 @@ class PlanetSimulation {
         this.tailings = opts.tailings || 0.1;
 
 
-        /** @type {GeoViewer} */
-        this.cplus = new GeoViewer();
+        /** @type {GeoCanvas} */
+        this.cplus = new GeoCanvas();
         this.cplus.ctx.fillStyle = "black";
         this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
@@ -101,7 +101,7 @@ class PlanetSimulation {
 
 
     /**
-     * @param {GeoViewer} cp 
+     * @param {GeoCanvas} cp 
      * @param {boolean} field 
      */
     displayGravityField(cp, field = true) {
