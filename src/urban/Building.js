@@ -1,8 +1,7 @@
 //@ts-check
 import { GeoCanvas } from "../base/GeoCanvas"
-import { AgentPoint } from "../base/AgentPoint";
 
-export class Building extends AgentPoint {
+export class Building {
 
     /**
      * @constructor
@@ -11,9 +10,6 @@ export class Building extends AgentPoint {
      * @param {number} area The area
      */
     constructor(x, y, area) {
-
-        //
-        super(x, y)
 
         //set position
         /** @type {number} */
