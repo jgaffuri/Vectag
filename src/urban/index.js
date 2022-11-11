@@ -1,5 +1,7 @@
 //@ts-check
 import { GeoCanvas } from '../base/GeoCanvas';
+import { Building } from './Building';
+import { Map } from "./Map";
 
 /**  */
 class UrbanSimulation {
@@ -21,7 +23,7 @@ class UrbanSimulation {
 
         /** @type {GeoCanvas} */
         this.cplus = new GeoCanvas();
-        this.cplus.ctx.fillStyle = "green";
+        this.cplus.ctx.fillStyle = "white";
         this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
         const th = this;
@@ -29,6 +31,12 @@ class UrbanSimulation {
             const c2 = this.ctx
 
             this.initCanvasTransform();
+
+            //display buildings
+            for (let p of th.map.bs) {
+                if (!this.toDraw(p)) continue
+                p.display(this, "black")
+            }
 
             //frame
             c2.strokeStyle = "darkgray";
@@ -40,8 +48,8 @@ class UrbanSimulation {
             return this;
         };
 
-        /** @type {Universe} */
-        //this.uni = new Universe(this.w, this.h)
+        /** @type {Map} */
+        this.map = new Map(this.w, this.h)
     }
 
 
@@ -56,7 +64,7 @@ class UrbanSimulation {
         let i = 0;
         const t = this;
         const engine = function () {
-            //t.uni.step(t.bounce, t.maxSpeed, t.exponent, t.collisionFactor, timeStepMs);
+            t.map.step();
             t.cplus.redraw();
             if (nbIterations > 0 && i++ > nbIterations)
                 return;
@@ -69,6 +77,17 @@ class UrbanSimulation {
     //stop
     stop() {
         //TODO
+    }
+
+
+
+    initRandom(nb = 100) {
+        /** @type {Array.<Building>} */
+        this.map.bs = [];
+        for (let i = 0; i < nb; i++) {
+            this.map.bs.push(new Building(this.map, this.map.w * Math.random(), this.map.h * Math.random()))
+        }
+        return this;
     }
 
 }
