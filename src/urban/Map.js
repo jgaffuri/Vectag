@@ -25,15 +25,43 @@ export class Map {
     addBuilding() {
 
         //compute candidate location, size and type for next building
-        //TODO should not overlap with other entities (roads, building)
         //TODO low local congestion AND go to high density (with good access to other stuff)
-        const x = this.w * Math.random();
-        const y = this.h * Math.random();
-        const area = 40 + 200 * Math.random()
+
+        //make random building
+        const makeRandomBuilding = () => {
+            const x = this.w * Math.random();
+            const y = this.h * Math.random();
+            const area = 40 + 200 * Math.random()
+            return new Building(this, x, y, area)
+        }
+
+        //TODO should not overlap with other entities (roads, building)
+
+        //make spatial index of buildings
+        /** @type {SpatialIndex.<Building>} */
+        const sindex = new SpatialIndex();
+        sindex.load(this.bs)
+
+        /** @type {Building} */
+        let bu = makeRandomBuilding();
+        while(this.checkCollision(bu, sindex)) {
+            bu = makeRandomBuilding();
+        }
+
 
         //add building
-        this.bs.push(new Building(this, x, y, area));
+        this.bs.push(bu);
 
+    }
+
+    checkCollision(bu, sindex) {
+        //get buildings around using spatial index
+        const r = bu.r();
+        /** @type {Array.<Building>} */
+        const ss = sindex.get(bu.x - r, bu.y - r, bu.x + r, bu.y + r);
+        console.log(ss)
+
+        return false;
     }
 
     /**

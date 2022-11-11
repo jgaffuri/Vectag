@@ -29,15 +29,12 @@ export class Building extends AgentPoint {
         this.area = area
     }
 
-    observe() {
-
+    /**
+     * @returns { number }
+     */
+    r() {
+        return Math.sqrt(this.area / Math.PI)
     }
-
-
-    change() {
-
-    }
-
 
     /**
      * Display
@@ -51,9 +48,8 @@ export class Building extends AgentPoint {
         c2.fillStyle = fillStyle;
         c2.strokeStyle = strokeStyle;
         c2.lineWidth = lineWidth;
-        const r = Math.sqrt(this.area / Math.PI)
         c2.beginPath();
-        c2.arc(this.x, this.y, r, 0, 2 * Math.PI);
+        c2.arc(this.x, this.y, this.r(), 0, 2 * Math.PI);
         c2.closePath();
         c2.fill();
         c2.stroke();

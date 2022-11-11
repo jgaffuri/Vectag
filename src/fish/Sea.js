@@ -10,7 +10,8 @@ export class Sea {
      * 
      * @param {number} w 
      * @param {number} h 
-     */
+     */        //get 10 random locations
+
     constructor(w, h) {
 
         //TODO should become static attributes of Sardin class
@@ -64,7 +65,7 @@ export class Sea {
             f.computeSpeedAngle()
         }
 
-        //male spatial index
+        //make spatial index
         /** @type {SpatialIndex.<Sardin>} */
         const sindex = new SpatialIndex();
         sindex.load(this.fish)
