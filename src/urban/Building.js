@@ -11,7 +11,7 @@ export class Building extends AgentPoint {
      * @param {number} x The x position
      * @param {number} y The y position
      */
-    constructor(m, x, y) {
+    constructor(m, x, y, area) {
 
         //
         super(x, y)
@@ -25,6 +25,8 @@ export class Building extends AgentPoint {
         this.x = x
         /** @type {number} */
         this.y = y
+        /** @type {number} */
+        this.area = area
     }
 
     observe() {
