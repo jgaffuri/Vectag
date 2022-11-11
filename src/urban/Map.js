@@ -59,7 +59,8 @@ export class Map {
         const r = bu.r();
         /** @type {Array.<Building>} */
         const ss = sindex.get(bu.x - r, bu.y - r, bu.x + r, bu.y + r);
-        console.log(ss)
+        for (let b of ss)
+            if(bu.overlap(b)) return true
 
         return false;
     }

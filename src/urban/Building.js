@@ -37,6 +37,15 @@ export class Building extends AgentPoint {
     }
 
     /**
+     * @param {Building} b 
+     */
+    overlap(b) {
+        const d1 = b.r() + this.r()
+        const d2 = Math.hypot((b.x - this.x), (b.y - this.y));
+        return d2 < d1
+    }
+
+    /**
      * Display
      * 
      * @param {GeoCanvas} cp 
