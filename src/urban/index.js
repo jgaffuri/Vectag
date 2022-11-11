@@ -86,18 +86,6 @@ class UrbanSimulation {
         //TODO
     }
 
-
-
-    initRandom(nb = 100) {
-        /** @type {Array.<Building>} */
-        this.map.bs = [];
-        for (let i = 0; i < nb; i++) {
-            const area = 40 + 200 * Math.random()
-            this.map.bs.push(new Building(this.map, this.map.w * Math.random(), this.map.h * Math.random(), area))
-        }
-        return this;
-    }
-
 }
 
 /**

@@ -21,11 +21,18 @@ export class Map {
         this.bs = [];
     }
 
+    /** */
     addBuilding() {
 
-        //compute candidate location for next building
+        //compute candidate location, size and type for next building
+        //TODO should not overlap with other entities (roads, building)
+        //TODO low local congestion AND go to high density (with good access to other stuff)
+        const x = this.w * Math.random();
+        const y = this.h * Math.random();
+        const area = 40 + 200 * Math.random()
 
         //add building
+        this.bs.push(new Building(this, x, y, area));
 
     }
 
@@ -38,9 +45,12 @@ export class Map {
         const buNeed = 10;
 
         //urbanise
-        for(let i=0; i<buNeed; i++) {
+        for (let i = 0; i < buNeed; i++) {
             this.addBuilding();
         }
+
+        //extend road network
+        //TODO
 
         return this;
     }
