@@ -12,6 +12,7 @@ class UrbanSimulation {
 
         opts.canvasId = opts.canvasId || "vacanvas";
         const canvas = document.getElementById(opts.canvasId);
+        if (canvas == null) throw "No canvas " + opts.canvasId;
 
         /** @type {number} */
         this.w = opts.w || canvas.offsetWidth;
@@ -20,7 +21,7 @@ class UrbanSimulation {
 
         /** @type {GeoCanvas} */
         this.cplus = new GeoCanvas();
-        this.cplus.ctx.fillStyle = "black";
+        this.cplus.ctx.fillStyle = "green";
         this.cplus.ctx.fillRect(0, 0, this.w, this.h);
 
         const th = this;
