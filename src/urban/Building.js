@@ -1,5 +1,6 @@
 //@ts-check
 import { GeoCanvas } from "../base/GeoCanvas"
+import { SpatialIndex } from "../base/SpatialIndex"
 
 export class Building {
 
@@ -35,6 +36,29 @@ export class Building {
         const d2 = Math.hypot((b.x - this.x), (b.y - this.y));
         return d2 < d1
     }
+
+
+
+    /**
+     * @param {SpatialIndex.<Building>} sindex 
+     * @returns {boolean}
+     */
+    checkCollision(sindex) {
+
+        //get buildings around using spatial index
+        const r = this.r();
+        /** @type {Array.<Building>} */
+        const ss = sindex.get(this.x - r, this.y - r, this.x + r, this.y + r);
+
+        for (let b of ss) {
+            if (b == this) continue;
+            if (this.overlap(b)) return true
+        }
+        return false;
+    }
+
+
+
 
     /**
      * Display

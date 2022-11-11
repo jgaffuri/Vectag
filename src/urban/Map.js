@@ -44,33 +44,12 @@ export class Map {
 
         /** @type {Building} */
         let bu = makeRandomBuilding();
-        while (this.checkCollision(bu, sindex)) {
+        while (bu.checkCollision(sindex)) {
             bu = makeRandomBuilding();
         }
 
         //add building
         this.bs.push(bu);
-    }
-
-    /**
-     * @param {Building} bu 
-     * @param {SpatialIndex.<Building>} sindex 
-     * @returns {boolean}
-     */
-    checkCollision(bu, sindex) {
-
-        //get buildings around using spatial index
-        const r = bu.r();
-        /** @type {Array.<Building>} */
-        const ss = sindex.get(bu.x - r, bu.y - r, bu.x + r, bu.y + r);
-
-        //console.log(ss)
-        for (let b of ss) {
-            //console.log(bu.overlap(b))
-            if (bu.overlap(b)) return true
-        }
-        //console.log(ss, "dkkhjg")
-        return false;
     }
 
     /**
