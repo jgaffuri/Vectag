@@ -47,7 +47,7 @@ export class Building extends AgentPoint {
         const c2 = cp.ctx
         c2.fillStyle = fillStyle;
         c2.beginPath();
-        c2.arc(this.x, this.y, 100 / cp.getZf(), 0, 2 * Math.PI);
+        c2.arc(this.x, this.y, 10 / cp.getZf(), 0, 2 * Math.PI);
         c2.closePath();
         c2.fill();
     }

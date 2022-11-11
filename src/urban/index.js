@@ -21,6 +21,7 @@ class UrbanSimulation {
         /** @type {number} */
         this.h = opts.h || canvas.offsetHeight;
 
+
         /** @type {GeoCanvas} */
         this.cplus = new GeoCanvas();
         this.cplus.ctx.fillStyle = "white";
@@ -32,10 +33,16 @@ class UrbanSimulation {
 
             this.initCanvasTransform();
 
+            //clear
+            c2.fillStyle = "white";
+            c2.fillRect(0, 0, th.w, th.h);
+
+            this.setCanvasTransform()
+
             //display buildings
-            for (let p of th.map.bs) {
-                if (!this.toDraw(p)) continue
-                p.display(this, "black")
+            for (let b of th.map.bs) {
+                if (!this.toDraw(b)) continue
+                b.display(this, "black")
             }
 
             //frame
