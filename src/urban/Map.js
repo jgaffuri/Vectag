@@ -32,7 +32,7 @@ export class Map {
             const x = this.w * Math.random();
             const y = this.h * Math.random();
             const area = 40 + 200 * Math.random()
-            return new Building(this, x, y, area)
+            return new Building(x, y, area)
         }
 
         //TODO should not overlap with other entities (roads, building)
@@ -53,6 +53,11 @@ export class Map {
 
     }
 
+    /**
+     * @param {Building} bu 
+     * @param {SpatialIndex.<Building>} sindex 
+     * @returns 
+     */
     checkCollision(bu, sindex) {
 
         //get buildings around using spatial index
@@ -62,6 +67,7 @@ export class Map {
 
         for (let b of ss) {
             if (b == bu) continue;
+            //console.log(bu.overlap(b))
             if (bu.overlap(b)) return true
         }
         return false;
