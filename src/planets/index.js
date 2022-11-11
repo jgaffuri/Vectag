@@ -14,6 +14,7 @@ class PlanetSimulation {
 
         opts.canvasId = opts.canvasId || "vacanvas";
         const canvas = document.getElementById(opts.canvasId);
+        if (canvas == null) throw "No canvas " + opts.canvasId;
 
         /** @type {number} */
         this.w = opts.w || canvas.offsetWidth;
@@ -32,7 +33,7 @@ class PlanetSimulation {
         /** @type {boolean} */
         this.showPlanetAcceleration = false
 
-        /** @type {string} */
+        /** @type {string|undefined} */
         this.showField = undefined
         /** @type {number} */
         this.fieldRes = 20
