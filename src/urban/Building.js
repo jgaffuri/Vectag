@@ -44,14 +44,18 @@ export class Building extends AgentPoint {
      * 
      * @param {GeoCanvas} cp 
      * @param {String} fillStyle 
+     * @param {String} strokeStyle 
      */
-    display(cp, fillStyle) {
+    display(cp, fillStyle, strokeStyle, lineWidth) {
         const c2 = cp.ctx
         c2.fillStyle = fillStyle;
+        c2.strokeStyle = strokeStyle;
+        c2.lineWidth = lineWidth;
         c2.beginPath();
         c2.arc(this.x, this.y, 10 / cp.getZf(), 0, 2 * Math.PI);
         c2.closePath();
         c2.fill();
+        c2.stroke();
     }
 
 

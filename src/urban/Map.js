@@ -21,24 +21,27 @@ export class Map {
         this.bs = [];
     }
 
+    addBuilding() {
+
+        //compute candidate location for next building
+
+        //add building
+
+    }
+
     /**
      * @returns {this}
      */
     step() {
-        console.log("step")
 
-        /*/observation
-        for (let p of this.ps)
-            p.observe(exponent);
+        //compute building need
+        const buNeed = 10;
 
-        //action
-        for (let p of this.ps)
-            p.change(bounce, vmax, timeStepMs);
+        //urbanise
+        for(let i=0; i<buNeed; i++) {
+            this.addBuilding();
+        }
 
-
-        //collision detection
-        this.detectCollisions(collisionFactor)
-*/
         return this;
     }
 

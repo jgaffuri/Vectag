@@ -42,7 +42,7 @@ class UrbanSimulation {
             //display buildings
             for (let b of th.map.bs) {
                 if (!this.toDraw(b)) continue
-                b.display(this, "black")
+                b.display(this, "lightgray", "black", 2)
             }
 
             //frame
@@ -92,7 +92,8 @@ class UrbanSimulation {
         /** @type {Array.<Building>} */
         this.map.bs = [];
         for (let i = 0; i < nb; i++) {
-            this.map.bs.push(new Building(this.map, this.map.w * Math.random(), this.map.h * Math.random()))
+            const area = 40 + 200 * Math.random()
+            this.map.bs.push(new Building(this.map, this.map.w * Math.random(), this.map.h * Math.random(), area))
         }
         return this;
     }
