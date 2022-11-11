@@ -42,9 +42,11 @@ export class Map {
         const sindex = new SpatialIndex();
         sindex.load(this.bs)
 
+        /** @type {number} */
+        const sDistance = 100;
         /** @type {Building} */
         let bu = makeRandomBuilding();
-        while (bu.checkCollision(sindex)) {
+        while (bu.checkCollision(sindex, sDistance)) {
             bu = makeRandomBuilding();
         }
 

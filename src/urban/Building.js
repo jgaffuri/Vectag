@@ -41,14 +41,14 @@ export class Building {
 
     /**
      * @param {SpatialIndex.<Building>} sindex 
+     * @param {number} sDistance 
      * @returns {boolean}
      */
-    checkCollision(sindex) {
+    checkCollision(sindex, sDistance) {
 
         //get buildings around using spatial index
-        const r = this.r();
         /** @type {Array.<Building>} */
-        const ss = sindex.get(this.x - r, this.y - r, this.x + r, this.y + r);
+        const ss = sindex.get(this.x - sDistance, this.y - sDistance, this.x + sDistance, this.y + sDistance);
 
         for (let b of ss) {
             if (b == this) continue;
