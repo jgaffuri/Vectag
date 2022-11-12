@@ -29,6 +29,7 @@
     "d3-scale-chromatic": "^3.0.0",
     "d3-selection": "^3.0.0",
     "d3-zoom": "^3.0.0",
+    "jsts": "^2.9.3",
     "publish": "^0.6.0",
     "puppeteer": "^1.13.0",
     "rbush": "^3.0.1",
