@@ -66,6 +66,7 @@ export class Building {
      * @param {GeoCanvas} cp 
      * @param {String} fillStyle 
      * @param {String} strokeStyle 
+     * @param {number} lineWidth 
      */
     display(cp, fillStyle, strokeStyle, lineWidth) {
         const c2 = cp.ctx
