@@ -1,8 +1,7 @@
 //@ts-check
-import { GeoCanvas } from "../base/GeoCanvas"
-import { SpatialIndex } from "../base/SpatialIndex"
+import { Road } from "./Road"
 
-export class Road {
+export class RoadNetwork {
 
     constructor() {
 
