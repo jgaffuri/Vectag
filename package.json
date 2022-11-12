@@ -25,13 +25,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "d3-selection": "^3.0.0",
-    "d3-zoom": "^3.0.0",
     "d3-fetch": "^3.0.1",
     "d3-scale-chromatic": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
     "publish": "^0.6.0",
     "puppeteer": "^1.13.0",
-    "rbush": "^3.0.1"
+    "rbush": "^3.0.1",
+    "turf": "^3.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

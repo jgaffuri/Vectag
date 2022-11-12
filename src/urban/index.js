@@ -1,6 +1,5 @@
 //@ts-check
 import { GeoCanvas } from '../base/GeoCanvas';
-import { Building } from './Building';
 import { Map } from "./Map";
 
 /**  */
