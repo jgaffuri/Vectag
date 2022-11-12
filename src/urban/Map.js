@@ -1,6 +1,7 @@
 //@ts-check
 import { SpatialIndex } from '../base/SpatialIndex';
 import { Building } from './Building';
+import jsts from 'jsts';
 
 export class Map {
 
@@ -33,8 +34,12 @@ export class Map {
 
         //test jsts
         //https://bjornharrtell.github.io/jsts/
-
-
+        var reader = new jsts.io.WKTReader()
+        var a = reader.read('POINT (-20 0)')
+        console.log(reader)
+        console.log(a)
+        a = a.buffer(40)
+        console.log(a)
     }
 
     /** */
