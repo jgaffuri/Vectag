@@ -1,6 +1,7 @@
 //@ts-check
 import { SpatialIndex } from '../base/SpatialIndex';
 import { Building } from './Building';
+import { RoadNetwork } from './RoadNetwork';
 
 export class Map {
 
@@ -21,6 +22,8 @@ export class Map {
         /** @type {SpatialIndex.<Building>} */
         this.buIndex = new SpatialIndex();
 
+        /** @type {RoadNetwork} */
+        this.rn = new RoadNetwork();
 
         /*
         //test turf
