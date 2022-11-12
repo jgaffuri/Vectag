@@ -19,6 +19,9 @@ export class Map {
 
         /** @type {Array.<Building>} */
         this.bs = [];
+        /** @type {SpatialIndex.<Building>} */
+        this.buIndex = new SpatialIndex();
+
     }
 
     /** */
@@ -37,21 +40,17 @@ export class Map {
 
         //TODO should not overlap with other entities (roads, building)
 
-        //make spatial index of buildings
-        /** @type {SpatialIndex.<Building>} */
-        const sindex = new SpatialIndex();
-        sindex.load(this.bs)
-
         /** @type {number} */
         const sDistance = 100;
         /** @type {Building} */
         let bu = makeRandomBuilding();
-        while (bu.checkCollision(sindex, sDistance)) {
+        while (bu.checkCollision(this.buIndex, sDistance)) {
             bu = makeRandomBuilding();
         }
 
         //add building
         this.bs.push(bu);
+        this.buIndex.load([bu])
     }
 
     /**
