@@ -1,4 +1,5 @@
 //@ts-check
+import turf from 'turf';
 import { removeFromArray } from '../base/lib';
 import { SpatialIndex } from '../base/SpatialIndex';
 import { Building } from './Building';
@@ -21,6 +22,14 @@ export class Map {
         this.bs = [];
         /** @type {SpatialIndex.<Building>} */
         this.buIndex = new SpatialIndex();
+
+
+
+        var ls = turf.lineString([[1000, 0], [1000, 1000]]);
+        console.log(ls)
+        //var pt = turf.point([1000, 1000]);
+        var buff = turf.buffer(ls, 10, 'degrees');
+        console.log(buff)
 
     }
 
