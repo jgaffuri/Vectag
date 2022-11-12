@@ -24,12 +24,17 @@ export class Map {
         this.buIndex = new SpatialIndex();
 
 
-
+/*
+//test turf
         var ls = turf.lineString([[1000, 0], [1000, 1000]]);
         console.log(ls)
         //var pt = turf.point([1000, 1000]);
         var buff = turf.buffer(ls, 10, 'degrees');
         console.log(buff)
+*/
+
+//test jsts
+
 
     }
 
