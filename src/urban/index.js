@@ -38,6 +38,9 @@ class UrbanSimulation {
 
             this.setCanvasTransform()
 
+            //display road network
+            th.map.rn.display();
+
             //display buildings
             for (let b of th.map.bs) {
                 if (!this.toDraw(b)) continue

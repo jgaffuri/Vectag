@@ -25,25 +25,6 @@ export class Map {
         /** @type {RoadNetwork} */
         this.rn = new RoadNetwork();
 
-        /*
-        //test turf
-                var ls = turf.lineString([[1000, 0], [1000, 1000]]);
-                console.log(ls)
-                //var pt = turf.point([1000, 1000]);
-                var buff = turf.buffer(ls, 10, 'degrees');
-                console.log(buff)
-        */
-
-        //test jsts
-        //https://bjornharrtell.github.io/jsts/
-        /*var reader = new jsts.io.WKTReader()
-        var a = reader.read('POINT (-20 0)')
-        console.log(reader)
-        console.log(a)
-        a = a.buffer(40)
-        console.log(a)
-        var w = new jsts.io.WKTWriter()
-        console.log(w.write(a))*/
     }
 
     /** */

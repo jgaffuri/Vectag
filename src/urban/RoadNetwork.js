@@ -4,6 +4,7 @@ import jsts from 'jsts';
 
 export class RoadNetwork {
 
+    /** */
     constructor() {
 
         /** @type {Array.<Road>} */
@@ -18,4 +19,8 @@ export class RoadNetwork {
         this.sections.push(new Road(g));
     }
 
+    /** */
+    display() {
+
+    }
 }
