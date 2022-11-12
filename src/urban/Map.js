@@ -40,6 +40,8 @@ export class Map {
         console.log(a)
         a = a.buffer(40)
         console.log(a)
+        var w = new jsts.io.WKTWriter()
+        console.log(w.write(a))
     }
 
     /** */
