@@ -26,6 +26,8 @@ export class RoadNetwork {
      */
     display(cp) {
         for (let r of this.sections)
-            r.display(cp, "red", r.width);
+            r.display(cp, "black", r.width);
+        for (let r of this.sections)
+            r.display(cp, "yellow", r.width - 3);
     }
 }
