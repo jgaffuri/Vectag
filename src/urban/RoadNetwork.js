@@ -1,7 +1,7 @@
 //@ts-check
 import { Road } from "./Road"
 import { Map } from "./Map"
-import jsts from 'jsts';
+import jsts from "jsts";
 import { GeoCanvas } from "../base/GeoCanvas";
 
 export class RoadNetwork {
