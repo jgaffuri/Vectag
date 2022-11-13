@@ -1,5 +1,4 @@
 //@ts-check
-
 import { GeoCanvas } from "../base/GeoCanvas";
 
 export class Road {
