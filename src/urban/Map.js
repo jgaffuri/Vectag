@@ -23,7 +23,7 @@ export class Map {
         this.buIndex = new SpatialIndex();
 
         /** @type {RoadNetwork} */
-        this.rn = new RoadNetwork();
+        this.rn = new RoadNetwork(this);
 
     }
 

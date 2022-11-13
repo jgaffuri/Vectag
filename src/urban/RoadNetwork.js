@@ -1,12 +1,18 @@
 //@ts-check
 import { Road } from "./Road"
+import { Map } from "./Map"
 import jsts from 'jsts';
 import { GeoCanvas } from "../base/GeoCanvas";
 
 export class RoadNetwork {
 
-    /** */
-    constructor() {
+    /**
+     * @param {Map} map 
+     */
+    constructor(map) {
+
+        /** @type {Map} */
+        this.map = map
 
         /** @type {Array.<Road>} */
         this.sections = []
@@ -18,6 +24,10 @@ export class RoadNetwork {
         var reader = new jsts.io.WKTReader()
         var g = reader.read('LINESTRING (30 10, 10 300, 400 40)')
         this.sections.push(new Road(g, 7));
+    }
+
+    buildRandom() {
+
     }
 
     /**
