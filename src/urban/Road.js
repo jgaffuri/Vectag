@@ -34,11 +34,11 @@ export class Road {
 
         //move to first point
         let c = cs[0]
-        c2.moveTo(c.x, c.y);
+        //c2.moveTo(c.x, c.y);
 
         //trace line
         c2.beginPath();
-        for (let i = 1; i < cs.length; i++) {
+        for (let i = 0; i < cs.length; i++) {
             c = cs[i]
             c2.lineTo(c.x, c.y);
         }

@@ -21,8 +21,9 @@ export class RoadNetwork {
         //add test road
         //https://github.com/bjornharrtell/jsts
         //http://bjornharrtell.github.io/jsts/
+        console.log(jsts)
         var reader = new jsts.io.WKTReader()
-        var g = reader.read('LINESTRING (30 10, 10 300, 400 400)')
+        var g = reader.read('LINESTRING (100 100, 10 300, 400 400, 500 500, 600 500)')
         this.sections.push(new Road(g, 7));
     }
 
