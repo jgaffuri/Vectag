@@ -28,6 +28,11 @@ export class RoadNetwork {
 
     buildRandom() {
 
+        const w = this.map.w
+        const h = this.map.h
+
+        const r = 2 * w + 2 * h * Math.random();
+
     }
 
     /**
