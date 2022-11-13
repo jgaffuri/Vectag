@@ -10,7 +10,6 @@ export class Road {
      */
     constructor(geom, width) {
 
-        /** @type {jsts.geom.Geometry} */
         this.geom = geom
         /** @type {number} */
         this.width = width
